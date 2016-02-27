@@ -1,0 +1,342 @@
+
+<div>
+    <h2><span>Troll</span> {{troll.id}}</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Field</th>
+                <th>Value</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <span>Number</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{troll.number}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Name</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{troll.name}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Race</span>
+                </td>
+                <td>
+                    <span class="form-control-static" translate="{{'mountyhubApp.TrollRace.' + troll.race}}">{{troll.race}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>BirthDate</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{troll.birthDate | date:'medium'}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>X</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{troll.x}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Y</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{troll.y}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Z</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{troll.z}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Attack</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{troll.attack}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Dodge</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{troll.dodge}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Damage</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{troll.damage}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Regeneration</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{troll.regeneration}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>HitPoint</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{troll.hitPoint}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>CurrentHitPoint</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{troll.currentHitPoint}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>View</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{troll.view}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Rm</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{troll.rm}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Mm</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{troll.mm}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Armor</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{troll.armor}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Turn</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{troll.turn}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Weight</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{troll.weight}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Focus</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{troll.focus}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>AttackP</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{troll.attackP}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>DodgeP</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{troll.dodgeP}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>DamageP</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{troll.damageP}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>RegenerationP</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{troll.regenerationP}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>HitPointP</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{troll.hitPointP}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>AttackM</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{troll.attackM}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>DodgeM</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{troll.dodgeM}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>DamageM</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{troll.damageM}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>RegenerationM</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{troll.regenerationM}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>HitPointM</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{troll.hitPointM}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>ViewP</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{troll.viewP}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>RmP</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{troll.rmP}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>MmP</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{troll.mmP}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>ArmorP</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{troll.armorP}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>WeightP</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{troll.weightP}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>ViewM</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{troll.viewM}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>RmM</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{troll.rmM}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>MmM</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{troll.mmM}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>ArmorM</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{troll.armorM}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>WeightM</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{troll.weightM}}</span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button type="submit"
+            onclick="window.history.back()"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+</div>

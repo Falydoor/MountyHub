@@ -1,0 +1,137 @@
+<div>
+    <h2>Trolls</h2>
+    <jh-alert></jh-alert>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-4 no-padding-left">
+                <button class="btn btn-primary" ui-sref="troll.new" >
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span 
+                       >Create new Troll
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive">
+        <table class="jh-table table table-striped">
+            <thead>
+                <tr jh-sort="predicate" ascending="reverse" callback="loadAll()">
+                    <th jh-sort-by="id"><span>ID</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="number"><span>Number</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="name"><span>Name</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="race"><span>Race</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="birthDate"><span>BirthDate</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="x"><span>X</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="y"><span>Y</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="z"><span>Z</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="attack"><span>Attack</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="dodge"><span>Dodge</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="damage"><span>Damage</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="regeneration"><span>Regeneration</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="hitPoint"><span>HitPoint</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="currentHitPoint"><span>CurrentHitPoint</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="view"><span>View</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="rm"><span>Rm</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="mm"><span>Mm</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="armor"><span>Armor</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="turn"><span>Turn</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="weight"><span>Weight</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="focus"><span>Focus</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="attackP"><span>AttackP</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="dodgeP"><span>DodgeP</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="damageP"><span>DamageP</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="regenerationP"><span>RegenerationP</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="hitPointP"><span>HitPointP</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="attackM"><span>AttackM</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="dodgeM"><span>DodgeM</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="damageM"><span>DamageM</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="regenerationM"><span>RegenerationM</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="hitPointM"><span>HitPointM</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="viewP"><span>ViewP</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="rmP"><span>RmP</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="mmP"><span>MmP</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="armorP"><span>ArmorP</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="weightP"><span>WeightP</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="viewM"><span>ViewM</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="rmM"><span>RmM</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="mmM"><span>MmM</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="armorM"><span>ArmorM</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="weightM"><span>WeightM</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="troll in trolls track by troll.id">
+                    <td><a ui-sref="troll.detail({id:troll.id})">{{troll.id}}</a></td>
+                    <td>{{troll.number}}</td>
+                    <td>{{troll.name}}</td>
+                    <td translate="{{'mountyhubApp.TrollRace.' + troll.race}}">{{troll.race}}</td>
+                    <td>{{troll.birthDate | date:'medium'}}</td>
+                    <td>{{troll.x}}</td>
+                    <td>{{troll.y}}</td>
+                    <td>{{troll.z}}</td>
+                    <td>{{troll.attack}}</td>
+                    <td>{{troll.dodge}}</td>
+                    <td>{{troll.damage}}</td>
+                    <td>{{troll.regeneration}}</td>
+                    <td>{{troll.hitPoint}}</td>
+                    <td>{{troll.currentHitPoint}}</td>
+                    <td>{{troll.view}}</td>
+                    <td>{{troll.rm}}</td>
+                    <td>{{troll.mm}}</td>
+                    <td>{{troll.armor}}</td>
+                    <td>{{troll.turn}}</td>
+                    <td>{{troll.weight}}</td>
+                    <td>{{troll.focus}}</td>
+                    <td>{{troll.attackP}}</td>
+                    <td>{{troll.dodgeP}}</td>
+                    <td>{{troll.damageP}}</td>
+                    <td>{{troll.regenerationP}}</td>
+                    <td>{{troll.hitPointP}}</td>
+                    <td>{{troll.attackM}}</td>
+                    <td>{{troll.dodgeM}}</td>
+                    <td>{{troll.damageM}}</td>
+                    <td>{{troll.regenerationM}}</td>
+                    <td>{{troll.hitPointM}}</td>
+                    <td>{{troll.viewP}}</td>
+                    <td>{{troll.rmP}}</td>
+                    <td>{{troll.mmP}}</td>
+                    <td>{{troll.armorP}}</td>
+                    <td>{{troll.weightP}}</td>
+                    <td>{{troll.viewM}}</td>
+                    <td>{{troll.rmM}}</td>
+                    <td>{{troll.mmM}}</td>
+                    <td>{{troll.armorM}}</td>
+                    <td>{{troll.weightM}}</td>
+                    <td class="text-right">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit"
+                                    ui-sref="troll.detail({id:troll.id})"
+                                    class="btn btn-info btn-sm"> 
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                                <span class="hidden-xs hidden-sm"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="troll.edit({id:troll.id})"
+                                    class="btn btn-primary btn-sm">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                                <span class="hidden-xs hidden-sm"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="troll.delete({id:troll.id})"
+                                    class="btn btn-danger btn-sm">                                    
+                                <span class="glyphicon glyphicon-remove-circle"></span>
+                                <span class="hidden-xs hidden-sm"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="text-center">
+        <uib-pagination class="pagination-sm" total-items="totalItems" ng-model="page" ng-change="loadAll()"></uib-pagination>
+    </div>
+</div>

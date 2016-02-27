@@ -1,0 +1,663 @@
+
+<form name="editForm" role="form" novalidate ng-submit="save()" show-validation>
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                ng-click="clear()">&times;</button>
+        <h4 class="modal-title" id="myTrollLabel">Create or edit a Troll</h4>
+    </div>
+    <div class="modal-body">
+        <jh-alert-error></jh-alert-error>
+        <div class="form-group">
+            <label for="id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                    ng-model="troll.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_number">Number</label>
+            <input type="number" class="form-control" name="number" id="field_number"
+                    ng-model="troll.number"
+                    required />
+            <div ng-show="editForm.number.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.number.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.number.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_name">Name</label>
+            <input type="text" class="form-control" name="name" id="field_name"
+                    ng-model="troll.name"
+                    required />
+            <div ng-show="editForm.name.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.name.$error.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_race">Race</label>
+            <select class="form-control" name="race" ng-model="troll.race" id="field_race" required>
+                <option value="TOMAWAK">TOMAWAK</option>
+                <option value="DURAKUIR">DURAKUIR</option>
+                <option value="KASTAR">KASTAR</option>
+                <option value="SKRIM">SKRIM</option>
+                <option value="DARKLING">DARKLING</option>
+                <option value="NKRWAPU">NKRWAPU</option>
+            </select>
+            <div ng-show="editForm.race.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.race.$error.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_birthDate">BirthDate</label>
+            <input type="datetime-local" class="form-control" name="birthDate" id="field_birthDate"
+                    ng-model="troll.birthDate"
+                    required />
+            <div ng-show="editForm.birthDate.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.birthDate.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.birthDate.$error.ZonedDateTimelocal">
+                    This field should be a date and time.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_x">X</label>
+            <input type="number" class="form-control" name="x" id="field_x"
+                    ng-model="troll.x"
+                    required />
+            <div ng-show="editForm.x.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.x.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.x.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_y">Y</label>
+            <input type="number" class="form-control" name="y" id="field_y"
+                    ng-model="troll.y"
+                    required />
+            <div ng-show="editForm.y.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.y.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.y.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_z">Z</label>
+            <input type="number" class="form-control" name="z" id="field_z"
+                    ng-model="troll.z"
+                    required />
+            <div ng-show="editForm.z.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.z.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.z.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_attack">Attack</label>
+            <input type="number" class="form-control" name="attack" id="field_attack"
+                    ng-model="troll.attack"
+                    required />
+            <div ng-show="editForm.attack.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.attack.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.attack.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_dodge">Dodge</label>
+            <input type="number" class="form-control" name="dodge" id="field_dodge"
+                    ng-model="troll.dodge"
+                    required />
+            <div ng-show="editForm.dodge.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.dodge.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.dodge.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_damage">Damage</label>
+            <input type="number" class="form-control" name="damage" id="field_damage"
+                    ng-model="troll.damage"
+                    required />
+            <div ng-show="editForm.damage.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.damage.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.damage.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_regeneration">Regeneration</label>
+            <input type="number" class="form-control" name="regeneration" id="field_regeneration"
+                    ng-model="troll.regeneration"
+                    required />
+            <div ng-show="editForm.regeneration.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.regeneration.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.regeneration.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_hitPoint">HitPoint</label>
+            <input type="number" class="form-control" name="hitPoint" id="field_hitPoint"
+                    ng-model="troll.hitPoint"
+                    required />
+            <div ng-show="editForm.hitPoint.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.hitPoint.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.hitPoint.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_currentHitPoint">CurrentHitPoint</label>
+            <input type="number" class="form-control" name="currentHitPoint" id="field_currentHitPoint"
+                    ng-model="troll.currentHitPoint"
+                    required />
+            <div ng-show="editForm.currentHitPoint.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.currentHitPoint.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.currentHitPoint.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_view">View</label>
+            <input type="number" class="form-control" name="view" id="field_view"
+                    ng-model="troll.view"
+                    required />
+            <div ng-show="editForm.view.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.view.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.view.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_rm">Rm</label>
+            <input type="number" class="form-control" name="rm" id="field_rm"
+                    ng-model="troll.rm"
+                    required />
+            <div ng-show="editForm.rm.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.rm.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.rm.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_mm">Mm</label>
+            <input type="number" class="form-control" name="mm" id="field_mm"
+                    ng-model="troll.mm"
+                    required />
+            <div ng-show="editForm.mm.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.mm.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.mm.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_armor">Armor</label>
+            <input type="number" class="form-control" name="armor" id="field_armor"
+                    ng-model="troll.armor"
+                    required />
+            <div ng-show="editForm.armor.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.armor.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.armor.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_turn">Turn</label>
+            <input type="number" class="form-control" name="turn" id="field_turn"
+                    ng-model="troll.turn"
+                    required />
+            <div ng-show="editForm.turn.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.turn.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.turn.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_weight">Weight</label>
+            <input type="number" class="form-control" name="weight" id="field_weight"
+                    ng-model="troll.weight"
+                    required />
+            <div ng-show="editForm.weight.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.weight.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.weight.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_focus">Focus</label>
+            <input type="number" class="form-control" name="focus" id="field_focus"
+                    ng-model="troll.focus"
+                    required />
+            <div ng-show="editForm.focus.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.focus.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.focus.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_attackP">AttackP</label>
+            <input type="number" class="form-control" name="attackP" id="field_attackP"
+                    ng-model="troll.attackP"
+                    required />
+            <div ng-show="editForm.attackP.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.attackP.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.attackP.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_dodgeP">DodgeP</label>
+            <input type="number" class="form-control" name="dodgeP" id="field_dodgeP"
+                    ng-model="troll.dodgeP"
+                    required />
+            <div ng-show="editForm.dodgeP.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.dodgeP.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.dodgeP.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_damageP">DamageP</label>
+            <input type="number" class="form-control" name="damageP" id="field_damageP"
+                    ng-model="troll.damageP"
+                    required />
+            <div ng-show="editForm.damageP.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.damageP.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.damageP.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_regenerationP">RegenerationP</label>
+            <input type="number" class="form-control" name="regenerationP" id="field_regenerationP"
+                    ng-model="troll.regenerationP"
+                    required />
+            <div ng-show="editForm.regenerationP.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.regenerationP.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.regenerationP.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_hitPointP">HitPointP</label>
+            <input type="number" class="form-control" name="hitPointP" id="field_hitPointP"
+                    ng-model="troll.hitPointP"
+                    required />
+            <div ng-show="editForm.hitPointP.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.hitPointP.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.hitPointP.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_attackM">AttackM</label>
+            <input type="number" class="form-control" name="attackM" id="field_attackM"
+                    ng-model="troll.attackM"
+                    required />
+            <div ng-show="editForm.attackM.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.attackM.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.attackM.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_dodgeM">DodgeM</label>
+            <input type="number" class="form-control" name="dodgeM" id="field_dodgeM"
+                    ng-model="troll.dodgeM"
+                    required />
+            <div ng-show="editForm.dodgeM.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.dodgeM.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.dodgeM.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_damageM">DamageM</label>
+            <input type="number" class="form-control" name="damageM" id="field_damageM"
+                    ng-model="troll.damageM"
+                    required />
+            <div ng-show="editForm.damageM.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.damageM.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.damageM.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_regenerationM">RegenerationM</label>
+            <input type="number" class="form-control" name="regenerationM" id="field_regenerationM"
+                    ng-model="troll.regenerationM"
+                    required />
+            <div ng-show="editForm.regenerationM.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.regenerationM.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.regenerationM.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_hitPointM">HitPointM</label>
+            <input type="number" class="form-control" name="hitPointM" id="field_hitPointM"
+                    ng-model="troll.hitPointM"
+                    required />
+            <div ng-show="editForm.hitPointM.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.hitPointM.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.hitPointM.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_viewP">ViewP</label>
+            <input type="number" class="form-control" name="viewP" id="field_viewP"
+                    ng-model="troll.viewP"
+                    required />
+            <div ng-show="editForm.viewP.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.viewP.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.viewP.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_rmP">RmP</label>
+            <input type="number" class="form-control" name="rmP" id="field_rmP"
+                    ng-model="troll.rmP"
+                    required />
+            <div ng-show="editForm.rmP.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.rmP.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.rmP.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_mmP">MmP</label>
+            <input type="number" class="form-control" name="mmP" id="field_mmP"
+                    ng-model="troll.mmP"
+                    required />
+            <div ng-show="editForm.mmP.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.mmP.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.mmP.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_armorP">ArmorP</label>
+            <input type="number" class="form-control" name="armorP" id="field_armorP"
+                    ng-model="troll.armorP"
+                    required />
+            <div ng-show="editForm.armorP.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.armorP.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.armorP.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_weightP">WeightP</label>
+            <input type="number" class="form-control" name="weightP" id="field_weightP"
+                    ng-model="troll.weightP"
+                    required />
+            <div ng-show="editForm.weightP.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.weightP.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.weightP.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_viewM">ViewM</label>
+            <input type="number" class="form-control" name="viewM" id="field_viewM"
+                    ng-model="troll.viewM"
+                    required />
+            <div ng-show="editForm.viewM.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.viewM.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.viewM.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_rmM">RmM</label>
+            <input type="number" class="form-control" name="rmM" id="field_rmM"
+                    ng-model="troll.rmM"
+                    required />
+            <div ng-show="editForm.rmM.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.rmM.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.rmM.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_mmM">MmM</label>
+            <input type="number" class="form-control" name="mmM" id="field_mmM"
+                    ng-model="troll.mmM"
+                    required />
+            <div ng-show="editForm.mmM.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.mmM.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.mmM.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_armorM">ArmorM</label>
+            <input type="number" class="form-control" name="armorM" id="field_armorM"
+                    ng-model="troll.armorM"
+                    required />
+            <div ng-show="editForm.armorM.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.armorM.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.armorM.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_weightM">WeightM</label>
+            <input type="number" class="form-control" name="weightM" id="field_weightM"
+                    ng-model="troll.weightM"
+                    required />
+            <div ng-show="editForm.weightM.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.weightM.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.weightM.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || isSaving" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span>Save</span>
+        </button>
+    </div>
+</form>

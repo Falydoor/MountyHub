@@ -1,0 +1,99 @@
+
+<form name="editForm" role="form" novalidate ng-submit="save()" show-validation>
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                ng-click="clear()">&times;</button>
+        <h4 class="modal-title" id="myScriptCallLabel">Create or edit a ScriptCall</h4>
+    </div>
+    <div class="modal-body">
+        <jh-alert-error></jh-alert-error>
+        <div class="form-group">
+            <label for="id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                    ng-model="scriptCall.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_name">Name</label>
+            <select class="form-control" name="name" ng-model="scriptCall.name" id="field_name" required>
+                <option value="SP_Caract">SP_Caract</option>
+            </select>
+            <div ng-show="editForm.name.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.name.$error.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_type">Type</label>
+            <select class="form-control" name="type" ng-model="scriptCall.type" id="field_type" required>
+                <option value="DYNAMIQUE">DYNAMIQUE</option>
+                <option value="STATIQUE">STATIQUE</option>
+                <option value="MESSAGE">MESSAGE</option>
+                <option value="APPEL">APPEL</option>
+            </select>
+            <div ng-show="editForm.type.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.type.$error.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_dateCalled">DateCalled</label>
+            <input type="datetime-local" class="form-control" name="dateCalled" id="field_dateCalled"
+                    ng-model="scriptCall.dateCalled"
+                    required />
+            <div ng-show="editForm.dateCalled.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.dateCalled.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.dateCalled.$error.ZonedDateTimelocal">
+                    This field should be a date and time.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_url">Url</label>
+            <input type="text" class="form-control" name="url" id="field_url"
+                    ng-model="scriptCall.url"
+                    required />
+            <div ng-show="editForm.url.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.url.$error.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_successful">Successful</label>
+            <input type="checkbox" class="form-control" name="successful" id="field_successful"
+                    ng-model="scriptCall.successful"
+                     />
+            <div ng-show="editForm.successful.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.successful.$error.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="field_troll">troll</label>
+            <select class="form-control" id="field_troll" name="troll" ng-model="scriptCall.troll" ng-options="troll as troll.id for troll in trolls track by troll.id">
+                <option value=""></option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || isSaving" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span>Save</span>
+        </button>
+    </div>
+</form>

@@ -1,0 +1,60 @@
+{
+    "relationships": [
+        {
+            "relationshipId": 1,
+            "relationshipName": "troll",
+            "otherEntityName": "troll",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        }
+    ],
+    "fields": [
+        {
+            "fieldId": 1,
+            "fieldName": "name",
+            "fieldType": "ScriptName",
+            "fieldValues": "SP_Caract",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldId": 2,
+            "fieldName": "type",
+            "fieldType": "ScriptType",
+            "fieldValues": "DYNAMIQUE,STATIQUE,MESSAGE,APPEL",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldId": 3,
+            "fieldName": "dateCalled",
+            "fieldType": "ZonedDateTime",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldId": 4,
+            "fieldName": "url",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldId": 5,
+            "fieldName": "successful",
+            "fieldType": "Boolean",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "changelogDate": "20160226035223",
+    "dto": "no",
+    "service": "no",
+    "entityTableName": "script_call",
+    "pagination": "pagination"
+}

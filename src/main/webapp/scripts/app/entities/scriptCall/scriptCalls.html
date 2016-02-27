@@ -1,0 +1,71 @@
+<div>
+    <h2>ScriptCalls</h2>
+    <jh-alert></jh-alert>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-4 no-padding-left">
+                <button class="btn btn-primary" ui-sref="scriptCall.new" >
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span 
+                       >Create new ScriptCall
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive">
+        <table class="jh-table table table-striped">
+            <thead>
+                <tr jh-sort="predicate" ascending="reverse" callback="loadAll()">
+                    <th jh-sort-by="id"><span>ID</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="name"><span>Name</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="type"><span>Type</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="dateCalled"><span>DateCalled</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="url"><span>Url</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="successful"><span>Successful</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="troll.id"><span>troll</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="scriptCall in scriptCalls track by scriptCall.id">
+                    <td><a ui-sref="scriptCall.detail({id:scriptCall.id})">{{scriptCall.id}}</a></td>
+                    <td translate="{{'mountyhubApp.ScriptName.' + scriptCall.name}}">{{scriptCall.name}}</td>
+                    <td translate="{{'mountyhubApp.ScriptType.' + scriptCall.type}}">{{scriptCall.type}}</td>
+                    <td>{{scriptCall.dateCalled | date:'medium'}}</td>
+                    <td>{{scriptCall.url}}</td>
+                    <td>{{scriptCall.successful}}</td>
+                    <td>
+                        <a ui-sref="troll.detail({id:scriptCall.troll.id})">{{scriptCall.troll.id}}</a>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit"
+                                    ui-sref="scriptCall.detail({id:scriptCall.id})"
+                                    class="btn btn-info btn-sm"> 
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                                <span class="hidden-xs hidden-sm"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="scriptCall.edit({id:scriptCall.id})"
+                                    class="btn btn-primary btn-sm">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                                <span class="hidden-xs hidden-sm"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="scriptCall.delete({id:scriptCall.id})"
+                                    class="btn btn-danger btn-sm">                                    
+                                <span class="glyphicon glyphicon-remove-circle"></span>
+                                <span class="hidden-xs hidden-sm"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="text-center">
+        <uib-pagination class="pagination-sm" total-items="totalItems" ng-model="page" ng-change="loadAll()"></uib-pagination>
+    </div>
+</div>

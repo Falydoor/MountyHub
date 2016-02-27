@@ -64,6 +64,8 @@ public class ScriptCallResourceIntTest {
 
     private static final Boolean DEFAULT_SUCCESSFUL = false;
     private static final Boolean UPDATED_SUCCESSFUL = true;
+    private static final String DEFAULT_BODY = "AAAAA";
+    private static final String UPDATED_BODY = "BBBBB";
 
     @Inject
     private ScriptCallRepository scriptCallRepository;
@@ -96,6 +98,7 @@ public class ScriptCallResourceIntTest {
         scriptCall.setDateCalled(DEFAULT_DATE_CALLED);
         scriptCall.setUrl(DEFAULT_URL);
         scriptCall.setSuccessful(DEFAULT_SUCCESSFUL);
+        scriptCall.setBody(DEFAULT_BODY);
     }
 
     @Test
@@ -119,6 +122,7 @@ public class ScriptCallResourceIntTest {
         assertThat(testScriptCall.getDateCalled()).isEqualTo(DEFAULT_DATE_CALLED);
         assertThat(testScriptCall.getUrl()).isEqualTo(DEFAULT_URL);
         assertThat(testScriptCall.getSuccessful()).isEqualTo(DEFAULT_SUCCESSFUL);
+        assertThat(testScriptCall.getBody()).isEqualTo(DEFAULT_BODY);
     }
 
     @Test
@@ -213,6 +217,24 @@ public class ScriptCallResourceIntTest {
 
     @Test
     @Transactional
+    public void checkBodyIsRequired() throws Exception {
+        int databaseSizeBeforeTest = scriptCallRepository.findAll().size();
+        // set the field null
+        scriptCall.setBody(null);
+
+        // Create the ScriptCall, which fails.
+
+        restScriptCallMockMvc.perform(post("/api/scriptCalls")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(scriptCall)))
+                .andExpect(status().isBadRequest());
+
+        List<ScriptCall> scriptCalls = scriptCallRepository.findAll();
+        assertThat(scriptCalls).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllScriptCalls() throws Exception {
         // Initialize the database
         scriptCallRepository.saveAndFlush(scriptCall);
@@ -226,7 +248,8 @@ public class ScriptCallResourceIntTest {
                 .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())))
                 .andExpect(jsonPath("$.[*].dateCalled").value(hasItem(DEFAULT_DATE_CALLED_STR)))
                 .andExpect(jsonPath("$.[*].url").value(hasItem(DEFAULT_URL.toString())))
-                .andExpect(jsonPath("$.[*].successful").value(hasItem(DEFAULT_SUCCESSFUL.booleanValue())));
+                .andExpect(jsonPath("$.[*].successful").value(hasItem(DEFAULT_SUCCESSFUL.booleanValue())))
+                .andExpect(jsonPath("$.[*].body").value(hasItem(DEFAULT_BODY.toString())));
     }
 
     @Test
@@ -244,7 +267,8 @@ public class ScriptCallResourceIntTest {
             .andExpect(jsonPath("$.type").value(DEFAULT_TYPE.toString()))
             .andExpect(jsonPath("$.dateCalled").value(DEFAULT_DATE_CALLED_STR))
             .andExpect(jsonPath("$.url").value(DEFAULT_URL.toString()))
-            .andExpect(jsonPath("$.successful").value(DEFAULT_SUCCESSFUL.booleanValue()));
+            .andExpect(jsonPath("$.successful").value(DEFAULT_SUCCESSFUL.booleanValue()))
+            .andExpect(jsonPath("$.body").value(DEFAULT_BODY.toString()));
     }
 
     @Test
@@ -269,6 +293,7 @@ public class ScriptCallResourceIntTest {
         scriptCall.setDateCalled(UPDATED_DATE_CALLED);
         scriptCall.setUrl(UPDATED_URL);
         scriptCall.setSuccessful(UPDATED_SUCCESSFUL);
+        scriptCall.setBody(UPDATED_BODY);
 
         restScriptCallMockMvc.perform(put("/api/scriptCalls")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -284,6 +309,7 @@ public class ScriptCallResourceIntTest {
         assertThat(testScriptCall.getDateCalled()).isEqualTo(UPDATED_DATE_CALLED);
         assertThat(testScriptCall.getUrl()).isEqualTo(UPDATED_URL);
         assertThat(testScriptCall.getSuccessful()).isEqualTo(UPDATED_SUCCESSFUL);
+        assertThat(testScriptCall.getBody()).isEqualTo(UPDATED_BODY);
     }
 
     @Test

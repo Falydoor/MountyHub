@@ -50,6 +50,14 @@
             "fieldValidateRules": [
                 "required"
             ]
+        },
+        {
+            "fieldId": 6,
+            "fieldName": "body",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
         }
     ],
     "changelogDate": "20160226035223",

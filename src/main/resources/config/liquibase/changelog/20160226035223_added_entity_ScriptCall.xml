@@ -41,6 +41,10 @@
                 <constraints nullable="false" />
             </column>
             
+            <column name="body" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+            
             <column name="troll_id" type="bigint"/>
             <!-- jhipster-needle-liquibase-add-column - Jhipster will add columns here, do not remove-->
         </createTable>

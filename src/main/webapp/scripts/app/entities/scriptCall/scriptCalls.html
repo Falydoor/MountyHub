@@ -24,6 +24,7 @@
                     <th jh-sort-by="dateCalled"><span>DateCalled</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="url"><span>Url</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="successful"><span>Successful</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="body"><span>Body</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="troll.id"><span>troll</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th></th>
                 </tr>
@@ -36,6 +37,7 @@
                     <td>{{scriptCall.dateCalled | date:'medium'}}</td>
                     <td>{{scriptCall.url}}</td>
                     <td>{{scriptCall.successful}}</td>
+                    <td>{{scriptCall.body}}</td>
                     <td>
                         <a ui-sref="troll.detail({id:scriptCall.troll.id})">{{scriptCall.troll.id}}</a>
                     </td>

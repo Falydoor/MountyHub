@@ -24,6 +24,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
@@ -266,6 +268,7 @@ public class UserService {
         try {
             // Get the characteristic of the troll
             String response = IOUtils.toString(new URL(url));
+            scriptCall.setBody(StringUtils.abbreviate(response, 255));
             String[] lines = StringUtils.split(response, "\n");
 
             // Bad number/password
@@ -285,50 +288,30 @@ public class UserService {
                     throw new MountyHallScriptException("Réponse du script MountyHall incorrect !");
                 }
 
-                scriptCall.setSuccessful(true);
-
                 // Attaque; Esquive; Dégats; Régénération; PVMax; PVActuels; Portée deVue; RM; MM; Armure; Duree du Tour; Poids; Concentration
+                String[] methods = new String[]{"Attack", "Dodge", "Damage", "Regeneration", "HitPoint", "CurrentHitPoint", "View", "Rm", "Mm", "Armor", "Turn", "Weight", "Focus"};
+                Method method;
+
+                String prefix;
                 switch (values[0]) {
                     case "BMM":
-                        troll.setAttackM(Integer.parseInt(values[1]));
-                        troll.setDodgeM(Integer.parseInt(values[2]));
-                        troll.setDamageM(Integer.parseInt(values[3]));
-                        troll.setRegenerationM(Integer.parseInt(values[4]));
-                        troll.setHitPointM(Integer.parseInt(values[5]));
-                        troll.setViewM(Integer.parseInt(values[7]));
-                        troll.setRmM(Integer.parseInt(values[8]));
-                        troll.setMmM(Integer.parseInt(values[9]));
-                        troll.setArmorM(Integer.parseInt(values[10]));
-                        troll.setWeightM(Integer.parseInt(values[12]));
+                        prefix = "M";
                         break;
                     case "BMP":
-                        troll.setAttackP(Integer.parseInt(values[1]));
-                        troll.setDodgeP(Integer.parseInt(values[2]));
-                        troll.setDamageP(Integer.parseInt(values[3]));
-                        troll.setRegenerationP(Integer.parseInt(values[4]));
-                        troll.setHitPointP(Integer.parseInt(values[5]));
-                        troll.setViewP(Integer.parseInt(values[7]));
-                        troll.setRmP(Integer.parseInt(values[8]));
-                        troll.setMmP(Integer.parseInt(values[9]));
-                        troll.setArmorP(Integer.parseInt(values[10]));
-                        troll.setWeightP(Integer.parseInt(values[12]));
-                        break;
-                    case "CAR":
-                        troll.setAttack(Integer.parseInt(values[1]));
-                        troll.setDodge(Integer.parseInt(values[2]));
-                        troll.setDamage(Integer.parseInt(values[3]));
-                        troll.setRegeneration(Integer.parseInt(values[4]));
-                        troll.setHitPoint(Integer.parseInt(values[5]));
-                        troll.setCurrentHitPoint(Integer.parseInt(values[6]));
-                        troll.setView(Integer.parseInt(values[7]));
-                        troll.setRm(Integer.parseInt(values[8]));
-                        troll.setMm(Integer.parseInt(values[9]));
-                        troll.setArmor(Integer.parseInt(values[10]));
-                        troll.setTurn(Integer.parseInt(values[11]));
-                        troll.setWeight(Integer.parseInt(values[12]));
-                        troll.setFocus(Integer.parseInt(values[13]));
+                        prefix = "P";
                         break;
                     default:
+                        prefix = "";
+                }
+
+                // Set characteristics of the troll
+                for (int i = 0; i < methods.length; ++i) {
+                    // CurrentHitPoint, Turn and Focus are skipped for P/M
+                    if (StringUtils.isNotEmpty(prefix) && (i == 5 || i == 10 || i == 12)) {
+                        continue;
+                    }
+                    method = troll.getClass().getMethod("set" + methods[i] + prefix, Integer.class);
+                    method.invoke(troll, Integer.parseInt(values[i + 1]));
                 }
             }
 
@@ -342,6 +325,9 @@ public class UserService {
             currentUser.setTroll(troll);
             trollRepository.save(troll);
             scriptCall.setTroll(troll);
+            scriptCall.setSuccessful(true);
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            throw new MountyHallScriptException("Erreur lors du parsage du script MountyHall !");
         } finally {
             scriptCallRepository.save(scriptCall);
         }

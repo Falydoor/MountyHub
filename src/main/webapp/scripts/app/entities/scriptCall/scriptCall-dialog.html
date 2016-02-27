@@ -80,6 +80,18 @@
                 </p>
             </div>
         </div>
+        <div class="form-group">
+            <label class="control-label" for="field_body">Body</label>
+            <input type="text" class="form-control" name="body" id="field_body"
+                    ng-model="scriptCall.body"
+                    required />
+            <div ng-show="editForm.body.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.body.$error.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
 
         <div class="form-group">
             <label for="field_troll">troll</label>

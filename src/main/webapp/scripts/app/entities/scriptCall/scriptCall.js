@@ -57,6 +57,7 @@ angular.module('mountyhubApp')
                                     dateCalled: null,
                                     url: null,
                                     successful: false,
+                                    body: null,
                                     id: null
                                 };
                             }

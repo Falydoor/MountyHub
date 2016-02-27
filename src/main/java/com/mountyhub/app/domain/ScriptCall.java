@@ -49,6 +49,10 @@ public class ScriptCall implements Serializable {
     @Column(name = "successful", nullable = false)
     private Boolean successful;
     
+    @NotNull
+    @Column(name = "body", nullable = false)
+    private String body;
+    
     @ManyToOne
     @JoinColumn(name = "troll_id")
     private Troll troll;
@@ -101,6 +105,14 @@ public class ScriptCall implements Serializable {
         this.successful = successful;
     }
 
+    public String getBody() {
+        return body;
+    }
+    
+    public void setBody(String body) {
+        this.body = body;
+    }
+
     public Troll getTroll() {
         return troll;
     }
@@ -138,6 +150,7 @@ public class ScriptCall implements Serializable {
             ", dateCalled='" + dateCalled + "'" +
             ", url='" + url + "'" +
             ", successful='" + successful + "'" +
+            ", body='" + body + "'" +
             '}';
     }
 }

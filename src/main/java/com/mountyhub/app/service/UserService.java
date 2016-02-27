@@ -1,16 +1,20 @@
 package com.mountyhub.app.service;
 
 import com.mountyhub.app.domain.Authority;
-import com.mountyhub.app.domain.PersistentToken;
+import com.mountyhub.app.domain.ScriptCall;
+import com.mountyhub.app.domain.Troll;
 import com.mountyhub.app.domain.User;
-import com.mountyhub.app.repository.AuthorityRepository;
-import com.mountyhub.app.repository.PersistentTokenRepository;
-import com.mountyhub.app.repository.UserRepository;
+import com.mountyhub.app.domain.enumeration.ScriptName;
+import com.mountyhub.app.domain.enumeration.ScriptType;
+import com.mountyhub.app.domain.enumeration.TrollRace;
+import com.mountyhub.app.exception.MountyHallScriptException;
+import com.mountyhub.app.exception.MountyHubException;
+import com.mountyhub.app.repository.*;
 import com.mountyhub.app.security.SecurityUtils;
 import com.mountyhub.app.service.util.RandomUtil;
 import com.mountyhub.app.web.rest.dto.ManagedUserDTO;
-import java.time.ZonedDateTime;
-import java.time.LocalDate;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -18,9 +22,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.ZonedDateTime;
 import javax.inject.Inject;
-import java.util.*;
+import java.io.IOException;
+import java.net.URL;
+import java.time.LocalDate;
+import java.time.ZonedDateTime;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 /**
  * Service class for managing users.
@@ -43,6 +53,12 @@ public class UserService {
     @Inject
     private AuthorityRepository authorityRepository;
 
+    @Inject
+    private TrollRepository trollRepository;
+
+    @Inject
+    private ScriptCallRepository scriptCallRepository;
+
     public Optional<User> activateRegistration(String key) {
         log.debug("Activating user for activation key {}", key);
         userRepository.findOneByActivationKey(key)
@@ -58,20 +74,20 @@ public class UserService {
     }
 
     public Optional<User> completePasswordReset(String newPassword, String key) {
-       log.debug("Reset user password for reset key {}", key);
+        log.debug("Reset user password for reset key {}", key);
 
-       return userRepository.findOneByResetKey(key)
+        return userRepository.findOneByResetKey(key)
             .filter(user -> {
                 ZonedDateTime oneDayAgo = ZonedDateTime.now().minusHours(24);
                 return user.getResetDate().isAfter(oneDayAgo);
-           })
-           .map(user -> {
+            })
+            .map(user -> {
                 user.setPassword(passwordEncoder.encode(newPassword));
                 user.setResetKey(null);
                 user.setResetDate(null);
                 userRepository.save(user);
                 return user;
-           });
+            });
     }
 
     public Optional<User> requestPasswordReset(String mail) {
@@ -86,7 +102,7 @@ public class UserService {
     }
 
     public User createUserInformation(String login, String password, String firstName, String lastName, String email,
-        String langKey) {
+                                      String langKey) {
 
         User newUser = new User();
         Authority authority = authorityRepository.findOne("ROLE_USER");
@@ -220,6 +236,114 @@ public class UserService {
         for (User user : users) {
             log.debug("Deleting not activated user {}", user.getLogin());
             userRepository.delete(user);
+        }
+    }
+
+    public void addTroll(Long number, String restrictedPassword) throws IOException, MountyHubException, MountyHallScriptException {
+        User currentUser = getUserWithAuthorities();
+
+        // A troll is already linked to the user
+        if (currentUser.getTroll() != null) {
+            throw new MountyHubException("Votre utilisateur a déjà un troll lié !");
+        }
+
+        Optional<Troll> trollResult = trollRepository.findOneByNumber(number);
+        if (trollResult.isPresent()) {
+            throw new MountyHubException("Le numero de troll " + number + " est déjà associé à l'utilisteur " + trollResult.get().getUser().getLogin() + " !");
+        }
+
+        // ScriptCall creation
+        ScriptCall scriptCall = new ScriptCall();
+        scriptCall.setDateCalled(ZonedDateTime.now());
+        scriptCall.setName(ScriptName.SP_Caract);
+        scriptCall.setType(ScriptType.DYNAMIQUE);
+        scriptCall.setSuccessful(false);
+
+//        String url = MountyHallScriptUtil.getUrl(ScriptName.SP_Caract, number, restrictedPassword);
+        String url = "https://gist.githubusercontent.com/Falydoor/b53eaca2eb09778a943b/raw/432af4f161f78941b101a9bba9b5c640f103dd27/gistfile1.txt";
+        scriptCall.setUrl(url);
+
+        try {
+            // Get the characteristic of the troll
+            String response = IOUtils.toString(new URL(url));
+            String[] lines = StringUtils.split(response, "\n");
+
+            // Bad number/password
+            if (lines.length != 3) {
+                throw new MountyHallScriptException("Le numéro de troll ou le mot de passe restreint sont faux !");
+            }
+
+            // Create the troll
+            Troll troll = new Troll();
+            troll.setNumber(number);
+
+            for (String line : lines) {
+                String[] values = StringUtils.split(line, ";");
+
+                // Bad number of values
+                if (values.length != 14) {
+                    throw new MountyHallScriptException("Réponse du script MountyHall incorrect !");
+                }
+
+                scriptCall.setSuccessful(true);
+
+                // Attaque; Esquive; Dégats; Régénération; PVMax; PVActuels; Portée deVue; RM; MM; Armure; Duree du Tour; Poids; Concentration
+                switch (values[0]) {
+                    case "BMM":
+                        troll.setAttackM(Integer.parseInt(values[1]));
+                        troll.setDodgeM(Integer.parseInt(values[2]));
+                        troll.setDamageM(Integer.parseInt(values[3]));
+                        troll.setRegenerationM(Integer.parseInt(values[4]));
+                        troll.setHitPointM(Integer.parseInt(values[5]));
+                        troll.setViewM(Integer.parseInt(values[7]));
+                        troll.setRmM(Integer.parseInt(values[8]));
+                        troll.setMmM(Integer.parseInt(values[9]));
+                        troll.setArmorM(Integer.parseInt(values[10]));
+                        troll.setWeightM(Integer.parseInt(values[12]));
+                        break;
+                    case "BMP":
+                        troll.setAttackP(Integer.parseInt(values[1]));
+                        troll.setDodgeP(Integer.parseInt(values[2]));
+                        troll.setDamageP(Integer.parseInt(values[3]));
+                        troll.setRegenerationP(Integer.parseInt(values[4]));
+                        troll.setHitPointP(Integer.parseInt(values[5]));
+                        troll.setViewP(Integer.parseInt(values[7]));
+                        troll.setRmP(Integer.parseInt(values[8]));
+                        troll.setMmP(Integer.parseInt(values[9]));
+                        troll.setArmorP(Integer.parseInt(values[10]));
+                        troll.setWeightP(Integer.parseInt(values[12]));
+                        break;
+                    case "CAR":
+                        troll.setAttack(Integer.parseInt(values[1]));
+                        troll.setDodge(Integer.parseInt(values[2]));
+                        troll.setDamage(Integer.parseInt(values[3]));
+                        troll.setRegeneration(Integer.parseInt(values[4]));
+                        troll.setHitPoint(Integer.parseInt(values[5]));
+                        troll.setCurrentHitPoint(Integer.parseInt(values[6]));
+                        troll.setView(Integer.parseInt(values[7]));
+                        troll.setRm(Integer.parseInt(values[8]));
+                        troll.setMm(Integer.parseInt(values[9]));
+                        troll.setArmor(Integer.parseInt(values[10]));
+                        troll.setTurn(Integer.parseInt(values[11]));
+                        troll.setWeight(Integer.parseInt(values[12]));
+                        troll.setFocus(Integer.parseInt(values[13]));
+                        break;
+                    default:
+                }
+            }
+
+            // Save the troll
+            troll.setX(0);
+            troll.setY(0);
+            troll.setZ(0);
+            troll.setRace(TrollRace.TOMAWAK);
+            troll.setBirthDate(ZonedDateTime.now());
+            troll.setName("Test");
+            currentUser.setTroll(troll);
+            trollRepository.save(troll);
+            scriptCall.setTroll(troll);
+        } finally {
+            scriptCallRepository.save(scriptCall);
         }
     }
 }

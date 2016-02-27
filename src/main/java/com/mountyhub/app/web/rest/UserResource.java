@@ -3,13 +3,14 @@ package com.mountyhub.app.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import com.mountyhub.app.domain.Authority;
 import com.mountyhub.app.domain.User;
+import com.mountyhub.app.exception.MountyHallScriptException;
+import com.mountyhub.app.exception.MountyHubException;
 import com.mountyhub.app.repository.AuthorityRepository;
 import com.mountyhub.app.repository.UserRepository;
 import com.mountyhub.app.security.AuthoritiesConstants;
 import com.mountyhub.app.service.MailService;
 import com.mountyhub.app.service.UserService;
 import com.mountyhub.app.web.rest.dto.ManagedUserDTO;
-import com.mountyhub.app.web.rest.dto.UserDTO;
 import com.mountyhub.app.web.rest.util.HeaderUtil;
 import com.mountyhub.app.web.rest.util.PaginationUtil;
 import org.slf4j.Logger;
@@ -25,15 +26,18 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
  * REST controller for managing users.
- *
+ * <p>
  * <p>This class accesses the User entity, and needs to fetch its collection of authorities.</p>
  * <p>
  * For a normal use-case, it would be better to have an eager relationship between User and Authority,
@@ -74,6 +78,22 @@ public class UserResource {
     @Inject
     private UserService userService;
 
+    @RequestMapping(value = "/addTroll",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<Void> addTroll(Long number, String restrictedPassword) {
+        log.debug("REST request to add Troll : {} {}", number, restrictedPassword);
+        try {
+            userService.addTroll(number, restrictedPassword);
+        } catch (IOException e) {
+            return ResponseEntity.badRequest().headers(HeaderUtil.createAlert("Erreur lors de la recuperation des infos de votre troll !", number.toString())).build();
+        } catch (MountyHubException | MountyHallScriptException e) {
+            return ResponseEntity.badRequest().headers(HeaderUtil.createAlert(e.getMessage(), number.toString())).build();
+        }
+        return ResponseEntity.ok().headers(HeaderUtil.createAlert("Votre troll a bien été lié !", number.toString())).build();
+    }
+
     /**
      * POST  /users -> Creates a new user.
      * <p>
@@ -100,14 +120,14 @@ public class UserResource {
         } else {
             User newUser = userService.createUser(managedUserDTO);
             String baseUrl = request.getScheme() + // "http"
-            "://" +                                // "://"
-            request.getServerName() +              // "myhost"
-            ":" +                                  // ":"
-            request.getServerPort() +              // "80"
-            request.getContextPath();              // "/myContextPath" or "" if deployed in root context
+                "://" +                                // "://"
+                request.getServerName() +              // "myhost"
+                ":" +                                  // ":"
+                request.getServerPort() +              // "80"
+                request.getContextPath();              // "/myContextPath" or "" if deployed in root context
             mailService.sendCreationEmail(newUser, baseUrl);
             return ResponseEntity.created(new URI("/api/users/" + newUser.getLogin()))
-                .headers(HeaderUtil.createAlert( "A user is created with identifier " + newUser.getLogin(), newUser.getLogin()))
+                .headers(HeaderUtil.createAlert("A user is created with identifier " + newUser.getLogin(), newUser.getLogin()))
                 .body(newUser);
         }
     }
@@ -182,10 +202,11 @@ public class UserResource {
     public ResponseEntity<ManagedUserDTO> getUser(@PathVariable String login) {
         log.debug("REST request to get User : {}", login);
         return userService.getUserWithAuthoritiesByLogin(login)
-                .map(ManagedUserDTO::new)
-                .map(managedUserDTO -> new ResponseEntity<>(managedUserDTO, HttpStatus.OK))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+            .map(ManagedUserDTO::new)
+            .map(managedUserDTO -> new ResponseEntity<>(managedUserDTO, HttpStatus.OK))
+            .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
+
     /**
      * DELETE  USER :login -> delete the "login" User.
      */
@@ -197,6 +218,6 @@ public class UserResource {
     public ResponseEntity<Void> deleteUser(@PathVariable String login) {
         log.debug("REST request to delete User: {}", login);
         userService.deleteUserInformation(login);
-        return ResponseEntity.ok().headers(HeaderUtil.createAlert( "A user is deleted with identifier " + login, login)).build();
+        return ResponseEntity.ok().headers(HeaderUtil.createAlert("A user is deleted with identifier " + login, login)).build();
     }
 }

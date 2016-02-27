@@ -34,7 +34,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
 
     @JsonIgnore
     @NotNull
-    @Size(min = 60, max = 60) 
+    @Size(min = 60, max = 60)
     @Column(name = "password_hash",length = 60)
     private String password;
 
@@ -83,6 +83,11 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<PersistentToken> persistentTokens = new HashSet<>();
+
+    @JsonIgnore
+    @OneToOne
+    @JoinColumn(name="troll_id")
+    private Troll troll;
 
     public Long getId() {
         return id;
@@ -186,6 +191,14 @@ public class User extends AbstractAuditingEntity implements Serializable {
 
     public void setPersistentTokens(Set<PersistentToken> persistentTokens) {
         this.persistentTokens = persistentTokens;
+    }
+
+    public Troll getTroll() {
+        return troll;
+    }
+
+    public void setTroll(Troll troll) {
+        this.troll = troll;
     }
 
     @Override

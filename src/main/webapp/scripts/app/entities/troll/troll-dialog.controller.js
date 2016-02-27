@@ -1,11 +1,12 @@
 'use strict';
 
 angular.module('mountyhubApp').controller('TrollDialogController',
-    ['$scope', '$stateParams', '$uibModalInstance', 'entity', 'Troll', 'User',
-        function($scope, $stateParams, $uibModalInstance, entity, Troll, User) {
+    ['$scope', '$stateParams', '$uibModalInstance', 'entity', 'Troll', 'User', 'ScriptCall',
+        function($scope, $stateParams, $uibModalInstance, entity, Troll, User, ScriptCall) {
 
         $scope.troll = entity;
         $scope.users = User.query();
+        $scope.scriptcalls = ScriptCall.query();
         $scope.load = function(id) {
             Troll.get({id : id}, function(result) {
                 $scope.troll = result;

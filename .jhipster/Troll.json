@@ -7,6 +7,13 @@
             "relationshipType": "one-to-one",
             "ownerSide": false,
             "otherEntityRelationshipName": "troll"
+        },
+        {
+            "relationshipId": 2,
+            "relationshipName": "scriptCall",
+            "otherEntityName": "scriptCall",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "troll"
         }
     ],
     "fields": [

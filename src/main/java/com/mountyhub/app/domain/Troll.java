@@ -191,6 +191,11 @@ public class Troll implements Serializable {
     @JsonIgnore
     private User user;
 
+    @OneToMany(mappedBy = "troll")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<ScriptCall> scriptCalls = new HashSet<>();
+
     public Long getId() {
         return id;
     }
@@ -525,6 +530,14 @@ public class Troll implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Set<ScriptCall> getScriptCalls() {
+        return scriptCalls;
+    }
+
+    public void setScriptCalls(Set<ScriptCall> scriptCalls) {
+        this.scriptCalls = scriptCalls;
     }
 
     @Override

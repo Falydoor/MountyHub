@@ -1,6 +1,9 @@
 ######################
 # Project Specific
 ######################
+/src/main/resources/config/application-prod.yml
+/src/main/resources/config/application-dev.yml
+/src/main/resources/config/application.yml
 /src/main/webapp/assets/styles/main.css
 /src/main/webapp/dist
 

@@ -1,0 +1,10 @@
+mountyhub-dev-postgresql:
+  container_name: mountyhub-dev-postgresql
+  image: postgres:9.4.5
+  # volumes:
+  #   - ~/volumes/jhipster/MountyHub/dev-postgresql/:/var/lib/postgresql/
+  environment:
+    - POSTGRES_USER=MountyHub
+    - POSTGRES_PASSWORD=
+  ports:
+    - "5432:5432"

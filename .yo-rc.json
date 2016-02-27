@@ -1,0 +1,24 @@
+{
+  "generator-jhipster": {
+    "baseName": "MountyHub",
+    "packageName": "com.mountyhub.app",
+    "packageFolder": "com/mountyhub/app",
+    "authenticationType": "session",
+    "hibernateCache": "ehcache",
+    "clusteredHttpSession": "no",
+    "websocket": "spring-websocket",
+    "databaseType": "sql",
+    "devDatabaseType": "postgresql",
+    "prodDatabaseType": "postgresql",
+    "searchEngine": "no",
+    "useSass": true,
+    "buildTool": "maven",
+    "frontendBuilder": "gulp",
+    "enableTranslation": false,
+    "enableSocialSignIn": false,
+    "rememberMeKey": "b4c7add8e6e39a5f45985e79fd346cefe61684de",
+    "testFrameworks": [
+      "gatling"
+    ]
+  }
+}

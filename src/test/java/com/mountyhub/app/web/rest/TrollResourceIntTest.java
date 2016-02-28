@@ -177,6 +177,8 @@ public class TrollResourceIntTest {
 
     private static final Integer DEFAULT_DEATH = 1;
     private static final Integer UPDATED_DEATH = 2;
+    private static final String DEFAULT_RESTRICTED_PASSWORD = "AAAAA";
+    private static final String UPDATED_RESTRICTED_PASSWORD = "BBBBB";
 
     @Inject
     private TrollRepository trollRepository;
@@ -247,6 +249,7 @@ public class TrollResourceIntTest {
         troll.setLevel(DEFAULT_LEVEL);
         troll.setKill(DEFAULT_KILL);
         troll.setDeath(DEFAULT_DEATH);
+        troll.setRestrictedPassword(DEFAULT_RESTRICTED_PASSWORD);
     }
 
     @Test
@@ -308,6 +311,7 @@ public class TrollResourceIntTest {
         assertThat(testTroll.getLevel()).isEqualTo(DEFAULT_LEVEL);
         assertThat(testTroll.getKill()).isEqualTo(DEFAULT_KILL);
         assertThat(testTroll.getDeath()).isEqualTo(DEFAULT_DEATH);
+        assertThat(testTroll.getRestrictedPassword()).isEqualTo(DEFAULT_RESTRICTED_PASSWORD);
     }
 
     @Test
@@ -1086,6 +1090,24 @@ public class TrollResourceIntTest {
 
     @Test
     @Transactional
+    public void checkRestrictedPasswordIsRequired() throws Exception {
+        int databaseSizeBeforeTest = trollRepository.findAll().size();
+        // set the field null
+        troll.setRestrictedPassword(null);
+
+        // Create the Troll, which fails.
+
+        restTrollMockMvc.perform(post("/api/trolls")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(troll)))
+                .andExpect(status().isBadRequest());
+
+        List<Troll> trolls = trollRepository.findAll();
+        assertThat(trolls).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllTrolls() throws Exception {
         // Initialize the database
         trollRepository.saveAndFlush(troll);
@@ -1137,7 +1159,8 @@ public class TrollResourceIntTest {
                 .andExpect(jsonPath("$.[*].weightM").value(hasItem(DEFAULT_WEIGHT_M)))
                 .andExpect(jsonPath("$.[*].level").value(hasItem(DEFAULT_LEVEL)))
                 .andExpect(jsonPath("$.[*].kill").value(hasItem(DEFAULT_KILL)))
-                .andExpect(jsonPath("$.[*].death").value(hasItem(DEFAULT_DEATH)));
+                .andExpect(jsonPath("$.[*].death").value(hasItem(DEFAULT_DEATH)))
+                .andExpect(jsonPath("$.[*].restrictedPassword").value(hasItem(DEFAULT_RESTRICTED_PASSWORD.toString())));
     }
 
     @Test
@@ -1193,7 +1216,8 @@ public class TrollResourceIntTest {
             .andExpect(jsonPath("$.weightM").value(DEFAULT_WEIGHT_M))
             .andExpect(jsonPath("$.level").value(DEFAULT_LEVEL))
             .andExpect(jsonPath("$.kill").value(DEFAULT_KILL))
-            .andExpect(jsonPath("$.death").value(DEFAULT_DEATH));
+            .andExpect(jsonPath("$.death").value(DEFAULT_DEATH))
+            .andExpect(jsonPath("$.restrictedPassword").value(DEFAULT_RESTRICTED_PASSWORD.toString()));
     }
 
     @Test
@@ -1256,6 +1280,7 @@ public class TrollResourceIntTest {
         troll.setLevel(UPDATED_LEVEL);
         troll.setKill(UPDATED_KILL);
         troll.setDeath(UPDATED_DEATH);
+        troll.setRestrictedPassword(UPDATED_RESTRICTED_PASSWORD);
 
         restTrollMockMvc.perform(put("/api/trolls")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -1309,6 +1334,7 @@ public class TrollResourceIntTest {
         assertThat(testTroll.getLevel()).isEqualTo(UPDATED_LEVEL);
         assertThat(testTroll.getKill()).isEqualTo(UPDATED_KILL);
         assertThat(testTroll.getDeath()).isEqualTo(UPDATED_DEATH);
+        assertThat(testTroll.getRestrictedPassword()).isEqualTo(UPDATED_RESTRICTED_PASSWORD);
     }
 
     @Test

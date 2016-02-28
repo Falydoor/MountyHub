@@ -71,6 +71,7 @@ angular.module('mountyhubApp')
                 level: null,
                 kill: null,
                 death: null,
+                restrictedPassword: null,
                 id: null
             };
         };

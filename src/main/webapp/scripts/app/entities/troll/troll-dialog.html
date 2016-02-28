@@ -698,6 +698,18 @@
                 </p>
             </div>
         </div>
+        <div class="form-group">
+            <label class="control-label" for="field_restrictedPassword">RestrictedPassword</label>
+            <input type="text" class="form-control" name="restrictedPassword" id="field_restrictedPassword"
+                    ng-model="troll.restrictedPassword"
+                    required />
+            <div ng-show="editForm.restrictedPassword.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.restrictedPassword.$error.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
 
     </div>
     <div class="modal-footer">

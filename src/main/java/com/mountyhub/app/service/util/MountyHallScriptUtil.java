@@ -1,6 +1,7 @@
 package com.mountyhub.app.service.util;
 
 import com.mountyhub.app.domain.enumeration.ScriptName;
+import com.mountyhub.app.domain.enumeration.ScriptType;
 
 /**
  * Created by Theo on 2/27/16.
@@ -12,4 +13,24 @@ public final class MountyHallScriptUtil {
     public static String getUrl(ScriptName name, Long number, String password) {
         return BASE_URL + name + ".php?Numero=" + number + "&Motdepasse=" + password;
     }
+
+    public static int getScriptLimitByDay(ScriptType type) {
+        switch (type) {
+            case APPEL:
+                // 4
+                return 1;
+            case DYNAMIQUE:
+                // 24
+                return 5;
+            case MESSAGE:
+                // 12
+                return 2;
+            case STATIQUE:
+                // 10
+                return 2;
+            default:
+                return 0;
+        }
+    }
+
 }

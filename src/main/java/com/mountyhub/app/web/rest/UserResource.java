@@ -9,6 +9,7 @@ import com.mountyhub.app.repository.AuthorityRepository;
 import com.mountyhub.app.repository.UserRepository;
 import com.mountyhub.app.security.AuthoritiesConstants;
 import com.mountyhub.app.service.MailService;
+import com.mountyhub.app.service.TrollService;
 import com.mountyhub.app.service.UserService;
 import com.mountyhub.app.web.rest.dto.ManagedUserDTO;
 import com.mountyhub.app.web.rest.util.HeaderUtil;
@@ -71,12 +72,14 @@ public class UserResource {
     @Inject
     private MailService mailService;
 
-
     @Inject
     private AuthorityRepository authorityRepository;
 
     @Inject
     private UserService userService;
+
+    @Inject
+    private TrollService trollService;
 
     @RequestMapping(value = "/addTroll",
         method = RequestMethod.GET,
@@ -85,13 +88,13 @@ public class UserResource {
     public ResponseEntity<Void> addTroll(Long number, String restrictedPassword) {
         log.debug("REST request to add Troll : {} {}", number, restrictedPassword);
         try {
-            userService.addTroll(number, restrictedPassword);
+            trollService.addTroll(number, restrictedPassword);
         } catch (IOException e) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createAlert("Erreur lors de la recuperation des infos de votre troll !", number.toString())).build();
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("troll", "", "Erreur lors de la récuperation des infos de votre troll " + number.toString() + " !")).build();
         } catch (MountyHubException | MountyHallScriptException e) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createAlert(e.getMessage(), number.toString())).build();
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("troll", "", e.getMessage())).build();
         }
-        return ResponseEntity.ok().headers(HeaderUtil.createAlert("Votre troll a bien été lié !", number.toString())).build();
+        return ResponseEntity.ok().headers(HeaderUtil.createAlert("Votre troll " + number.toString() + " a bien été lié !", "")).build();
     }
 
     /**

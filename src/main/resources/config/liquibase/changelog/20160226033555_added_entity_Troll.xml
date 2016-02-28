@@ -181,6 +181,18 @@
                 <constraints nullable="false" />
             </column>
             
+            <column name="level" type="integer">
+                <constraints nullable="false" />
+            </column>
+            
+            <column name="kill" type="integer">
+                <constraints nullable="false" />
+            </column>
+            
+            <column name="death" type="integer">
+                <constraints nullable="false" />
+            </column>
+            
             <!-- jhipster-needle-liquibase-add-column - Jhipster will add columns here, do not remove-->
         </createTable>
         <dropDefaultValue tableName="troll" columnName="birth_date" columnDataType="datetime"/>

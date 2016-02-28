@@ -650,6 +650,54 @@
                 </p>
             </div>
         </div>
+        <div class="form-group">
+            <label class="control-label" for="field_level">Level</label>
+            <input type="number" class="form-control" name="level" id="field_level"
+                    ng-model="troll.level"
+                    required />
+            <div ng-show="editForm.level.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.level.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.level.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_kill">Kill</label>
+            <input type="number" class="form-control" name="kill" id="field_kill"
+                    ng-model="troll.kill"
+                    required />
+            <div ng-show="editForm.kill.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.kill.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.kill.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_death">Death</label>
+            <input type="number" class="form-control" name="death" id="field_death"
+                    ng-model="troll.death"
+                    required />
+            <div ng-show="editForm.death.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.death.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.death.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
 
     </div>
     <div class="modal-footer">

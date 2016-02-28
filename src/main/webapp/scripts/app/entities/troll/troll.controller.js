@@ -68,6 +68,9 @@ angular.module('mountyhubApp')
                 mmM: null,
                 armorM: null,
                 weightM: null,
+                level: null,
+                kill: null,
+                death: null,
                 id: null
             };
         };

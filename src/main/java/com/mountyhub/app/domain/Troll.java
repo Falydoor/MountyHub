@@ -187,6 +187,18 @@ public class Troll implements Serializable {
     @Column(name = "weight_m", nullable = false)
     private Integer weightM;
     
+    @NotNull
+    @Column(name = "level", nullable = false)
+    private Integer level;
+    
+    @NotNull
+    @Column(name = "kill", nullable = false)
+    private Integer kill;
+    
+    @NotNull
+    @Column(name = "death", nullable = false)
+    private Integer death;
+    
     @OneToOne(mappedBy = "troll")
     @JsonIgnore
     private User user;
@@ -524,6 +536,30 @@ public class Troll implements Serializable {
         this.weightM = weightM;
     }
 
+    public Integer getLevel() {
+        return level;
+    }
+    
+    public void setLevel(Integer level) {
+        this.level = level;
+    }
+
+    public Integer getKill() {
+        return kill;
+    }
+    
+    public void setKill(Integer kill) {
+        this.kill = kill;
+    }
+
+    public Integer getDeath() {
+        return death;
+    }
+    
+    public void setDeath(Integer death) {
+        this.death = death;
+    }
+
     public User getUser() {
         return user;
     }
@@ -604,6 +640,9 @@ public class Troll implements Serializable {
             ", mmM='" + mmM + "'" +
             ", armorM='" + armorM + "'" +
             ", weightM='" + weightM + "'" +
+            ", level='" + level + "'" +
+            ", kill='" + kill + "'" +
+            ", death='" + death + "'" +
             '}';
     }
 }

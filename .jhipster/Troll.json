@@ -337,6 +337,30 @@
             "fieldValidateRules": [
                 "required"
             ]
+        },
+        {
+            "fieldId": 41,
+            "fieldName": "level",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldId": 42,
+            "fieldName": "kill",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldId": 43,
+            "fieldName": "death",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required"
+            ]
         }
     ],
     "changelogDate": "20160226033555",

@@ -3,6 +3,9 @@ package com.mountyhub.app.service.util;
 import com.mountyhub.app.domain.enumeration.ScriptName;
 import com.mountyhub.app.domain.enumeration.ScriptType;
 
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+
 /**
  * Created by Theo on 2/27/16.
  */
@@ -31,6 +34,12 @@ public final class MountyHallScriptUtil {
             default:
                 return 0;
         }
+    }
+
+    public static ZonedDateTime parseDate(String date) {
+        // 2016-02-03 04:54:13
+        date = date.replace(" ", "T") + "+01:00[Europe/Paris]";
+        return ZonedDateTime.parse(date, DateTimeFormatter.ISO_ZONED_DATE_TIME);
     }
 
 }

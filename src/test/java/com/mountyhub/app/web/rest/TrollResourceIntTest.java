@@ -54,8 +54,8 @@ public class TrollResourceIntTest {
     private static final String DEFAULT_NAME = "AAAAA";
     private static final String UPDATED_NAME = "BBBBB";
     
-    private static final TrollRace DEFAULT_RACE = TrollRace.TOMAWAK;
-    private static final TrollRace UPDATED_RACE = TrollRace.DURAKUIR;
+    private static final TrollRace DEFAULT_RACE = TrollRace.Tomawak;
+    private static final TrollRace UPDATED_RACE = TrollRace.Durakuir;
 
     private static final ZonedDateTime DEFAULT_BIRTH_DATE = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneId.systemDefault());
     private static final ZonedDateTime UPDATED_BIRTH_DATE = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);

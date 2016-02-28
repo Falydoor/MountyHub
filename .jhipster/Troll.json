@@ -37,7 +37,7 @@
             "fieldId": 3,
             "fieldName": "race",
             "fieldType": "TrollRace",
-            "fieldValues": "TOMAWAK,DURAKUIR,KASTAR,SKRIM,DARKLING,NKRWAPU",
+            "fieldValues": "Tomawak,Durakuir,Kastar,Skrim,Darkling,Nkrwapu",
             "fieldValidateRules": [
                 "required"
             ]

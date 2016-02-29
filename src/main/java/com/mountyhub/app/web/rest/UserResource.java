@@ -2,6 +2,7 @@ package com.mountyhub.app.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.mountyhub.app.domain.Authority;
+import com.mountyhub.app.domain.Troll;
 import com.mountyhub.app.domain.User;
 import com.mountyhub.app.exception.MountyHallScriptException;
 import com.mountyhub.app.exception.MountyHubException;
@@ -85,16 +86,21 @@ public class UserResource {
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<Void> addTroll(Long number, String restrictedPassword) {
+    public ResponseEntity<?> addTroll(Long number, String restrictedPassword) throws URISyntaxException {
         log.debug("REST request to add Troll : {} {}", number, restrictedPassword);
+        Troll troll = new Troll();
+        troll.setNumber(number);
+        troll.setRestrictedPassword(restrictedPassword);
         try {
-            trollService.addTroll(number, restrictedPassword);
+            troll = trollService.createUpdateTroll(troll);
         } catch (IOException e) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("troll", "", "Erreur lors de la récuperation des infos de votre troll " + number.toString() + " !")).build();
         } catch (MountyHubException | MountyHallScriptException e) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("troll", "", e.getMessage())).build();
         }
-        return ResponseEntity.ok().headers(HeaderUtil.createAlert("Votre troll " + number.toString() + " a bien été lié !", "")).build();
+        return ResponseEntity.created(new URI("/myTroll"))
+            .headers(HeaderUtil.createAlert("Votre troll " + number.toString() + " a bien été lié !", ""))
+            .body(troll);
     }
 
     /**

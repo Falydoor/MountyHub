@@ -14,9 +14,4 @@ angular.module('mountyhubApp')
             },
             'update': {method: 'PUT'}
         });
-    })
-    .factory('AddTroll', function ($resource, DateUtils) {
-        return $resource('api/addTroll', {}, {
-            'query': {method: 'GET', params: {number: 1, restrictedPassword: 'a'}}
-        });
     });

@@ -79,30 +79,6 @@ public class UserResource {
     @Inject
     private UserService userService;
 
-    @Inject
-    private TrollService trollService;
-
-    @RequestMapping(value = "/addTroll",
-        method = RequestMethod.GET,
-        produces = MediaType.APPLICATION_JSON_VALUE)
-    @Timed
-    public ResponseEntity<?> addTroll(Long number, String restrictedPassword) throws URISyntaxException {
-        log.debug("REST request to add Troll : {} {}", number, restrictedPassword);
-        Troll troll = new Troll();
-        troll.setNumber(number);
-        troll.setRestrictedPassword(restrictedPassword);
-        try {
-            troll = trollService.createUpdateTroll(troll);
-        } catch (IOException e) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("troll", "", "Erreur lors de la récuperation des infos de votre troll " + number.toString() + " !")).build();
-        } catch (MountyHubException | MountyHallScriptException e) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("troll", "", e.getMessage())).build();
-        }
-        return ResponseEntity.created(new URI("/myTroll"))
-            .headers(HeaderUtil.createAlert("Votre troll " + number.toString() + " a bien été lié !", ""))
-            .body(troll);
-    }
-
     /**
      * POST  /users -> Creates a new user.
      * <p>

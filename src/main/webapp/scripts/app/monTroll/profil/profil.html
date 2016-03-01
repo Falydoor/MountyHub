@@ -1,0 +1,77 @@
+<div class="row" ng-show="!troll.number">
+    <div class="container-fluid">
+        <!--<jh-alert></jh-alert>-->
+        <!--<jh-alert-error></jh-alert-error>-->
+        <h4>
+            Vous n'avez pas de Troll associé à votre compte.
+            <br>
+            <br>
+            Vous devez tout d'abord en ajouter un afin d'utiliser pleinement MountyHub !
+        </h4>
+    </div>
+    <div class="col-md-4">
+        <div class="form-group">
+            <label for="number">Numéro du troll</label>
+            <input type="text" class="form-control" id="number" ng-model="troll.number">
+        </div>
+        <div class="form-group">
+            <label for="restrictedPassword">Mot de passe restreint</label>
+            <input type="password" class="form-control" id="restrictedPassword" ng-model="troll.restrictedPassword">
+        </div>
+        <button class="btn btn-primary" ng-click="addTroll()">Ajouter mon troll</button>
+    </div>
+</div>
+<div class="row" ng-show="troll.number">
+    <h1 class="text-center">{{troll.name}} <a
+        href="http://games.mountyhall.com/mountyhall/View/PJView.php?ai_IDPJ={{troll.number}}"
+        target="_blank">{{troll.number}}</a></h1>
+    <div class="col-md-6">
+        <h3 class="text-center">Caractéristiques</h3>
+        <table class="table table-hover" style="background-color: white">
+            <tr>
+                <th>Nom</th>
+                <th class="text-center">Base</th>
+                <th class="text-center">Physique</th>
+                <th class="text-center">Magique</th>
+                <th class="text-center">Total (moy.)</th>
+            </tr>
+            <tr ng-repeat="carac in caracs">
+                <td>{{carac.n}}</td>
+                <td class="text-center">{{troll[carac.p]}} {{carac.d}}</td>
+                <td class="text-center{{addContext(troll[carac.p + 'P'])}}">{{addSign(troll[carac.p + 'P'])}}</td>
+                <td class="text-center{{addContext(troll[carac.p + 'M'])}}">{{addSign(troll[carac.p + 'M'])}}</td>
+                <td class="text-center">{{troll[carac.p]}} {{carac.d}} {{addSign(troll[carac.p + 'P'] + troll[carac.p +
+                    'M'])}}
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-md-6">
+        <h3 class="text-center">État</h3>
+    </div>
+    <div class="col-md-6">
+        <h3 class="text-center">Appel scripts (24H)</h3>
+        <table class="table table-hover" style="background-color: white">
+            <tr>
+                <th>Nom</th>
+                <th class="text-center">Compteur</th>
+            </tr>
+            <tr>
+                <td>Dynamique (limité à 5)</td>
+                <td class="text-center">{{troll.scriptDynamiqueByDay}}</td>
+            </tr>
+            <tr>
+                <td>Statique (limité à 2)</td>
+                <td class="text-center">{{troll.scriptStatiqueByDay}}</td>
+            </tr>
+            <tr>
+                <td>Message (limité à 2)</td>
+                <td class="text-center">{{troll.scriptMessageByDay}}</td>
+            </tr>
+            <tr>
+                <td>Appel (limité à 1)</td>
+                <td class="text-center">{{troll.scriptAppelByDay}}</td>
+            </tr>
+        </table>
+    </div>
+</div>

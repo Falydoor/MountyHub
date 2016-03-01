@@ -12,17 +12,23 @@ import com.mountyhub.app.repository.ScriptCallRepository;
 import com.mountyhub.app.repository.TrollRepository;
 import com.mountyhub.app.repository.UserRepository;
 import com.mountyhub.app.service.util.MountyHallScriptUtil;
+import com.mountyhub.app.web.rest.dto.ProfilDTO;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.time.ZonedDateTime;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Service class for managing trolls.
@@ -201,4 +207,27 @@ public class TrollService {
         log.debug("END UPDATING TROLLS");
     }
 
+    @Transactional
+    public ProfilDTO getPrivateProfil() throws MountyHubException {
+        User user = userService.getUserWithAuthorities();
+        ProfilDTO profil = new ProfilDTO();
+
+        if (user.getTroll() == null) {
+            return profil;
+        }
+
+        BeanUtils.copyProperties(user.getTroll(), profil);
+
+        ZonedDateTime yesterday = ZonedDateTime.now().minusDays(1);
+        Map<ScriptType, Long> groupedScripts = user.getTroll().getScriptCalls().stream()
+            .filter(script -> script.getDateCalled().isAfter(yesterday))
+            .collect(Collectors.groupingBy(ScriptCall::getType, Collectors.counting()));
+
+        profil.setScriptAppelByDay(groupedScripts.getOrDefault(ScriptType.APPEL, 0L));
+        profil.setScriptDynamiqueByDay(groupedScripts.getOrDefault(ScriptType.DYNAMIQUE, 0L));
+        profil.setScriptMessageByDay(groupedScripts.getOrDefault(ScriptType.MESSAGE, 0L));
+        profil.setScriptStatiqueByDay(groupedScripts.getOrDefault(ScriptType.STATIQUE, 0L));
+
+        return profil;
+    }
 }

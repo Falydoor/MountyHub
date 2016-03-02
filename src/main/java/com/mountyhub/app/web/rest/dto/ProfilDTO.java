@@ -42,9 +42,9 @@ public class ProfilDTO {
 
     private Integer armor;
 
-    private Integer turn;
+    private Float turn;
 
-    private Integer weight;
+    private Float weight;
 
     private Integer focus;
 
@@ -76,7 +76,7 @@ public class ProfilDTO {
 
     private Integer armorP;
 
-    private Integer weightP;
+    private Float weightP;
 
     private Integer viewM;
 
@@ -86,7 +86,7 @@ public class ProfilDTO {
 
     private Integer armorM;
 
-    private Integer weightM;
+    private Float weightM;
 
     private Integer level;
 
@@ -105,6 +105,36 @@ public class ProfilDTO {
     private String restrictedPassword;
 
     private Integer percentHitPoint;
+
+    private String turnFormatted;
+
+    private String turnTotalFormatted;
+
+    private String weightFormatted;
+
+    public String getWeightFormatted() {
+        return weightFormatted;
+    }
+
+    public void setWeightFormatted(String weightFormatted) {
+        this.weightFormatted = weightFormatted;
+    }
+
+    public String getTurnFormatted() {
+        return turnFormatted;
+    }
+
+    public void setTurnFormatted(String turnFormatted) {
+        this.turnFormatted = turnFormatted;
+    }
+
+    public String getTurnTotalFormatted() {
+        return turnTotalFormatted;
+    }
+
+    public void setTurnTotalFormatted(String turnTotalFormatted) {
+        this.turnTotalFormatted = turnTotalFormatted;
+    }
 
     public Integer getPercentHitPoint() {
         return percentHitPoint;
@@ -250,22 +280,6 @@ public class ProfilDTO {
         this.armor = armor;
     }
 
-    public Integer getTurn() {
-        return turn;
-    }
-
-    public void setTurn(Integer turn) {
-        this.turn = turn;
-    }
-
-    public Integer getWeight() {
-        return weight;
-    }
-
-    public void setWeight(Integer weight) {
-        this.weight = weight;
-    }
-
     public Integer getFocus() {
         return focus;
     }
@@ -386,14 +400,6 @@ public class ProfilDTO {
         this.armorP = armorP;
     }
 
-    public Integer getWeightP() {
-        return weightP;
-    }
-
-    public void setWeightP(Integer weightP) {
-        this.weightP = weightP;
-    }
-
     public Integer getViewM() {
         return viewM;
     }
@@ -424,14 +430,6 @@ public class ProfilDTO {
 
     public void setArmorM(Integer armorM) {
         this.armorM = armorM;
-    }
-
-    public Integer getWeightM() {
-        return weightM;
-    }
-
-    public void setWeightM(Integer weightM) {
-        this.weightM = weightM;
     }
 
     public Integer getLevel() {
@@ -496,5 +494,37 @@ public class ProfilDTO {
 
     public void setRestrictedPassword(String restrictedPassword) {
         this.restrictedPassword = restrictedPassword;
+    }
+
+    public Float getTurn() {
+        return turn;
+    }
+
+    public void setTurn(Float turn) {
+        this.turn = turn;
+    }
+
+    public Float getWeight() {
+        return weight;
+    }
+
+    public void setWeight(Float weight) {
+        this.weight = weight;
+    }
+
+    public Float getWeightP() {
+        return weightP;
+    }
+
+    public void setWeightP(Float weightP) {
+        this.weightP = weightP;
+    }
+
+    public Float getWeightM() {
+        return weightM;
+    }
+
+    public void setWeightM(Float weightM) {
+        this.weightM = weightM;
     }
 }

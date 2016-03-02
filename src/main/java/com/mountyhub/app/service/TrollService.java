@@ -11,6 +11,7 @@ import com.mountyhub.app.exception.MountyHubException;
 import com.mountyhub.app.repository.ScriptCallRepository;
 import com.mountyhub.app.repository.TrollRepository;
 import com.mountyhub.app.repository.UserRepository;
+import com.mountyhub.app.service.util.DateUtil;
 import com.mountyhub.app.service.util.MountyHallScriptUtil;
 import com.mountyhub.app.web.rest.dto.ProfilDTO;
 import org.apache.commons.lang3.StringUtils;
@@ -25,6 +26,7 @@ import javax.inject.Inject;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.time.Duration;
 import java.time.ZonedDateTime;
 import java.util.Map;
 import java.util.Optional;
@@ -185,8 +187,14 @@ public class TrollService {
                 if (StringUtils.isNotEmpty(sufix) && (i == 5 || i == 10 || i == 12)) {
                     continue;
                 }
-                method = troll.getClass().getMethod("set" + methods[i] + sufix, Integer.class);
-                method.invoke(troll, Integer.parseInt(values[i + 1]));
+                String methodName = "set" + methods[i] + sufix;
+                if (!"Turn".equals(methods[i]) && !"Weight".equals(methods[i])) {
+                    method = troll.getClass().getMethod(methodName, Integer.class);
+                    method.invoke(troll, Integer.parseInt(values[i + 1]));
+                } else {
+                    method = troll.getClass().getMethod(methodName, Float.class);
+                    method.invoke(troll, Float.parseFloat(values[i + 1]));
+                }
             }
         }
     }
@@ -220,6 +228,16 @@ public class TrollService {
 
         // Additionnal fields
         profil.setPercentHitPoint(100 * profil.getCurrentHitPoint() / (profil.getHitPoint() + profil.getHitPointP() + profil.getHitPointM()));
+        Duration turn = Duration.ofMinutes(profil.getTurn().longValue());
+        Float seconds = (profil.getTurn() - turn.toMinutes()) * 60;
+        turn = turn.plusSeconds(seconds.longValue());
+        profil.setTurnFormatted(DateUtil.formatDuration(turn));
+        Duration weight = Duration.ofMinutes(profil.getWeightP().longValue() + profil.getWeightM().longValue());
+        seconds = (profil.getWeightP() + profil.getWeightM() - weight.toMinutes()) * 60;
+        weight = weight.plusSeconds(seconds.longValue());
+        profil.setWeightFormatted(DateUtil.formatDuration(weight));
+        turn = turn.plus(weight);
+        profil.setTurnTotalFormatted(DateUtil.formatDuration(turn));
 
         // Scripts call per day
         ZonedDateTime yesterday = ZonedDateTime.now().minusDays(1);

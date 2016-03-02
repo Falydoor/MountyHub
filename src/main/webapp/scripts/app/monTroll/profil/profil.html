@@ -37,17 +37,28 @@
             </tr>
             <tr ng-repeat="carac in caracs">
                 <td>{{carac.n}}</td>
-                <td class="text-center">{{troll[carac.p]}} {{carac.d}}</td>
+                <td class="text-center">{{troll[carac.p]}}{{carac.d}}</td>
                 <td class="text-center{{addContext(troll[carac.p + 'P'])}}">{{addSign(troll[carac.p + 'P'])}}</td>
                 <td class="text-center{{addContext(troll[carac.p + 'M'])}}">{{addSign(troll[carac.p + 'M'])}}</td>
-                <td class="text-center">{{troll[carac.p]}} {{carac.d}} {{addSign(troll[carac.p + 'P'] + troll[carac.p +
-                    'M'])}}
+                <td class="text-center">{{carac.a(troll[carac.p], troll[carac.p + 'P'], troll[carac.p + 'M'])}}{{carac.s
+                    ? carac.d : ''}}
                 </td>
             </tr>
         </table>
     </div>
     <div class="col-md-6">
         <h3 class="text-center">État</h3>
+        <div class="progress">
+            <div
+                class="progress-bar progress-bar-{{troll.percentHitPoint > 66 ? 'success' : troll.percentHitPoint > 33 ? 'warning' : 'danger'}}"
+                role="progressbar"
+                aria-valuenow="{{troll.currentHitPoint}}"
+                aria-valuemin="0"
+                aria-valuemax="{{troll.hitPoint + troll.hitPointP + troll.hitPointM}}"
+                style="width: {{troll.percentHitPoint}}%;">
+                <span>{{troll.currentHitPoint}} / {{troll.hitPoint + troll.hitPointP + troll.hitPointM}} PV</span>
+            </div>
+        </div>
     </div>
     <div class="col-md-6">
         <h3 class="text-center">Appel scripts (24H)</h3>

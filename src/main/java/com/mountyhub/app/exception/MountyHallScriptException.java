@@ -7,4 +7,8 @@ public class MountyHallScriptException extends Exception {
     public MountyHallScriptException(String message) {
         super(message);
     }
+
+    public MountyHallScriptException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }

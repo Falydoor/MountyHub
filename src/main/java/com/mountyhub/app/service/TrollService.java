@@ -101,7 +101,7 @@ public class TrollService {
 
             return troll;
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            throw new MountyHallScriptException("Erreur lors du parsage du script MountyHall !");
+            throw new MountyHallScriptException("Erreur lors du parsage du script MountyHall !", e);
         }
     }
 

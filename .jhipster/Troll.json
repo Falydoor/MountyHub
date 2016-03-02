@@ -157,7 +157,7 @@
         {
             "fieldId": 18,
             "fieldName": "turn",
-            "fieldType": "Integer",
+            "fieldType": "Float",
             "fieldValidateRules": [
                 "required"
             ]
@@ -165,7 +165,7 @@
         {
             "fieldId": 19,
             "fieldName": "weight",
-            "fieldType": "Integer",
+            "fieldType": "Float",
             "fieldValidateRules": [
                 "required"
             ]
@@ -293,7 +293,7 @@
         {
             "fieldId": 35,
             "fieldName": "weightP",
-            "fieldType": "Integer",
+            "fieldType": "Float",
             "fieldValidateRules": [
                 "required"
             ]
@@ -333,7 +333,7 @@
         {
             "fieldId": 40,
             "fieldName": "weightM",
-            "fieldType": "Integer",
+            "fieldType": "Float",
             "fieldValidateRules": [
                 "required"
             ]

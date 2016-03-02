@@ -67,7 +67,7 @@ class TrollGatlingTest extends Simulation {
             .exec(http("Create new troll")
             .post("/api/trolls")
             .headers(headers_http_authenticated)
-            .body(StringBody("""{"id":null, "number":null, "name":"SAMPLE_TEXT", "race":null, "birthDate":"2020-01-01T00:00:00.000Z", "x":"0", "y":"0", "z":"0", "attack":"0", "dodge":"0", "damage":"0", "regeneration":"0", "hitPoint":"0", "currentHitPoint":"0", "view":"0", "rm":"0", "mm":"0", "armor":"0", "turn":"0", "weight":"0", "focus":"0", "attackP":"0", "dodgeP":"0", "damageP":"0", "regenerationP":"0", "hitPointP":"0", "attackM":"0", "dodgeM":"0", "damageM":"0", "regenerationM":"0", "hitPointM":"0", "viewP":"0", "rmP":"0", "mmP":"0", "armorP":"0", "weightP":"0", "viewM":"0", "rmM":"0", "mmM":"0", "armorM":"0", "weightM":"0", "level":"0", "kill":"0", "death":"0", "restrictedPassword":"SAMPLE_TEXT"}""")).asJSON
+            .body(StringBody("""{"id":null, "number":null, "name":"SAMPLE_TEXT", "race":null, "birthDate":"2020-01-01T00:00:00.000Z", "x":"0", "y":"0", "z":"0", "attack":"0", "dodge":"0", "damage":"0", "regeneration":"0", "hitPoint":"0", "currentHitPoint":"0", "view":"0", "rm":"0", "mm":"0", "armor":"0", "turn":null, "weight":null, "focus":"0", "attackP":"0", "dodgeP":"0", "damageP":"0", "regenerationP":"0", "hitPointP":"0", "attackM":"0", "dodgeM":"0", "damageM":"0", "regenerationM":"0", "hitPointM":"0", "viewP":"0", "rmP":"0", "mmP":"0", "armorP":"0", "weightP":null, "viewM":"0", "rmM":"0", "mmM":"0", "armorM":"0", "weightM":null, "level":"0", "kill":"0", "death":"0", "restrictedPassword":"SAMPLE_TEXT"}""")).asJSON
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_troll_url")))
             .pause(10)

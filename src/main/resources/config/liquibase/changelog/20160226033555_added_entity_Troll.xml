@@ -89,11 +89,11 @@
                 <constraints nullable="false" />
             </column>
             
-            <column name="turn" type="integer">
+            <column name="turn" type="${floatType}">
                 <constraints nullable="false" />
             </column>
             
-            <column name="weight" type="integer">
+            <column name="weight" type="${floatType}">
                 <constraints nullable="false" />
             </column>
             
@@ -157,7 +157,7 @@
                 <constraints nullable="false" />
             </column>
             
-            <column name="weight_p" type="integer">
+            <column name="weight_p" type="${floatType}">
                 <constraints nullable="false" />
             </column>
             
@@ -177,7 +177,7 @@
                 <constraints nullable="false" />
             </column>
             
-            <column name="weight_m" type="integer">
+            <column name="weight_m" type="${floatType}">
                 <constraints nullable="false" />
             </column>
             

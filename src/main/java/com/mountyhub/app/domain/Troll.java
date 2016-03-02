@@ -97,11 +97,11 @@ public class Troll implements Serializable {
     
     @NotNull
     @Column(name = "turn", nullable = false)
-    private Integer turn;
+    private Float turn;
     
     @NotNull
     @Column(name = "weight", nullable = false)
-    private Integer weight;
+    private Float weight;
     
     @NotNull
     @Column(name = "focus", nullable = false)
@@ -165,7 +165,7 @@ public class Troll implements Serializable {
     
     @NotNull
     @Column(name = "weight_p", nullable = false)
-    private Integer weightP;
+    private Float weightP;
     
     @NotNull
     @Column(name = "view_m", nullable = false)
@@ -185,7 +185,7 @@ public class Troll implements Serializable {
     
     @NotNull
     @Column(name = "weight_m", nullable = false)
-    private Integer weightM;
+    private Float weightM;
     
     @NotNull
     @Column(name = "level", nullable = false)
@@ -356,19 +356,19 @@ public class Troll implements Serializable {
         this.armor = armor;
     }
 
-    public Integer getTurn() {
+    public Float getTurn() {
         return turn;
     }
     
-    public void setTurn(Integer turn) {
+    public void setTurn(Float turn) {
         this.turn = turn;
     }
 
-    public Integer getWeight() {
+    public Float getWeight() {
         return weight;
     }
     
-    public void setWeight(Integer weight) {
+    public void setWeight(Float weight) {
         this.weight = weight;
     }
 
@@ -492,11 +492,11 @@ public class Troll implements Serializable {
         this.armorP = armorP;
     }
 
-    public Integer getWeightP() {
+    public Float getWeightP() {
         return weightP;
     }
     
-    public void setWeightP(Integer weightP) {
+    public void setWeightP(Float weightP) {
         this.weightP = weightP;
     }
 
@@ -532,11 +532,11 @@ public class Troll implements Serializable {
         this.armorM = armorM;
     }
 
-    public Integer getWeightM() {
+    public Float getWeightM() {
         return weightM;
     }
     
-    public void setWeightM(Integer weightM) {
+    public void setWeightM(Float weightM) {
         this.weightM = weightM;
     }
 

@@ -100,11 +100,11 @@ public class TrollResourceIntTest {
     private static final Integer DEFAULT_ARMOR = 1;
     private static final Integer UPDATED_ARMOR = 2;
 
-    private static final Integer DEFAULT_TURN = 1;
-    private static final Integer UPDATED_TURN = 2;
+    private static final Float DEFAULT_TURN = 1F;
+    private static final Float UPDATED_TURN = 2F;
 
-    private static final Integer DEFAULT_WEIGHT = 1;
-    private static final Integer UPDATED_WEIGHT = 2;
+    private static final Float DEFAULT_WEIGHT = 1F;
+    private static final Float UPDATED_WEIGHT = 2F;
 
     private static final Integer DEFAULT_FOCUS = 1;
     private static final Integer UPDATED_FOCUS = 2;
@@ -151,8 +151,8 @@ public class TrollResourceIntTest {
     private static final Integer DEFAULT_ARMOR_P = 1;
     private static final Integer UPDATED_ARMOR_P = 2;
 
-    private static final Integer DEFAULT_WEIGHT_P = 1;
-    private static final Integer UPDATED_WEIGHT_P = 2;
+    private static final Float DEFAULT_WEIGHT_P = 1F;
+    private static final Float UPDATED_WEIGHT_P = 2F;
 
     private static final Integer DEFAULT_VIEW_M = 1;
     private static final Integer UPDATED_VIEW_M = 2;
@@ -166,8 +166,8 @@ public class TrollResourceIntTest {
     private static final Integer DEFAULT_ARMOR_M = 1;
     private static final Integer UPDATED_ARMOR_M = 2;
 
-    private static final Integer DEFAULT_WEIGHT_M = 1;
-    private static final Integer UPDATED_WEIGHT_M = 2;
+    private static final Float DEFAULT_WEIGHT_M = 1F;
+    private static final Float UPDATED_WEIGHT_M = 2F;
 
     private static final Integer DEFAULT_LEVEL = 1;
     private static final Integer UPDATED_LEVEL = 2;
@@ -1134,8 +1134,8 @@ public class TrollResourceIntTest {
                 .andExpect(jsonPath("$.[*].rm").value(hasItem(DEFAULT_RM)))
                 .andExpect(jsonPath("$.[*].mm").value(hasItem(DEFAULT_MM)))
                 .andExpect(jsonPath("$.[*].armor").value(hasItem(DEFAULT_ARMOR)))
-                .andExpect(jsonPath("$.[*].turn").value(hasItem(DEFAULT_TURN)))
-                .andExpect(jsonPath("$.[*].weight").value(hasItem(DEFAULT_WEIGHT)))
+                .andExpect(jsonPath("$.[*].turn").value(hasItem(DEFAULT_TURN.doubleValue())))
+                .andExpect(jsonPath("$.[*].weight").value(hasItem(DEFAULT_WEIGHT.doubleValue())))
                 .andExpect(jsonPath("$.[*].focus").value(hasItem(DEFAULT_FOCUS)))
                 .andExpect(jsonPath("$.[*].attackP").value(hasItem(DEFAULT_ATTACK_P)))
                 .andExpect(jsonPath("$.[*].dodgeP").value(hasItem(DEFAULT_DODGE_P)))
@@ -1151,12 +1151,12 @@ public class TrollResourceIntTest {
                 .andExpect(jsonPath("$.[*].rmP").value(hasItem(DEFAULT_RM_P)))
                 .andExpect(jsonPath("$.[*].mmP").value(hasItem(DEFAULT_MM_P)))
                 .andExpect(jsonPath("$.[*].armorP").value(hasItem(DEFAULT_ARMOR_P)))
-                .andExpect(jsonPath("$.[*].weightP").value(hasItem(DEFAULT_WEIGHT_P)))
+                .andExpect(jsonPath("$.[*].weightP").value(hasItem(DEFAULT_WEIGHT_P.doubleValue())))
                 .andExpect(jsonPath("$.[*].viewM").value(hasItem(DEFAULT_VIEW_M)))
                 .andExpect(jsonPath("$.[*].rmM").value(hasItem(DEFAULT_RM_M)))
                 .andExpect(jsonPath("$.[*].mmM").value(hasItem(DEFAULT_MM_M)))
                 .andExpect(jsonPath("$.[*].armorM").value(hasItem(DEFAULT_ARMOR_M)))
-                .andExpect(jsonPath("$.[*].weightM").value(hasItem(DEFAULT_WEIGHT_M)))
+                .andExpect(jsonPath("$.[*].weightM").value(hasItem(DEFAULT_WEIGHT_M.doubleValue())))
                 .andExpect(jsonPath("$.[*].level").value(hasItem(DEFAULT_LEVEL)))
                 .andExpect(jsonPath("$.[*].kill").value(hasItem(DEFAULT_KILL)))
                 .andExpect(jsonPath("$.[*].death").value(hasItem(DEFAULT_DEATH)))
@@ -1191,8 +1191,8 @@ public class TrollResourceIntTest {
             .andExpect(jsonPath("$.rm").value(DEFAULT_RM))
             .andExpect(jsonPath("$.mm").value(DEFAULT_MM))
             .andExpect(jsonPath("$.armor").value(DEFAULT_ARMOR))
-            .andExpect(jsonPath("$.turn").value(DEFAULT_TURN))
-            .andExpect(jsonPath("$.weight").value(DEFAULT_WEIGHT))
+            .andExpect(jsonPath("$.turn").value(DEFAULT_TURN.doubleValue()))
+            .andExpect(jsonPath("$.weight").value(DEFAULT_WEIGHT.doubleValue()))
             .andExpect(jsonPath("$.focus").value(DEFAULT_FOCUS))
             .andExpect(jsonPath("$.attackP").value(DEFAULT_ATTACK_P))
             .andExpect(jsonPath("$.dodgeP").value(DEFAULT_DODGE_P))
@@ -1208,12 +1208,12 @@ public class TrollResourceIntTest {
             .andExpect(jsonPath("$.rmP").value(DEFAULT_RM_P))
             .andExpect(jsonPath("$.mmP").value(DEFAULT_MM_P))
             .andExpect(jsonPath("$.armorP").value(DEFAULT_ARMOR_P))
-            .andExpect(jsonPath("$.weightP").value(DEFAULT_WEIGHT_P))
+            .andExpect(jsonPath("$.weightP").value(DEFAULT_WEIGHT_P.doubleValue()))
             .andExpect(jsonPath("$.viewM").value(DEFAULT_VIEW_M))
             .andExpect(jsonPath("$.rmM").value(DEFAULT_RM_M))
             .andExpect(jsonPath("$.mmM").value(DEFAULT_MM_M))
             .andExpect(jsonPath("$.armorM").value(DEFAULT_ARMOR_M))
-            .andExpect(jsonPath("$.weightM").value(DEFAULT_WEIGHT_M))
+            .andExpect(jsonPath("$.weightM").value(DEFAULT_WEIGHT_M.doubleValue()))
             .andExpect(jsonPath("$.level").value(DEFAULT_LEVEL))
             .andExpect(jsonPath("$.kill").value(DEFAULT_KILL))
             .andExpect(jsonPath("$.death").value(DEFAULT_DEATH))

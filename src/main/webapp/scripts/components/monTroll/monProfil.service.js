@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('mountyhubApp')
-    .factory('Profil', function ($resource) {
-        return $resource('api/profil', {}, {
+    .factory('MonProfil', function ($resource) {
+        return $resource('api/monProfil', {}, {
             'get': {method: 'GET'},
             'save': {method: 'POST'}
         });

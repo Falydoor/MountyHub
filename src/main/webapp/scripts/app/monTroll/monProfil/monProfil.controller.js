@@ -13,7 +13,7 @@ function diceSixAverage(v, vp, vm) {
 }
 
 angular.module('mountyhubApp')
-    .controller('ProfilController', function ($scope, Profil, troll) {
+    .controller('MonProfilController', function ($scope, MonProfil, troll) {
         $scope.troll = troll;
         // n: Name to display, p: Name of the property, d: Dice, a: Average method, s: Suffix
         $scope.caracs = [
@@ -28,12 +28,11 @@ angular.module('mountyhubApp')
             {n: "Maîtrise de la Magie", p: "mm", d: " points", a: total, s: true}
         ];
 
-        if ($scope.troll.number) {
-            $scope.troll.percentHitPoint = 100 * troll.currentHitPoint / (troll.hitPoint + troll.hitPointP + troll.hitPointM);
-        }
-
         $scope.addTroll = function () {
-            Profil.save({number: $scope.troll.number, restrictedPassword: $scope.troll.restrictedPassword});
+            $scope.troll = MonProfil.save({
+                number: $scope.troll.number,
+                restrictedPassword: $scope.troll.restrictedPassword
+            });
         };
 
         $scope.addSign = function (v) {

@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,28 +33,26 @@ public class MyTrollResource {
     @Inject
     private TrollService trollService;
 
-    @RequestMapping(value = "/profil",
+    @RequestMapping(value = "/monProfil",
         method = RequestMethod.POST,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<?> addTroll(Long number, String restrictedPassword) throws URISyntaxException {
-        log.debug("REST request to add Troll : {} {}", number, restrictedPassword);
-        Troll troll = new Troll();
-        troll.setNumber(number);
-        troll.setRestrictedPassword(restrictedPassword);
+    public ResponseEntity<?> addTroll(@RequestBody Troll troll) throws URISyntaxException {
+        log.debug("REST request to add Troll : {} {}", troll.getNumber(), troll.getRestrictedPassword());
         try {
-            troll = trollService.createUpdateTroll(troll);
+            trollService.createUpdateTroll(troll);
+            ProfilDTO profil = trollService.getPrivateProfil();
+            return ResponseEntity.created(new URI("/monProfil"))
+                .headers(HeaderUtil.createAlert("Votre troll " + troll.getNumber().toString() + " a bien été lié !", ""))
+                .body(profil);
         } catch (IOException e) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("troll", "", "Erreur lors de la récuperation des infos de votre troll " + number.toString() + " !")).build();
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("troll", "", "Erreur lors de la récuperation des infos de votre troll " + troll.getNumber().toString() + " !")).build();
         } catch (MountyHubException | MountyHallScriptException e) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("troll", "", e.getMessage())).build();
         }
-        return ResponseEntity.created(new URI("/profil"))
-            .headers(HeaderUtil.createAlert("Votre troll " + number.toString() + " a bien été lié !", ""))
-            .body(troll);
     }
 
-    @RequestMapping(value = "/profil",
+    @RequestMapping(value = "/monProfil",
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
@@ -61,7 +60,7 @@ public class MyTrollResource {
         log.debug("REST request to get Profil");
         try {
             ProfilDTO profil = trollService.getPrivateProfil();
-            return ResponseEntity.created(new URI("/profil"))
+            return ResponseEntity.created(new URI("/monProfil"))
                 .body(profil);
         } catch (MountyHubException e) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("troll", "", e.getMessage())).build();

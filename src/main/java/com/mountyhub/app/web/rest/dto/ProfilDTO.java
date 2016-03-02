@@ -104,6 +104,16 @@ public class ProfilDTO {
 
     private String restrictedPassword;
 
+    private Integer percentHitPoint;
+
+    public Integer getPercentHitPoint() {
+        return percentHitPoint;
+    }
+
+    public void setPercentHitPoint(Integer percentHitPoint) {
+        this.percentHitPoint = percentHitPoint;
+    }
+
     public Long getNumber() {
         return number;
     }

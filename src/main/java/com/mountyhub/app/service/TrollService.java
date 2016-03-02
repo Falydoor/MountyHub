@@ -218,6 +218,10 @@ public class TrollService {
 
         BeanUtils.copyProperties(user.getTroll(), profil);
 
+        // Additionnal fields
+        profil.setPercentHitPoint(100 * profil.getCurrentHitPoint() / (profil.getHitPoint() + profil.getHitPointP() + profil.getHitPointM()));
+
+        // Scripts call per day
         ZonedDateTime yesterday = ZonedDateTime.now().minusDays(1);
         Map<ScriptType, Long> groupedScripts = user.getTroll().getScriptCalls().stream()
             .filter(script -> script.getDateCalled().isAfter(yesterday))

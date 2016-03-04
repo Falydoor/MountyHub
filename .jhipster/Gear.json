@@ -29,7 +29,7 @@
             "fieldId": 3,
             "fieldName": "type",
             "fieldType": "GearType",
-            "fieldValues": "ANNEAU,BOTTES,ARME_1_MAIN,BOUCLIER,ARMURE,TALISMAN,CASQUE,COMPOSANT,CHAMPIGNON,BIDOUILLE,POTION,PARCHEMIN,RUNE",
+            "fieldValues": "ANNEAU,BOTTES,ARME_1_MAIN,BOUCLIER,ARMURE,TALISMAN,CASQUE,COMPOSANT,CHAMPIGNON,BIDOUILLE,POTION,PARCHEMIN,RUNE,INCONNU",
             "fieldValidateRules": [
                 "required"
             ]

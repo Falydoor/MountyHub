@@ -8,5 +8,6 @@
     <include file="classpath:config/liquibase/changelog/20160226033555_added_entity_Troll.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20160227053132_added_relationship_Troll.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20160226035223_added_entity_ScriptCall.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20160304150145_added_entity_Gear.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
 </databaseChangeLog>

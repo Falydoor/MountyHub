@@ -1,0 +1,206 @@
+
+<div>
+    <h2><span>Gear</span> {{gear.id}}</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Field</th>
+                <th>Value</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <span>Number</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{gear.number}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Weared</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{gear.weared}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Type</span>
+                </td>
+                <td>
+                    <span class="form-control-static" translate="{{'mountyhubApp.GearType.' + gear.type}}">{{gear.type}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Identified</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{gear.identified}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Name</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{gear.name}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Template</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{gear.template}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Description</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{gear.description}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Weight</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{gear.weight}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Attack</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{gear.attack}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>AttackM</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{gear.attackM}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Dodge</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{gear.dodge}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>DodgeM</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{gear.dodgeM}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Damage</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{gear.damage}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>DamageM</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{gear.damageM}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Regeneration</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{gear.regeneration}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>HitPoint</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{gear.hitPoint}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>View</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{gear.view}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Rm</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{gear.rm}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Mm</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{gear.mm}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Armor</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{gear.armor}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>ArmorM</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{gear.armorM}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Turn</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{gear.turn}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>troll</span>
+                </td>
+                <td>
+                    <a class="form-control-static" ui-sref="troll.detail({id:gear.troll.id})">{{gear.troll.id}}</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button type="submit"
+            onclick="window.history.back()"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+</div>

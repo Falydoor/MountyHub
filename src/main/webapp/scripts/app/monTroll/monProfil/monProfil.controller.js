@@ -43,7 +43,7 @@ angular.module('mountyhubApp')
             if (v > 0) {
                 return ' success';
             } else if (v < 0) {
-                return 'danger';
+                return ' danger';
             }
         };
 

@@ -66,7 +66,7 @@ public final class MountyHallScriptUtil {
 
         // Get the characteristic of the troll
         String response = IOUtils.toString(new URL(url));
-        scriptCall.setBody(StringUtils.abbreviate(response, 255));
+        scriptCall.setBody(response);
         String[] lines = StringUtils.split(response, "\n");
 
         // Save without troll

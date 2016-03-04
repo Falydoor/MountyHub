@@ -13,7 +13,7 @@
             "fieldId": 1,
             "fieldName": "name",
             "fieldType": "ScriptName",
-            "fieldValues": "SP_Caract,SP_Profil3,SP_ProfilPublic2",
+            "fieldValues": "SP_Caract,SP_Profil3,SP_ProfilPublic2,SP_Equipement",
             "fieldValidateRules": [
                 "required"
             ]

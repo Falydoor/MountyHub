@@ -14,6 +14,13 @@
             "otherEntityName": "scriptCall",
             "relationshipType": "one-to-many",
             "otherEntityRelationshipName": "troll"
+        },
+        {
+            "relationshipId": 3,
+            "relationshipName": "gear",
+            "otherEntityName": "gear",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "troll"
         }
     ],
     "fields": [

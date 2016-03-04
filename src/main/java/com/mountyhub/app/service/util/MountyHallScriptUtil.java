@@ -10,7 +10,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 import java.net.URL;
-import java.nio.charset.Charset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -65,8 +64,8 @@ public final class MountyHallScriptUtil {
 
         checkScriptCallSizeByDay(scriptCall, scriptCallRepository);
 
-        // Get reponse from the script call and encode it in UTF-8
-        String response = StringUtils.toEncodedString(IOUtils.toString(new URL(url)).getBytes(Charset.forName("ISO-8859-1")), Charset.forName("UTF-8"));
+        // Get the characteristic of the troll
+        String response = IOUtils.toString(new URL(url));
         scriptCall.setBody(response);
         String[] lines = StringUtils.split(response, "\n");
 

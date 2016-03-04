@@ -105,6 +105,8 @@ public class GearResourceIntTest {
 
     private static final Integer DEFAULT_TURN = 1;
     private static final Integer UPDATED_TURN = 2;
+    private static final String DEFAULT_PROTECTION = "AAAAA";
+    private static final String UPDATED_PROTECTION = "BBBBB";
 
     @Inject
     private GearRepository gearRepository;
@@ -154,6 +156,7 @@ public class GearResourceIntTest {
         gear.setArmor(DEFAULT_ARMOR);
         gear.setArmorM(DEFAULT_ARMOR_M);
         gear.setTurn(DEFAULT_TURN);
+        gear.setProtection(DEFAULT_PROTECTION);
     }
 
     @Test
@@ -194,6 +197,7 @@ public class GearResourceIntTest {
         assertThat(testGear.getArmor()).isEqualTo(DEFAULT_ARMOR);
         assertThat(testGear.getArmorM()).isEqualTo(DEFAULT_ARMOR_M);
         assertThat(testGear.getTurn()).isEqualTo(DEFAULT_TURN);
+        assertThat(testGear.getProtection()).isEqualTo(DEFAULT_PROTECTION);
     }
 
     @Test
@@ -594,6 +598,24 @@ public class GearResourceIntTest {
 
     @Test
     @Transactional
+    public void checkProtectionIsRequired() throws Exception {
+        int databaseSizeBeforeTest = gearRepository.findAll().size();
+        // set the field null
+        gear.setProtection(null);
+
+        // Create the Gear, which fails.
+
+        restGearMockMvc.perform(post("/api/gears")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(gear)))
+                .andExpect(status().isBadRequest());
+
+        List<Gear> gears = gearRepository.findAll();
+        assertThat(gears).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllGears() throws Exception {
         // Initialize the database
         gearRepository.saveAndFlush(gear);
@@ -624,7 +646,8 @@ public class GearResourceIntTest {
                 .andExpect(jsonPath("$.[*].mm").value(hasItem(DEFAULT_MM)))
                 .andExpect(jsonPath("$.[*].armor").value(hasItem(DEFAULT_ARMOR)))
                 .andExpect(jsonPath("$.[*].armorM").value(hasItem(DEFAULT_ARMOR_M)))
-                .andExpect(jsonPath("$.[*].turn").value(hasItem(DEFAULT_TURN)));
+                .andExpect(jsonPath("$.[*].turn").value(hasItem(DEFAULT_TURN)))
+                .andExpect(jsonPath("$.[*].protection").value(hasItem(DEFAULT_PROTECTION.toString())));
     }
 
     @Test
@@ -659,7 +682,8 @@ public class GearResourceIntTest {
             .andExpect(jsonPath("$.mm").value(DEFAULT_MM))
             .andExpect(jsonPath("$.armor").value(DEFAULT_ARMOR))
             .andExpect(jsonPath("$.armorM").value(DEFAULT_ARMOR_M))
-            .andExpect(jsonPath("$.turn").value(DEFAULT_TURN));
+            .andExpect(jsonPath("$.turn").value(DEFAULT_TURN))
+            .andExpect(jsonPath("$.protection").value(DEFAULT_PROTECTION.toString()));
     }
 
     @Test
@@ -701,6 +725,7 @@ public class GearResourceIntTest {
         gear.setArmor(UPDATED_ARMOR);
         gear.setArmorM(UPDATED_ARMOR_M);
         gear.setTurn(UPDATED_TURN);
+        gear.setProtection(UPDATED_PROTECTION);
 
         restGearMockMvc.perform(put("/api/gears")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -733,6 +758,7 @@ public class GearResourceIntTest {
         assertThat(testGear.getArmor()).isEqualTo(UPDATED_ARMOR);
         assertThat(testGear.getArmorM()).isEqualTo(UPDATED_ARMOR_M);
         assertThat(testGear.getTurn()).isEqualTo(UPDATED_TURN);
+        assertThat(testGear.getProtection()).isEqualTo(UPDATED_PROTECTION);
     }
 
     @Test

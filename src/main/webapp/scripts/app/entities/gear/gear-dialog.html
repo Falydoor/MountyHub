@@ -355,6 +355,18 @@
                 </p>
             </div>
         </div>
+        <div class="form-group">
+            <label class="control-label" for="field_protection">Protection</label>
+            <input type="text" class="form-control" name="protection" id="field_protection"
+                    ng-model="gear.protection"
+                    required />
+            <div ng-show="editForm.protection.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.protection.$error.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
 
         <div class="form-group">
             <label for="field_troll">troll</label>

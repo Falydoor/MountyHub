@@ -113,6 +113,10 @@ public class Gear implements Serializable {
     @Column(name = "turn", nullable = false)
     private Integer turn;
     
+    @NotNull
+    @Column(name = "protection", nullable = false)
+    private String protection;
+    
     @ManyToOne
     @JoinColumn(name = "troll_id")
     private Troll troll;
@@ -301,6 +305,14 @@ public class Gear implements Serializable {
         this.turn = turn;
     }
 
+    public String getProtection() {
+        return protection;
+    }
+    
+    public void setProtection(String protection) {
+        this.protection = protection;
+    }
+
     public Troll getTroll() {
         return troll;
     }
@@ -355,6 +367,7 @@ public class Gear implements Serializable {
             ", armor='" + armor + "'" +
             ", armorM='" + armorM + "'" +
             ", turn='" + turn + "'" +
+            ", protection='" + protection + "'" +
             '}';
     }
 }

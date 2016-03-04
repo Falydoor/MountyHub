@@ -1,18 +1,22 @@
 package com.mountyhub.app.service;
 
+import com.mountyhub.app.domain.Gear;
 import com.mountyhub.app.domain.ScriptCall;
 import com.mountyhub.app.domain.Troll;
 import com.mountyhub.app.domain.User;
+import com.mountyhub.app.domain.enumeration.GearType;
 import com.mountyhub.app.domain.enumeration.ScriptName;
 import com.mountyhub.app.domain.enumeration.ScriptType;
 import com.mountyhub.app.domain.enumeration.TrollRace;
 import com.mountyhub.app.exception.MountyHallScriptException;
 import com.mountyhub.app.exception.MountyHubException;
+import com.mountyhub.app.repository.GearRepository;
 import com.mountyhub.app.repository.ScriptCallRepository;
 import com.mountyhub.app.repository.TrollRepository;
 import com.mountyhub.app.repository.UserRepository;
 import com.mountyhub.app.service.util.DateUtil;
 import com.mountyhub.app.service.util.MountyHallScriptUtil;
+import com.mountyhub.app.service.util.MountyHallUtil;
 import com.mountyhub.app.web.rest.dto.ProfilDTO;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -52,6 +56,9 @@ public class TrollService {
     @Inject
     private ScriptCallRepository scriptCallRepository;
 
+    @Inject
+    private GearRepository gearRepository;
+
     public Troll createUpdateTroll(Troll troll) throws IOException, MountyHubException, MountyHallScriptException {
         // Check if the troll isn't already linked to a user for a troll creation
         User currentUser = null;
@@ -74,9 +81,11 @@ public class TrollService {
         ScriptCall caractCall = MountyHallScriptUtil.createScriptCall(ScriptName.SP_Caract, ScriptType.DYNAMIQUE);
         ScriptCall positionCall = MountyHallScriptUtil.createScriptCall(ScriptName.SP_Profil3, ScriptType.DYNAMIQUE);
         ScriptCall profilCall = MountyHallScriptUtil.createScriptCall(ScriptName.SP_ProfilPublic2, ScriptType.STATIQUE);
+        ScriptCall gearCall = MountyHallScriptUtil.createScriptCall(ScriptName.SP_Equipement, ScriptType.STATIQUE);
         caractCall.setTroll(troll);
         positionCall.setTroll(troll);
         profilCall.setTroll(troll);
+        gearCall.setTroll(troll);
 
         try {
             setTrollCharacteristicFromMHScript(troll, caractCall);
@@ -86,6 +95,9 @@ public class TrollService {
             // Save the troll
             trollRepository.save(troll);
             log.debug("Created Information for Troll: {}", troll);
+
+            // Save gear
+            setTrollGearFromMHScript(troll, gearCall);
 
             // Save script calls
             caractCall.setTroll(troll);
@@ -104,6 +116,49 @@ public class TrollService {
             return troll;
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             throw new MountyHallScriptException("Erreur lors du parsage du script MountyHall !", e);
+        }
+    }
+
+    public void setTrollGearFromMHScript(Troll troll, ScriptCall scriptCall) throws IOException, MountyHallScriptException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+        String[] lines = MountyHallScriptUtil.getScriptCallResponse(scriptCall, scriptCallRepository);
+
+        scriptCall.setSuccessful(true);
+        scriptCallRepository.save(scriptCall);
+
+        for (String line : lines) {
+            line = StringUtils.replace(line, "\\'", "'");
+            String[] values = StringUtils.splitByWholeSeparatorPreserveAllTokens(line, ";");
+
+            // ID, équipé ? ; type ; identifié ? ; nom ; magie ; description ; poids
+            Gear gear = new Gear();
+            gear.setNumber(Long.valueOf(values[0]));
+            gear.setWeared(Integer.valueOf(values[1]) > 0);
+            gear.setType(GearType.fromString(values[2]));
+            gear.setIdentified("1".equals(values[3]));
+            gear.setName(values[4]);
+            gear.setTemplate(values[5]);
+            gear.setDescription(values[6]);
+            gear.setWeight(Float.valueOf(values[7]));
+            gear.setArmor(0);
+            gear.setArmorM(0);
+            gear.setAttack(0);
+            gear.setAttackM(0);
+            gear.setDamage(0);
+            gear.setDamageM(0);
+            gear.setDodge(0);
+            gear.setDodgeM(0);
+            gear.setHitPoint(0);
+            gear.setMm(0);
+            gear.setRm(0);
+            gear.setRegeneration(0);
+            gear.setView(0);
+            gear.setTurn(0);
+            gear.setProtection("");
+            if (gear.getWeared()) {
+                MountyHallUtil.setCharacteristicsFromDescription(gear, gear.getDescription());
+            }
+            gear.setTroll(troll);
+            gearRepository.save(gear);
         }
     }
 
@@ -166,7 +221,6 @@ public class TrollService {
             scriptCallRepository.save(scriptCall);
 
             // Attaque; Esquive; Dégats; Régénération; PVMax; PVActuels; Portée deVue; RM; MM; Armure; Duree du Tour; Poids; Concentration
-            String[] methods = new String[]{"Attack", "Dodge", "Damage", "Regeneration", "HitPoint", "CurrentHitPoint", "View", "Rm", "Mm", "Armor", "Turn", "Weight", "Focus"};
             Method method;
 
             String sufix;
@@ -182,13 +236,13 @@ public class TrollService {
             }
 
             // Set characteristics of the troll
-            for (int i = 0; i < methods.length; ++i) {
+            for (int i = 0; i < MountyHallUtil.methodsByName.length; ++i) {
                 // CurrentHitPoint, Turn and Focus are skipped for P/M
                 if (StringUtils.isNotEmpty(sufix) && (i == 5 || i == 10 || i == 12)) {
                     continue;
                 }
-                String methodName = "set" + methods[i] + sufix;
-                if (!"Turn".equals(methods[i]) && !"Weight".equals(methods[i])) {
+                String methodName = "set" + MountyHallUtil.methodsByName[i] + sufix;
+                if (!"Turn".equals(MountyHallUtil.methodsByName[i]) && !"Weight".equals(MountyHallUtil.methodsByName[i])) {
                     method = troll.getClass().getMethod(methodName, Integer.class);
                     method.invoke(troll, Integer.parseInt(values[i + 1]));
                 } else {

@@ -25,13 +25,13 @@ public final class MountyHallScriptUtil {
                 return 1;
             case DYNAMIQUE:
                 // 24
-                return 5;
+                return 12;
             case MESSAGE:
                 // 12
-                return 2;
+                return 6;
             case STATIQUE:
                 // 10
-                return 2;
+                return 5;
             default:
                 return 0;
         }

@@ -324,4 +324,19 @@ public class TrollService {
 
         return profil;
     }
+
+    public void deleteTroll() throws MountyHubException {
+        User currentUser = userService.getUserWithAuthorities();
+
+        // No troll linked to user
+        if (currentUser.getTroll() == null) {
+            throw new MountyHubException("Votre utilisateur n'a pas de troll lié !");
+        }
+
+        // Set troll deleted and remove it from the user
+        currentUser.getTroll().setDeleted(true);
+        trollRepository.save(currentUser.getTroll());
+        currentUser.setTroll(null);
+        userRepository.save(currentUser);
+    }
 }

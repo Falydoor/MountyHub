@@ -35,6 +35,10 @@ angular.module('mountyhubApp')
             });
         };
 
+        $scope.deleteTroll = function () {
+            $scope.troll = MonProfil.delete();
+        };
+
         $scope.addSign = function (v) {
             return v >= 0 ? '+' + v : v;
         };

@@ -4,6 +4,7 @@ import com.codahale.metrics.annotation.Timed;
 import com.mountyhub.app.domain.Troll;
 import com.mountyhub.app.exception.MountyHallScriptException;
 import com.mountyhub.app.exception.MountyHubException;
+import com.mountyhub.app.security.SecurityUtils;
 import com.mountyhub.app.service.TrollService;
 import com.mountyhub.app.web.rest.dto.ProfilDTO;
 import com.mountyhub.app.web.rest.util.HeaderUtil;
@@ -49,6 +50,23 @@ public class MyTrollResource {
         } catch (IOException e) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("troll", "", "Erreur lors de la récuperation des infos de votre troll " + troll.getNumber().toString() + " !")).build();
         } catch (MountyHubException | MountyHallScriptException e) {
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("troll", "", e.getMessage())).build();
+        }
+    }
+
+    @RequestMapping(value = "/monProfil",
+        method = RequestMethod.DELETE,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<?> deleteTroll() throws URISyntaxException {
+        log.debug("REST request to delete Troll from : {}", SecurityUtils.getCurrentUser().getUsername());
+        try {
+            trollService.deleteTroll();
+            ProfilDTO profil = trollService.getPrivateProfil();
+            return ResponseEntity.created(new URI("/monProfil"))
+                .headers(HeaderUtil.createAlert("Votre troll a bien été supprimé !", ""))
+                .body(profil);
+        } catch (MountyHubException e) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("troll", "", e.getMessage())).build();
         }
     }

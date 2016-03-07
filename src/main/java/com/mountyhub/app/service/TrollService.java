@@ -17,6 +17,7 @@ import com.mountyhub.app.repository.UserRepository;
 import com.mountyhub.app.service.util.DateUtil;
 import com.mountyhub.app.service.util.MountyHallScriptUtil;
 import com.mountyhub.app.service.util.MountyHallUtil;
+import com.mountyhub.app.web.rest.dto.GearDTO;
 import com.mountyhub.app.web.rest.dto.ProfilDTO;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -32,6 +33,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.time.Duration;
 import java.time.ZonedDateTime;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -282,6 +284,16 @@ public class TrollService {
 
         // Additionnal fields
         profil.setPercentHitPoint(100 * profil.getCurrentHitPoint() / (profil.getHitPoint() + profil.getHitPointP() + profil.getHitPointM()));
+
+        // Gears
+        List<GearDTO> gearDTOs = user.getTroll().getGears().stream().map(gear -> {
+            GearDTO dto = new GearDTO();
+            BeanUtils.copyProperties(gear, dto);
+            return dto;
+        }).collect(Collectors.toList());
+        profil.setGears(gearDTOs);
+
+        // Turn, weight and turn total fields
         Duration turn = Duration.ofMinutes(profil.getTurn().longValue());
         Float seconds = (profil.getTurn() - turn.toMinutes()) * 60;
         turn = turn.plusSeconds(seconds.longValue());

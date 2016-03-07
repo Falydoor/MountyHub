@@ -28,7 +28,7 @@
     <h3 class="text-center">{{troll.race}} niveau {{troll.level}}</h3>
     <div class="col-md-6">
         <h4 class="text-center">Caractéristiques</h4>
-        <table class="table table-hover" style="background-color: white">
+        <table class="table" style="background-color: white">
             <tr>
                 <th>Nom</th>
                 <th class="text-center">Base</th>
@@ -58,7 +58,7 @@
             </div>
         </div>
         <p class="text-center">X = {{troll.x}} | Y = {{troll.y}} | Z = {{troll.z}}</p>
-        <table class="table table-hover" style="background-color: white">
+        <table class="table" style="background-color: white">
             <tr>
                 <td>Durée tour</td>
                 <td class="text-right">{{troll.turnFormatted}}</td>
@@ -75,7 +75,7 @@
     </div>
     <div class="col-md-3">
         <h4 class="text-center">Appel scripts (24H)</h4>
-        <table class="table table-hover" style="background-color: white">
+        <table class="table" style="background-color: white">
             <tr>
                 <th>Nom</th>
                 <th class="text-center">Compteur</th>
@@ -95,6 +95,23 @@
             <tr>
                 <td>Appel (limité à 1)</td>
                 <td class="text-center">{{troll.scriptAppelByDay}}</td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-md-12">
+        <h4 class="text-center">Equipement</h4>
+        <table class="table" style="background-color: white">
+            <tr>
+                <th>Type</th>
+                <th>Nom</th>
+                <th>Effet</th>
+                <th>Poids</th>
+            </tr>
+            <tr ng-repeat="gear in troll.gears">
+                <td>{{gear.type | capitalize}}</td>
+                <td>{{gear.name}} {{gear.template}}</td>
+                <td>{{gear.description}}</td>
+                <td>{{gear.weight}} min</td>
             </tr>
         </table>
     </div>

@@ -3,6 +3,7 @@ package com.mountyhub.app.web.rest.dto;
 import com.mountyhub.app.domain.enumeration.TrollRace;
 
 import java.time.ZonedDateTime;
+import java.util.List;
 
 /**
  * Created by Theo on 2/29/16.
@@ -111,6 +112,16 @@ public class ProfilDTO {
     private String turnTotalFormatted;
 
     private String weightFormatted;
+
+    private List<GearDTO> gears;
+
+    public List<GearDTO> getGears() {
+        return gears;
+    }
+
+    public void setGears(List<GearDTO> gears) {
+        this.gears = gears;
+    }
 
     public String getWeightFormatted() {
         return weightFormatted;

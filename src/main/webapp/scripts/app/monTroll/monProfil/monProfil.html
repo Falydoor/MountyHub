@@ -63,9 +63,17 @@
                 <td>Durée tour</td>
                 <td class="text-right">{{troll.turnFormatted}}</td>
             </tr>
-            <tr>
-                <td>Durée équipement</td>
-                <td class="text-right">{{troll.weightFormatted}}</td>
+            <tr ng-if="troll.weightTimeFormatted">
+                <td>Poids équipement</td>
+                <td class="text-right">{{troll.weightTimeFormatted}}</td>
+            </tr>
+            <tr ng-if="troll.bonusMalusTimeFormatted">
+                <td>Durée bonus/malus</td>
+                <td class="text-right">{{troll.bonusMalusTimeFormatted}}</td>
+            </tr>
+            <tr ng-if="troll.woundsTimeFormatted">
+                <td>Durée due aux blessures</td>
+                <td class="text-right">{{troll.woundsTimeFormatted}}</td>
             </tr>
             <tr>
                 <td>Durée tour total</td>

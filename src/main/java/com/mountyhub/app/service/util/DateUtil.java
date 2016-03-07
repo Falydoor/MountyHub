@@ -10,6 +10,12 @@ public class DateUtil {
         long hours = duration.toHours();
         long mins = duration.toMinutes() % 60;
         long secs = duration.getSeconds() % 60;
-        return (hours < 10 ? "0" + hours : hours) + "h " + (mins < 10 ? "0" + mins : mins) + "m " + (secs < 10 ? "0" + secs : secs) + "s";
+        return String.format("%02dh %02dm %02ds", hours, mins, secs);
+    }
+
+    public static Duration getDurationFromFloatMinutes(Float minutes) {
+        Duration turn = Duration.ofMinutes(minutes.longValue());
+        Float seconds = (minutes - turn.toMinutes()) * 60;
+        return turn.plusSeconds(seconds.longValue());
     }
 }

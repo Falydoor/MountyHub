@@ -111,9 +111,37 @@ public class ProfilDTO {
 
     private String turnTotalFormatted;
 
-    private String weightFormatted;
+    private String weightTimeFormatted;
 
     private List<GearDTO> gears;
+
+    private String bonusMalusTimeFormatted;
+
+    private String woundsTimeFormatted;
+
+    public String getWeightTimeFormatted() {
+        return weightTimeFormatted;
+    }
+
+    public void setWeightTimeFormatted(String weightTimeFormatted) {
+        this.weightTimeFormatted = weightTimeFormatted;
+    }
+
+    public String getBonusMalusTimeFormatted() {
+        return bonusMalusTimeFormatted;
+    }
+
+    public void setBonusMalusTimeFormatted(String bonusMalusTimeFormatted) {
+        this.bonusMalusTimeFormatted = bonusMalusTimeFormatted;
+    }
+
+    public String getWoundsTimeFormatted() {
+        return woundsTimeFormatted;
+    }
+
+    public void setWoundsTimeFormatted(String woundsTimeFormatted) {
+        this.woundsTimeFormatted = woundsTimeFormatted;
+    }
 
     public List<GearDTO> getGears() {
         return gears;
@@ -121,14 +149,6 @@ public class ProfilDTO {
 
     public void setGears(List<GearDTO> gears) {
         this.gears = gears;
-    }
-
-    public String getWeightFormatted() {
-        return weightFormatted;
-    }
-
-    public void setWeightFormatted(String weightFormatted) {
-        this.weightFormatted = weightFormatted;
     }
 
     public String getTurnFormatted() {

@@ -292,13 +292,12 @@ public class TrollService {
             try {
                 createUpdateTroll(troll);
             } catch (IOException | MountyHubException | MountyHallScriptException e) {
-                log.debug("FAIL TO UPDATE TROLL " + troll.getNumber() + " : " + e.getMessage());
+                log.debug("FAIL TO UPDATE TROLL " + troll.getId() + " : " + e.getMessage());
             }
         });
         log.debug("END UPDATING TROLLS");
     }
 
-    @Transactional
     public ProfilDTO getPrivateProfil() throws MountyHubException {
         User user = userService.getUserWithAuthorities();
         ProfilDTO profil = new ProfilDTO();
@@ -320,17 +319,22 @@ public class TrollService {
         }).collect(Collectors.toList());
         profil.setGears(gearDTOs);
 
-        // Turn, weight and turn total fields
-        Duration turn = Duration.ofMinutes(profil.getTurn().longValue());
-        Float seconds = (profil.getTurn() - turn.toMinutes()) * 60;
-        turn = turn.plusSeconds(seconds.longValue());
+        // Turn, bonus/malus, weight, wounds and total turn
+        Duration turn = DateUtil.getDurationFromFloatMinutes(profil.getTurn());
         profil.setTurnFormatted(DateUtil.formatDuration(turn));
-        Duration weight = Duration.ofMinutes(profil.getWeightP().longValue() + profil.getWeightM().longValue());
-        seconds = (profil.getWeightP() + profil.getWeightM() - weight.toMinutes()) * 60;
-        weight = weight.plusSeconds(seconds.longValue());
-        profil.setWeightFormatted(DateUtil.formatDuration(weight));
-        turn = turn.plus(weight);
-        profil.setTurnTotalFormatted(DateUtil.formatDuration(turn));
+        Duration bonusMalus = DateUtil.getDurationFromFloatMinutes(profil.getWeightM());
+        if (!bonusMalus.isZero()) {
+            profil.setBonusMalusTimeFormatted(DateUtil.formatDuration(bonusMalus));
+        }
+        Duration weight = DateUtil.getDurationFromFloatMinutes(profil.getWeightP());
+        if (!weight.isZero()) {
+            profil.setWeightTimeFormatted(DateUtil.formatDuration(weight));
+        }
+        Duration wounds = DateUtil.getDurationFromFloatMinutes(250F / profil.getHitPoint() * (profil.getHitPoint() - profil.getCurrentHitPoint()));
+        if (!wounds.isZero()) {
+            profil.setWoundsTimeFormatted(DateUtil.formatDuration(wounds));
+        }
+        profil.setTurnTotalFormatted(DateUtil.formatDuration(turn.plus(weight).plus(bonusMalus).plus(wounds)));
 
         // Scripts call per day
         ZonedDateTime yesterday = ZonedDateTime.now().minusDays(1);

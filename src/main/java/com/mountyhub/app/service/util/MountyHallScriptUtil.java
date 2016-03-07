@@ -65,7 +65,7 @@ public final class MountyHallScriptUtil {
         checkScriptCallSizeByDay(scriptCall, scriptCallRepository);
 
         // Get the characteristic of the troll
-        String response = IOUtils.toString(new URL(url));
+        String response = IOUtils.toString(new URL(url), "Windows-1252");
         scriptCall.setBody(response);
         String[] lines = StringUtils.split(response, "\n");
 

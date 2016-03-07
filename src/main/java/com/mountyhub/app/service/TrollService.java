@@ -31,6 +31,7 @@ import javax.inject.Inject;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.nio.charset.Charset;
 import java.time.Duration;
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -137,7 +138,12 @@ public class TrollService {
             gear.setWeared(Integer.valueOf(values[1]) > 0);
             gear.setType(GearType.fromString(values[2]));
             gear.setIdentified("1".equals(values[3]));
-            gear.setName(values[4]);
+            String name = values[4];
+            // Renamed gear
+            if (name.contains("Ã")) {
+                name = StringUtils.toEncodedString(name.getBytes("Windows-1252"), Charset.forName("UTF-8"));
+            }
+            gear.setName(name);
             gear.setTemplate(values[5]);
             gear.setDescription(values[6]);
             gear.setWeight(Float.valueOf(values[7]));

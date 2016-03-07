@@ -96,6 +96,7 @@ angular.module('mountyhubApp')
                                     kill: null,
                                     death: null,
                                     restrictedPassword: null,
+                                    deleted: false,
                                     id: null
                                 };
                             }

@@ -203,6 +203,10 @@ public class Troll implements Serializable {
     @Column(name = "restricted_password", nullable = false)
     private String restrictedPassword;
     
+    @NotNull
+    @Column(name = "deleted", nullable = false)
+    private Boolean deleted;
+    
     @OneToOne(mappedBy = "troll")
     @JsonIgnore
     private User user;
@@ -577,6 +581,14 @@ public class Troll implements Serializable {
         this.restrictedPassword = restrictedPassword;
     }
 
+    public Boolean getDeleted() {
+        return deleted;
+    }
+    
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
+    }
+
     public User getUser() {
         return user;
     }
@@ -669,6 +681,7 @@ public class Troll implements Serializable {
             ", kill='" + kill + "'" +
             ", death='" + death + "'" +
             ", restrictedPassword='" + restrictedPassword + "'" +
+            ", deleted='" + deleted + "'" +
             '}';
     }
 }

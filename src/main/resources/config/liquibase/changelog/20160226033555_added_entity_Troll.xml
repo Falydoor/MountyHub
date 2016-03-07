@@ -197,6 +197,10 @@
                 <constraints nullable="false" />
             </column>
             
+            <column name="deleted" type="bit">
+                <constraints nullable="false" />
+            </column>
+            
             <!-- jhipster-needle-liquibase-add-column - Jhipster will add columns here, do not remove-->
         </createTable>
         <dropDefaultValue tableName="troll" columnName="birth_date" columnDataType="datetime"/>

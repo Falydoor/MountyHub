@@ -40,6 +40,7 @@ public class MyTrollResource {
     public ResponseEntity<?> addTroll(@RequestBody Troll troll) throws URISyntaxException {
         log.debug("REST request to add Troll : {} {}", troll.getNumber(), troll.getRestrictedPassword());
         try {
+            troll.setDeleted(false);
             trollService.createUpdateTroll(troll);
             ProfilDTO profil = trollService.getPrivateProfil();
             return ResponseEntity.created(new URI("/monProfil"))

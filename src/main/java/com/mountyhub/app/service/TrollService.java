@@ -254,11 +254,23 @@ public class TrollService {
 
             // Set characteristics of the troll
             for (int i = 0; i < MountyHallUtil.methodsByName.length; ++i) {
-                // CurrentHitPoint, Turn and Focus are skipped for P/M
-                if (StringUtils.isNotEmpty(sufix) && (i == 5 || i == 10 || i == 12)) {
+                // CurrentHitPoint and Focus are skipped for BMP/BMM
+                if (StringUtils.isNotEmpty(sufix) && (i == 5 || i == 12)) {
+                    continue;
+                }
+                // Weight is skipped for BMM
+                if ("BMM".equals(values[0]) && i == 11) {
+                    continue;
+                }
+                // Turn is skipped for BMP
+                if ("BMP".equals(values[0]) && i == 10) {
                     continue;
                 }
                 String methodName = "set" + MountyHallUtil.methodsByName[i] + sufix;
+                // Turn replace weight for BMM
+                if ("BMM".equals(values[0]) && i == 10) {
+                    methodName = "setWeight" + sufix;
+                }
                 if (!"Turn".equals(MountyHallUtil.methodsByName[i]) && !"Weight".equals(MountyHallUtil.methodsByName[i])) {
                     method = troll.getClass().getMethod(methodName, Integer.class);
                     method.invoke(troll, Integer.parseInt(values[i + 1]));

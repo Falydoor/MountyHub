@@ -78,9 +78,9 @@ public class TrollService {
             }
 
             // Troll already present with a user linked
-            Optional<Troll> trollResult = trollRepository.findOneByNumber(troll.getNumber());
-            if (trollResult.isPresent() && trollResult.get().getUser() != null) {
-                throw new MountyHubException("Le numero de troll " + troll.getNumber() + " est déjà associé à l'utilisteur " + trollResult.get().getUser().getLogin() + " !");
+            Optional<User> userResult = userRepository.findOneByTrollNumber(troll.getNumber());
+            if (userResult.isPresent()) {
+                throw new MountyHubException("Le numero de troll " + troll.getNumber() + " est déjà associé à l'utilisateur " + userResult.get().getLogin() + " !");
             }
         }
 

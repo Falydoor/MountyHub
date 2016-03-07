@@ -3,13 +3,7 @@ package com.mountyhub.app.service.util;
 import com.mountyhub.app.domain.ScriptCall;
 import com.mountyhub.app.domain.enumeration.ScriptName;
 import com.mountyhub.app.domain.enumeration.ScriptType;
-import com.mountyhub.app.exception.MountyHallScriptException;
-import com.mountyhub.app.repository.ScriptCallRepository;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.StringUtils;
 
-import java.io.IOException;
-import java.net.URL;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -56,37 +50,6 @@ public final class MountyHallScriptUtil {
         scriptCall.setType(type);
         scriptCall.setSuccessful(false);
         return scriptCall;
-    }
-
-    public static String[] getScriptCallResponse(ScriptCall scriptCall, ScriptCallRepository scriptCallRepository) throws MountyHallScriptException, IOException {
-        String url = MountyHallScriptUtil.getUrl(scriptCall.getName(), scriptCall.getTroll().getNumber(), scriptCall.getTroll().getRestrictedPassword());
-        scriptCall.setUrl(url);
-
-        checkScriptCallSizeByDay(scriptCall, scriptCallRepository);
-
-        // Get the characteristic of the troll
-        String response = IOUtils.toString(new URL(url), "Windows-1252");
-        scriptCall.setBody(response);
-        String[] lines = StringUtils.split(response, "\n");
-
-        // Save without troll
-        scriptCall.setTroll(null);
-        scriptCallRepository.save(scriptCall);
-
-        // Bad number/password
-        if (StringUtils.startsWith(response, "Erreur")) {
-            throw new MountyHallScriptException("Le numéro de troll ou le mot de passe restreint sont faux !");
-        }
-
-        return lines;
-    }
-
-    public static void checkScriptCallSizeByDay(ScriptCall scriptCall, ScriptCallRepository scriptCallRepository) throws MountyHallScriptException {
-        ZonedDateTime date = scriptCall.getDateCalled().minusDays(1);
-        Long count = scriptCallRepository.countByTrollNumberAndTypeAndSuccessfulTrueAndDateCalledAfter(scriptCall.getTroll().getNumber(), scriptCall.getType(), date);
-        if (count >= MountyHallScriptUtil.getScriptLimitByDay(scriptCall.getType())) {
-            throw new MountyHallScriptException("Limite d'appel par jour des scripts de type " + scriptCall.getType() + " atteinte !");
-        }
     }
 
 }

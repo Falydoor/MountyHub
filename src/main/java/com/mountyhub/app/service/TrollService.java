@@ -43,6 +43,7 @@ import java.util.stream.Collectors;
  * Service class for managing trolls.
  */
 @Service
+@Transactional
 public class TrollService {
 
     private final Logger log = LoggerFactory.getLogger(TrollService.class);
@@ -62,6 +63,9 @@ public class TrollService {
     @Inject
     private GearRepository gearRepository;
 
+    @Inject
+    private ScriptCallService scriptCallService;
+
     public Troll createUpdateTroll(Troll troll) throws IOException, MountyHubException, MountyHallScriptException {
         // Check if the troll isn't already linked to a user for a troll creation
         User currentUser = null;
@@ -73,9 +77,9 @@ public class TrollService {
                 throw new MountyHubException("Votre utilisateur a déjà un troll lié !");
             }
 
-            // Troll already present
+            // Troll already present with a user linked
             Optional<Troll> trollResult = trollRepository.findOneByNumber(troll.getNumber());
-            if (trollResult.isPresent()) {
+            if (trollResult.isPresent() && trollResult.get().getUser() != null) {
                 throw new MountyHubException("Le numero de troll " + troll.getNumber() + " est déjà associé à l'utilisteur " + trollResult.get().getUser().getLogin() + " !");
             }
         }
@@ -85,24 +89,26 @@ public class TrollService {
         ScriptCall positionCall = MountyHallScriptUtil.createScriptCall(ScriptName.SP_Profil3, ScriptType.DYNAMIQUE);
         ScriptCall profilCall = MountyHallScriptUtil.createScriptCall(ScriptName.SP_ProfilPublic2, ScriptType.STATIQUE);
         ScriptCall gearCall = MountyHallScriptUtil.createScriptCall(ScriptName.SP_Equipement, ScriptType.STATIQUE);
-        caractCall.setTroll(troll);
-        positionCall.setTroll(troll);
-        profilCall.setTroll(troll);
-        gearCall.setTroll(troll);
 
         try {
-            setTrollCharacteristicFromMHScript(troll, caractCall);
-            setTrollPositionFromMHScript(troll, positionCall);
-            setTrollProfilFromMHScript(troll, profilCall);
+            // Set characteristic, position and profil
+            scriptCallService.callScript(caractCall, troll);
+            setTrollCharacteristicFromMHScript(caractCall, troll);
+            scriptCallService.callScript(positionCall, troll);
+            setTrollPositionFromMHScript(positionCall, troll);
+            scriptCallService.callScript(profilCall, troll);
+            setTrollProfilFromMHScript(profilCall, troll);
 
             // Save the troll
             trollRepository.save(troll);
             log.debug("Created Information for Troll: {}", troll);
 
             // Save gear
-            setTrollGearFromMHScript(troll, gearCall);
+            scriptCallService.callScript(gearCall, troll);
+            gearCall.setTroll(troll);
+            setTrollGearFromMHScript(gearCall);
 
-            // Save script calls
+            // Save script calls with troll number
             caractCall.setTroll(troll);
             scriptCallRepository.save(caractCall);
             positionCall.setTroll(troll);
@@ -122,11 +128,14 @@ public class TrollService {
         }
     }
 
-    public void setTrollGearFromMHScript(Troll troll, ScriptCall scriptCall) throws IOException, MountyHallScriptException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-        String[] lines = MountyHallScriptUtil.getScriptCallResponse(scriptCall, scriptCallRepository);
+    public void setTrollGearFromMHScript(ScriptCall scriptCall) throws IOException, MountyHallScriptException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+        String[] lines = StringUtils.split(scriptCall.getBody(), "\n");
 
         scriptCall.setSuccessful(true);
         scriptCallRepository.save(scriptCall);
+
+        // Remove old gear
+        gearRepository.deleteByTrollNumber(scriptCall.getTroll().getNumber());
 
         for (String line : lines) {
             line = StringUtils.replace(line, "\\'", "'");
@@ -165,13 +174,13 @@ public class TrollService {
             if (gear.getWeared()) {
                 MountyHallUtil.setCharacteristicsFromDescription(gear, gear.getDescription());
             }
-            gear.setTroll(troll);
+            gear.setTroll(scriptCall.getTroll());
             gearRepository.save(gear);
         }
     }
 
-    public void setTrollProfilFromMHScript(Troll troll, ScriptCall scriptCall) throws MountyHallScriptException, IOException {
-        String[] lines = MountyHallScriptUtil.getScriptCallResponse(scriptCall, scriptCallRepository);
+    public void setTrollProfilFromMHScript(ScriptCall scriptCall, Troll troll) throws MountyHallScriptException, IOException {
+        String[] lines = StringUtils.split(scriptCall.getBody(), "\n");
 
         // Bad lines size
         if (lines.length != 1) {
@@ -190,8 +199,8 @@ public class TrollService {
         troll.setDeath(Integer.valueOf(values[10]));
     }
 
-    public void setTrollPositionFromMHScript(Troll troll, ScriptCall scriptCall) throws MountyHallScriptException, IOException {
-        String[] lines = MountyHallScriptUtil.getScriptCallResponse(scriptCall, scriptCallRepository);
+    public void setTrollPositionFromMHScript(ScriptCall scriptCall, Troll troll) throws MountyHallScriptException, IOException {
+        String[] lines = StringUtils.split(scriptCall.getBody(), "\n");
 
         // Bad lines size
         if (lines.length != 1) {
@@ -209,8 +218,8 @@ public class TrollService {
         troll.setZ(Integer.valueOf(values[4]));
     }
 
-    public void setTrollCharacteristicFromMHScript(Troll troll, ScriptCall scriptCall) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, MountyHallScriptException, IOException {
-        String[] lines = MountyHallScriptUtil.getScriptCallResponse(scriptCall, scriptCallRepository);
+    public void setTrollCharacteristicFromMHScript(ScriptCall scriptCall, Troll troll) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, MountyHallScriptException, IOException {
+        String[] lines = StringUtils.split(scriptCall.getBody(), "\n");
 
         // Bad lines size
         if (lines.length != 3) {

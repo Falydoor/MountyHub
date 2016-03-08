@@ -155,7 +155,7 @@ public class TrollService {
             gear.setName(name);
             gear.setTemplate(values[5]);
             gear.setDescription(values[6]);
-            gear.setWeight(Float.valueOf(values[7]));
+            gear.setWeight(gear.getIdentified() ? Float.valueOf(values[7]) : 0);
             gear.setArmor(0);
             gear.setArmorM(0);
             gear.setAttack(0);

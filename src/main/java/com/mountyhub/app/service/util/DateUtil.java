@@ -9,6 +9,9 @@ import java.time.format.DateTimeFormatter;
  */
 public class DateUtil {
     public static String formatDuration(Duration duration) {
+        if (duration.isZero()) {
+            return null;
+        }
         long hours = duration.toHours();
         long mins = duration.toMinutes() % 60;
         long secs = duration.getSeconds() % 60;
@@ -31,5 +34,11 @@ public class DateUtil {
         long mins = duration.toMinutes() % 60;
         long secs = duration.getSeconds() % 60;
         return (days > 0 ? days + "j " : "") + (mins > 0 ? mins + "m " : "") + secs + "s";
+    }
+
+    public static ZonedDateTime parseDateFromMHScript(String date) {
+        // 2016-02-03 04:54:13
+        date = date.replace(" ", "T") + "+01:00[Europe/Paris]";
+        return ZonedDateTime.parse(date, DateTimeFormatter.ISO_ZONED_DATE_TIME);
     }
 }

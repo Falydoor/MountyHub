@@ -1,8 +1,11 @@
 package com.mountyhub.app.web.rest.dto;
 
+import com.mountyhub.app.domain.enumeration.ScriptName;
+import com.mountyhub.app.domain.enumeration.ScriptType;
 import com.mountyhub.app.domain.enumeration.TrollRace;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Theo on 2/29/16.
@@ -94,14 +97,6 @@ public class ProfilDTO {
 
     private Integer death;
 
-    private Long scriptDynamiqueByDay;
-
-    private Long scriptStatiqueByDay;
-
-    private Long scriptMessageByDay;
-
-    private Long scriptAppelByDay;
-
     private String restrictedPassword;
 
     private Integer percentHitPoint;
@@ -118,34 +113,34 @@ public class ProfilDTO {
 
     private String woundsTimeFormatted;
 
-    private String lastGearDate;
+    private Integer totalHitPoint;
 
-    private String lastCharacteristicDate;
+    private Map<ScriptType, Long> scriptCallByDay;
 
-    private String lastStateDate;
+    private Map<ScriptName, String> scriptCallLastCall;
 
-    public String getLastGearDate() {
-        return lastGearDate;
+    public Map<ScriptName, String> getScriptCallLastCall() {
+        return scriptCallLastCall;
     }
 
-    public void setLastGearDate(String lastGearDate) {
-        this.lastGearDate = lastGearDate;
+    public void setScriptCallLastCall(Map<ScriptName, String> scriptCallLastCall) {
+        this.scriptCallLastCall = scriptCallLastCall;
     }
 
-    public String getLastCharacteristicDate() {
-        return lastCharacteristicDate;
+    public Map<ScriptType, Long> getScriptCallByDay() {
+        return scriptCallByDay;
     }
 
-    public void setLastCharacteristicDate(String lastCharacteristicDate) {
-        this.lastCharacteristicDate = lastCharacteristicDate;
+    public void setScriptCallByDay(Map<ScriptType, Long> scriptCallByDay) {
+        this.scriptCallByDay = scriptCallByDay;
     }
 
-    public String getLastStateDate() {
-        return lastStateDate;
+    public Integer getTotalHitPoint() {
+        return totalHitPoint;
     }
 
-    public void setLastStateDate(String lastStateDate) {
-        this.lastStateDate = lastStateDate;
+    public void setTotalHitPoint(Integer totalHitPoint) {
+        this.totalHitPoint = totalHitPoint;
     }
 
     public String getWeightTimeFormatted() {
@@ -514,38 +509,6 @@ public class ProfilDTO {
 
     public void setDeath(Integer death) {
         this.death = death;
-    }
-
-    public Long getScriptDynamiqueByDay() {
-        return scriptDynamiqueByDay;
-    }
-
-    public void setScriptDynamiqueByDay(Long scriptDynamiqueByDay) {
-        this.scriptDynamiqueByDay = scriptDynamiqueByDay;
-    }
-
-    public Long getScriptStatiqueByDay() {
-        return scriptStatiqueByDay;
-    }
-
-    public void setScriptStatiqueByDay(Long scriptStatiqueByDay) {
-        this.scriptStatiqueByDay = scriptStatiqueByDay;
-    }
-
-    public Long getScriptMessageByDay() {
-        return scriptMessageByDay;
-    }
-
-    public void setScriptMessageByDay(Long scriptMessageByDay) {
-        this.scriptMessageByDay = scriptMessageByDay;
-    }
-
-    public Long getScriptAppelByDay() {
-        return scriptAppelByDay;
-    }
-
-    public void setScriptAppelByDay(Long scriptAppelByDay) {
-        this.scriptAppelByDay = scriptAppelByDay;
     }
 
     public String getRestrictedPassword() {

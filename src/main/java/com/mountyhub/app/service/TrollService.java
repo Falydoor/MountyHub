@@ -4,7 +4,6 @@ import com.mountyhub.app.domain.Gear;
 import com.mountyhub.app.domain.ScriptCall;
 import com.mountyhub.app.domain.Troll;
 import com.mountyhub.app.domain.User;
-import com.mountyhub.app.domain.enumeration.GearType;
 import com.mountyhub.app.domain.enumeration.ScriptName;
 import com.mountyhub.app.domain.enumeration.ScriptType;
 import com.mountyhub.app.domain.enumeration.TrollRace;
@@ -31,7 +30,6 @@ import javax.inject.Inject;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.nio.charset.Charset;
 import java.time.Duration;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -92,9 +90,9 @@ public class TrollService {
         }
 
         try {
-            // Set characteristic, position and profil
+            // Set characteristic, state and profil
             ScriptCall caractCall = setTrollCharacteristicFromMHScript(troll);
-            ScriptCall positionCall = setTrollPositionFromMHScript(troll);
+            ScriptCall stateCall = setTrollStateFromMHScript(troll);
             ScriptCall profilCall = setTrollProfilFromMHScript(troll);
 
             // Save the troll
@@ -107,8 +105,8 @@ public class TrollService {
             // Save script calls with troll number
             caractCall.setTroll(troll);
             scriptCallRepository.save(caractCall);
-            positionCall.setTroll(troll);
-            scriptCallRepository.save(positionCall);
+            stateCall.setTroll(troll);
+            scriptCallRepository.save(stateCall);
             profilCall.setTroll(troll);
             scriptCallRepository.save(profilCall);
 
@@ -139,29 +137,12 @@ public class TrollService {
             line = StringUtils.replace(line, "\\'", "'");
             String[] values = StringUtils.splitByWholeSeparatorPreserveAllTokens(line, ";");
 
-            // ID, équipé ? ; type ; identifié ? ; nom ; magie ; description ; poids
-            Long number = Long.valueOf(values[0]);
-            weared.add(number);
-            Optional<Gear> gearResult = gearRepository.findByNumber(number);
+            Optional<Gear> gearResult = gearRepository.findByNumber(Long.valueOf(values[0]));
             Gear gear = gearResult.isPresent() ? gearResult.get() : new Gear();
-            gear.setNumber(number);
-            gear.setWeared(Integer.valueOf(values[1]) > 0);
-            gear.setType(GearType.fromString(values[2]));
-            gear.setIdentified("1".equals(values[3]));
-            String name = values[4];
-            // Renamed gear
-            if (name.contains("Ã")) {
-                name = StringUtils.toEncodedString(name.getBytes("Windows-1252"), Charset.forName("UTF-8"));
-            }
-            gear.setName(name);
-            gear.setTemplate(values[5]);
-            gear.setDescription(values[6]);
-            gear.setWeight(gear.getIdentified() ? Float.valueOf(values[7]) : 0);
-            if (gear.getWeared()) {
-                MountyHallUtil.setCharacteristicsFromDescription(gear, gear.getDescription());
-            }
+            MountyHallScriptUtil.parseGear(gear, values);
             gear.setTroll(troll);
             gearRepository.save(gear);
+            weared.add(gear.getNumber());
         }
 
         // Delete gear that aren't weared
@@ -188,14 +169,14 @@ public class TrollService {
         // numéro; Nom; Race; Niveau; Date d'inscription ; E-mail ; Blason ; Intangible ; Nb mouches ; Nb kills ; Nb morts; Numéro de Guilde; Nniveau de Rang; PNJ ?
         troll.setRace(TrollRace.valueOf(values[2]));
         troll.setLevel(Integer.valueOf(values[3]));
-        troll.setBirthDate(MountyHallScriptUtil.parseDate(values[4]));
+        troll.setBirthDate(DateUtil.parseDateFromMHScript(values[4]));
         troll.setKill(Integer.valueOf(values[9]));
         troll.setDeath(Integer.valueOf(values[10]));
 
         return scriptCall;
     }
 
-    public ScriptCall setTrollPositionFromMHScript(Troll troll) throws MountyHallScriptException, IOException {
+    public ScriptCall setTrollStateFromMHScript(Troll troll) throws MountyHallScriptException, IOException {
         ScriptCall scriptCall = MountyHallScriptUtil.createScriptCall(ScriptName.SP_Profil3);
         scriptCallService.callScript(scriptCall, troll);
 
@@ -209,12 +190,7 @@ public class TrollService {
         scriptCall.setSuccessful(true);
         scriptCallRepository.save(scriptCall);
         String[] values = StringUtils.split(lines[0], ";");
-
-        // ID, Nom; Position X ; Position Y ; Position N ; PA Restant; DLA ; Fatigue ; Camouflage; Invisible ; Intangible ; PX; PX perso; PI; Gigots de Gob'
-        troll.setName(values[1]);
-        troll.setX(Integer.valueOf(values[2]));
-        troll.setY(Integer.valueOf(values[3]));
-        troll.setZ(Integer.valueOf(values[4]));
+        MountyHallScriptUtil.parseState(troll, values);
 
         return scriptCall;
     }
@@ -316,7 +292,8 @@ public class TrollService {
         BeanUtils.copyProperties(troll, profil);
 
         // Additionnal fields
-        profil.setPercentHitPoint(100 * profil.getCurrentHitPoint() / (profil.getHitPoint() + profil.getHitPointP() + profil.getHitPointM()));
+        profil.setTotalHitPoint(profil.getHitPoint() + profil.getHitPointP() + profil.getHitPointM());
+        profil.setPercentHitPoint(100 * profil.getCurrentHitPoint() / profil.getTotalHitPoint());
         profil.setBirthDateFormatted(DateUtil.formatZonedDate(troll.getBirthDate()));
 
         // Gears
@@ -331,38 +308,29 @@ public class TrollService {
         Duration turn = DateUtil.getDurationFromFloatMinutes(profil.getTurn());
         profil.setTurnFormatted(DateUtil.formatDuration(turn));
         Duration bonusMalus = DateUtil.getDurationFromFloatMinutes(profil.getWeightM());
-        if (!bonusMalus.isZero()) {
-            profil.setBonusMalusTimeFormatted(DateUtil.formatDuration(bonusMalus));
-        }
+        profil.setBonusMalusTimeFormatted(DateUtil.formatDuration(bonusMalus));
         Duration weight = DateUtil.getDurationFromFloatMinutes(profil.getWeightP());
-        if (!weight.isZero()) {
-            profil.setWeightTimeFormatted(DateUtil.formatDuration(weight));
-        }
-        Duration wounds = DateUtil.getDurationFromFloatMinutes(250F / profil.getHitPoint() * (profil.getHitPoint() + profil.getHitPointP() + profil.getHitPointM() - profil.getCurrentHitPoint()));
-        if (!wounds.isZero()) {
-            profil.setWoundsTimeFormatted(DateUtil.formatDuration(wounds));
-        }
+        profil.setWeightTimeFormatted(DateUtil.formatDuration(weight));
+        Duration wounds = DateUtil.getDurationFromFloatMinutes(250F / profil.getTotalHitPoint() * (profil.getTotalHitPoint() - profil.getCurrentHitPoint()));
+        profil.setWoundsTimeFormatted(DateUtil.formatDuration(wounds));
         profil.setTurnTotalFormatted(DateUtil.formatDuration(turn.plus(weight).plus(bonusMalus).plus(wounds)));
 
         // Scripts call per day
         ZonedDateTime yesterday = ZonedDateTime.now().minusDays(1);
-        Map<ScriptType, Long> groupedScripts = troll.getScriptCalls().stream()
+        Map<ScriptType, Long> scriptCallByDay = troll.getScriptCalls().stream()
             .filter(script -> script.getSuccessful() && script.getDateCalled().isAfter(yesterday))
             .collect(Collectors.groupingBy(ScriptCall::getType, Collectors.counting()));
-
-        profil.setScriptAppelByDay(groupedScripts.getOrDefault(ScriptType.APPEL, 0L));
-        profil.setScriptDynamiqueByDay(groupedScripts.getOrDefault(ScriptType.DYNAMIQUE, 0L));
-        profil.setScriptMessageByDay(groupedScripts.getOrDefault(ScriptType.MESSAGE, 0L));
-        profil.setScriptStatiqueByDay(groupedScripts.getOrDefault(ScriptType.STATIQUE, 0L));
+        profil.setScriptCallByDay(scriptCallByDay);
 
         // Last scripts call by type
-        Map<ScriptName, List<ScriptCall>> lastGroupedScripts = troll.getScriptCalls().stream()
+        Map<ScriptName, String> scriptCallLastCall = troll.getScriptCalls().stream()
             .filter(ScriptCall::getSuccessful)
             .sorted((sc1, sc2) -> sc2.getDateCalled().compareTo(sc1.getDateCalled()))
-            .collect(Collectors.groupingBy(ScriptCall::getName));
-        profil.setLastCharacteristicDate(DateUtil.formatPassedDate(lastGroupedScripts.get(ScriptName.SP_Caract).get(0).getDateCalled()));
-        profil.setLastGearDate(DateUtil.formatPassedDate(lastGroupedScripts.get(ScriptName.SP_Equipement).get(0).getDateCalled()));
-        profil.setLastStateDate(DateUtil.formatPassedDate(lastGroupedScripts.get(ScriptName.SP_Profil3).get(0).getDateCalled()));
+            .collect(Collectors.groupingBy(ScriptCall::getName))
+            .entrySet()
+            .stream()
+            .collect(Collectors.toMap(Map.Entry::getKey, entry -> DateUtil.formatPassedDate(entry.getValue().get(0).getDateCalled())));
+        profil.setScriptCallLastCall(scriptCallLastCall);
 
         return profil;
     }
@@ -394,7 +362,7 @@ public class TrollService {
                 case "gear":
                     setTrollGearFromMHScript(troll);
                 case "state":
-                    setTrollPositionFromMHScript(troll);
+                    setTrollStateFromMHScript(troll);
                 case "characteristic":
                     setTrollCharacteristicFromMHScript(troll);
                     trollRepository.save(troll);

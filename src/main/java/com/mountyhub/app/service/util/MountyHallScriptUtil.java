@@ -1,12 +1,18 @@
 package com.mountyhub.app.service.util;
 
+import com.mountyhub.app.domain.Gear;
 import com.mountyhub.app.domain.ScriptCall;
+import com.mountyhub.app.domain.Troll;
+import com.mountyhub.app.domain.enumeration.GearType;
 import com.mountyhub.app.domain.enumeration.ScriptName;
 import com.mountyhub.app.domain.enumeration.ScriptType;
 import com.mountyhub.app.exception.MountyHallScriptException;
+import org.apache.commons.lang3.StringUtils;
 
+import java.io.UnsupportedEncodingException;
+import java.lang.reflect.InvocationTargetException;
+import java.nio.charset.Charset;
 import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 
 /**
  * Created by Theo on 2/27/16.
@@ -38,12 +44,6 @@ public final class MountyHallScriptUtil {
         }
     }
 
-    public static ZonedDateTime parseDate(String date) {
-        // 2016-02-03 04:54:13
-        date = date.replace(" ", "T") + "+01:00[Europe/Paris]";
-        return ZonedDateTime.parse(date, DateTimeFormatter.ISO_ZONED_DATE_TIME);
-    }
-
     public static ScriptCall createScriptCall(ScriptName name) throws MountyHallScriptException {
         ScriptType type;
         switch (name) {
@@ -64,6 +64,40 @@ public final class MountyHallScriptUtil {
         scriptCall.setType(type);
         scriptCall.setSuccessful(false);
         return scriptCall;
+    }
+
+    public static void parseGear(Gear gear, String[] values) throws UnsupportedEncodingException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+        // ID, équipé ? ; type ; identifié ? ; nom ; magie ; description ; poids
+        gear.setNumber(Long.parseLong(values[0]));
+        gear.setWeared(Integer.valueOf(values[1]) > 0);
+        gear.setType(GearType.fromString(values[2]));
+        gear.setIdentified("1".equals(values[3]));
+        String name = values[4];
+        // Renamed gear
+        if (name.contains("Ã")) {
+            name = StringUtils.toEncodedString(name.getBytes("Windows-1252"), Charset.forName("UTF-8"));
+        }
+        gear.setName(name);
+        gear.setTemplate(values[5]);
+        gear.setDescription(values[6]);
+        gear.setWeight(gear.getIdentified() ? Float.valueOf(values[7]) : 0);
+        if (gear.getWeared()) {
+            MountyHallUtil.setCharacteristicsFromDescription(gear, gear.getDescription());
+        }
+    }
+
+    public static void parseState(Troll troll, String[] values) {
+        // ID, Nom; Position X ; Position Y ; Position N ; PA Restant; DLA ; Fatigue ; Camouflage; Invisible ; Intangible ; PX; PX perso; PI; Gigots de Gob'
+        troll.setName(values[1]);
+        troll.setX(Integer.valueOf(values[2]));
+        troll.setY(Integer.valueOf(values[3]));
+        troll.setZ(Integer.valueOf(values[4]));
+        troll.setPa(Integer.valueOf(values[5]));
+        troll.setDla(DateUtil.parseDateFromMHScript(values[6]));
+        troll.setStrain(Integer.valueOf(values[7]));
+        troll.setHidden("1".equals(values[8]));
+        troll.setInvisible("1".equals(values[9]));
+        troll.setIntangible("1".equals(values[10]));
     }
 
 }

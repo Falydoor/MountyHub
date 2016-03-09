@@ -29,7 +29,7 @@
     <div class="col-md-6">
         <h4 class="text-center">Caractéristiques <span class="glyphicon glyphicon-refresh" aria-hidden="true"
                                                        ng-click="refreshProfil('characteristic')"
-                                                       uib-tooltip="Mise à jour il y a {{troll.lastCharacteristicDate}}"></span>
+                                                       uib-tooltip="Mise à jour il y a {{troll.scriptCallLastCall.SP_Caract}}"></span>
         </h4>
         <table class="table" style="background-color: white">
             <tr>
@@ -53,14 +53,14 @@
     <div class="col-md-4">
         <h4 class="text-center">État <span class="glyphicon glyphicon-refresh" aria-hidden="true"
                                            ng-click="refreshProfil('state')"
-                                           uib-tooltip="Mis à jour il y a {{troll.lastStateDate}}"></span>
+                                           uib-tooltip="Mis à jour il y a {{troll.scriptCallLastCall.SP_Profil3}}"></span>
         </h4>
         <div class="progress">
             <div
                 class="progress-bar progress-bar-{{troll.percentHitPoint > 66 ? 'success' : troll.percentHitPoint > 33 ? 'warning' : 'danger'}}"
                 role="progressbar"
                 style="width: {{troll.percentHitPoint}}%;">
-                <span>{{troll.currentHitPoint}} / {{troll.hitPoint + troll.hitPointP + troll.hitPointM}} PV</span>
+                <span>{{troll.currentHitPoint}} / {{troll.totalHitPoint}} PV</span>
             </div>
         </div>
         <p class="text-center">X = {{troll.x}} | Y = {{troll.y}} | Z = {{troll.z}}</p>
@@ -96,26 +96,26 @@
             </tr>
             <tr>
                 <td>Dynamique</td>
-                <td class="text-center">{{troll.scriptDynamiqueByDay}}</td>
+                <td class="text-center">{{troll.scriptCallByDay.DYNAMIQUE || 0}}</td>
             </tr>
             <tr>
                 <td>Statique</td>
-                <td class="text-center">{{troll.scriptStatiqueByDay}}</td>
+                <td class="text-center">{{troll.scriptCallByDay.STATIQUE || 0}}</td>
             </tr>
             <tr>
                 <td>Message</td>
-                <td class="text-center">{{troll.scriptMessageByDay}}</td>
+                <td class="text-center">{{troll.scriptCallByDay.MESSAGE || 0}}</td>
             </tr>
             <tr>
                 <td>Appel</td>
-                <td class="text-center">{{troll.scriptAppelByDay}}</td>
+                <td class="text-center">{{troll.scriptCallByDay.APPEL || 0}}</td>
             </tr>
         </table>
     </div>
     <div class="col-md-12">
         <h4 class="text-center">Equipement <span class="glyphicon glyphicon-refresh" aria-hidden="true"
                                                  ng-click="refreshProfil('gear')"
-                                                 uib-tooltip="Mise à jour il y a {{troll.lastGearDate}}"></span>
+                                                 uib-tooltip="Mise à jour il y a {{troll.scriptCallLastCall.SP_Equipement}}"></span>
         </h4>
         <table class="table" style="background-color: white">
             <tr>

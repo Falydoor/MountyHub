@@ -1,20 +1,18 @@
 'use strict';
 
-function total(v, vp, vm) {
-    return v + vp + vm;
-}
-
-function diceThreeAverage(v, vp, vm) {
-    return v * 2 + vp + vm;
-}
-
-function diceSixAverage(v, vp, vm) {
-    return v * 3.5 + vp + vm;
-}
-
 angular.module('mountyhubApp')
     .controller('MonProfilController', function ($scope, MonProfil, troll) {
         $scope.troll = troll;
+        var total = function (v, vp, vm) {
+            return v + vp + vm;
+        };
+        var diceThreeAverage = function (v, vp, vm) {
+            return v * 2 + vp + vm;
+        };
+
+        var diceSixAverage = function (v, vp, vm) {
+            return v * 3.5 + vp + vm;
+        };
         // n: Name to display, p: Name of the property, d: Dice, a: Average method, s: Suffix
         $scope.caracs = [
             {n: "Attaque", p: "attack", d: " D6", a: diceSixAverage},
@@ -28,15 +26,19 @@ angular.module('mountyhubApp')
             {n: "Maîtrise de la Magie", p: "mm", d: " points", a: total, s: true}
         ];
 
+        var callbackSuccess = function (troll) {
+            $scope.troll = troll;
+        };
+
         $scope.addTroll = function () {
-            $scope.troll = MonProfil.save({
+            MonProfil.save({
                 number: $scope.troll.number,
                 restrictedPassword: $scope.troll.restrictedPassword
-            });
+            }, callbackSuccess);
         };
 
         $scope.deleteTroll = function () {
-            $scope.troll = MonProfil.delete();
+            MonProfil.delete({}, callbackSuccess);
         };
 
         $scope.addSign = function (v) {
@@ -52,7 +54,7 @@ angular.module('mountyhubApp')
         };
 
         $scope.refreshProfil = function (refreshType) {
-            $scope.troll = MonProfil.refresh(refreshType);
+            MonProfil.refresh(refreshType, callbackSuccess);
         };
 
     });

@@ -295,6 +295,7 @@ public class TrollService {
         profil.setTotalHitPoint(profil.getHitPoint() + profil.getHitPointP() + profil.getHitPointM());
         profil.setPercentHitPoint(100 * profil.getCurrentHitPoint() / profil.getTotalHitPoint());
         profil.setBirthDateFormatted(DateUtil.formatZonedDate(troll.getBirthDate()));
+        profil.setDla(DateUtil.formatZonedDate(troll.getDla()));
 
         // Gears
         List<GearDTO> gearDTOs = troll.getGears().stream().map(gear -> {

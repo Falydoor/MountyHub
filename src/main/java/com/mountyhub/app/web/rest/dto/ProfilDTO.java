@@ -119,6 +119,66 @@ public class ProfilDTO {
 
     private Map<ScriptName, String> scriptCallLastCall;
 
+    private String dla;
+
+    private Boolean hidden;
+
+    private Boolean invisible;
+
+    private Boolean intangible;
+
+    private Integer strain;
+
+    private Integer pa;
+
+    public Integer getPa() {
+        return pa;
+    }
+
+    public void setPa(Integer pa) {
+        this.pa = pa;
+    }
+
+    public String getDla() {
+        return dla;
+    }
+
+    public void setDla(String dla) {
+        this.dla = dla;
+    }
+
+    public Boolean getHidden() {
+        return hidden;
+    }
+
+    public void setHidden(Boolean hidden) {
+        this.hidden = hidden;
+    }
+
+    public Boolean getInvisible() {
+        return invisible;
+    }
+
+    public void setInvisible(Boolean invisible) {
+        this.invisible = invisible;
+    }
+
+    public Boolean getIntangible() {
+        return intangible;
+    }
+
+    public void setIntangible(Boolean intangible) {
+        this.intangible = intangible;
+    }
+
+    public Integer getStrain() {
+        return strain;
+    }
+
+    public void setStrain(Integer strain) {
+        this.strain = strain;
+    }
+
     public Map<ScriptName, String> getScriptCallLastCall() {
         return scriptCallLastCall;
     }

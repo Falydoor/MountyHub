@@ -28,12 +28,13 @@ public class DateUtil {
         return date.format(DateTimeFormatter.ofPattern("HH:mm:ss dd/MM/YYYY"));
     }
 
-    public static String formatPassedDate(ZonedDateTime date) {
+    public static String formatSinceDate(ZonedDateTime date) {
         Duration duration = Duration.between(date.toLocalDateTime(), ZonedDateTime.now().toLocalDateTime());
         long days = duration.toDays();
+        long hours = duration.toHours();
         long mins = duration.toMinutes() % 60;
         long secs = duration.getSeconds() % 60;
-        return (days > 0 ? days + "j " : "") + (mins > 0 ? mins + "m " : "") + secs + "s";
+        return secs == 0 ? "0s" : (days > 0 ? days + "j " : "") + (hours > 0 ? hours + "h " : "") + (mins > 0 ? mins + "m " : "") + (secs > 0 ? secs + "s" : "");
     }
 
     public static ZonedDateTime parseDateFromMHScript(String date) {

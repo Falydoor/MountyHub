@@ -329,7 +329,7 @@ public class TrollService {
             .collect(Collectors.groupingBy(ScriptCall::getName))
             .entrySet()
             .stream()
-            .collect(Collectors.toMap(Map.Entry::getKey, entry -> DateUtil.formatPassedDate(entry.getValue().get(0).getDateCalled())));
+            .collect(Collectors.toMap(Map.Entry::getKey, entry -> DateUtil.formatSinceDate(entry.getValue().get(0).getDateCalled())));
         profil.setScriptCallLastCall(scriptCallLastCall);
 
         return profil;

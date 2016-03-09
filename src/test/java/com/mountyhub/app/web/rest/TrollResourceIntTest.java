@@ -183,6 +183,25 @@ public class TrollResourceIntTest {
     private static final Boolean DEFAULT_DELETED = false;
     private static final Boolean UPDATED_DELETED = true;
 
+    private static final Boolean DEFAULT_HIDDEN = false;
+    private static final Boolean UPDATED_HIDDEN = true;
+
+    private static final Boolean DEFAULT_INVISIBLE = false;
+    private static final Boolean UPDATED_INVISIBLE = true;
+
+    private static final Boolean DEFAULT_INTANGIBLE = false;
+    private static final Boolean UPDATED_INTANGIBLE = true;
+
+    private static final Integer DEFAULT_STRAIN = 1;
+    private static final Integer UPDATED_STRAIN = 2;
+
+    private static final Integer DEFAULT_PA = 1;
+    private static final Integer UPDATED_PA = 2;
+
+    private static final ZonedDateTime DEFAULT_DLA = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneId.systemDefault());
+    private static final ZonedDateTime UPDATED_DLA = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
+    private static final String DEFAULT_DLA_STR = dateTimeFormatter.format(DEFAULT_DLA);
+
     @Inject
     private TrollRepository trollRepository;
 
@@ -254,6 +273,12 @@ public class TrollResourceIntTest {
         troll.setDeath(DEFAULT_DEATH);
         troll.setRestrictedPassword(DEFAULT_RESTRICTED_PASSWORD);
         troll.setDeleted(DEFAULT_DELETED);
+        troll.setHidden(DEFAULT_HIDDEN);
+        troll.setInvisible(DEFAULT_INVISIBLE);
+        troll.setIntangible(DEFAULT_INTANGIBLE);
+        troll.setStrain(DEFAULT_STRAIN);
+        troll.setPa(DEFAULT_PA);
+        troll.setDla(DEFAULT_DLA);
     }
 
     @Test
@@ -317,6 +342,12 @@ public class TrollResourceIntTest {
         assertThat(testTroll.getDeath()).isEqualTo(DEFAULT_DEATH);
         assertThat(testTroll.getRestrictedPassword()).isEqualTo(DEFAULT_RESTRICTED_PASSWORD);
         assertThat(testTroll.getDeleted()).isEqualTo(DEFAULT_DELETED);
+        assertThat(testTroll.getHidden()).isEqualTo(DEFAULT_HIDDEN);
+        assertThat(testTroll.getInvisible()).isEqualTo(DEFAULT_INVISIBLE);
+        assertThat(testTroll.getIntangible()).isEqualTo(DEFAULT_INTANGIBLE);
+        assertThat(testTroll.getStrain()).isEqualTo(DEFAULT_STRAIN);
+        assertThat(testTroll.getPa()).isEqualTo(DEFAULT_PA);
+        assertThat(testTroll.getDla()).isEqualTo(DEFAULT_DLA);
     }
 
     @Test
@@ -1131,6 +1162,114 @@ public class TrollResourceIntTest {
 
     @Test
     @Transactional
+    public void checkHiddenIsRequired() throws Exception {
+        int databaseSizeBeforeTest = trollRepository.findAll().size();
+        // set the field null
+        troll.setHidden(null);
+
+        // Create the Troll, which fails.
+
+        restTrollMockMvc.perform(post("/api/trolls")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(troll)))
+                .andExpect(status().isBadRequest());
+
+        List<Troll> trolls = trollRepository.findAll();
+        assertThat(trolls).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkInvisibleIsRequired() throws Exception {
+        int databaseSizeBeforeTest = trollRepository.findAll().size();
+        // set the field null
+        troll.setInvisible(null);
+
+        // Create the Troll, which fails.
+
+        restTrollMockMvc.perform(post("/api/trolls")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(troll)))
+                .andExpect(status().isBadRequest());
+
+        List<Troll> trolls = trollRepository.findAll();
+        assertThat(trolls).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkIntangibleIsRequired() throws Exception {
+        int databaseSizeBeforeTest = trollRepository.findAll().size();
+        // set the field null
+        troll.setIntangible(null);
+
+        // Create the Troll, which fails.
+
+        restTrollMockMvc.perform(post("/api/trolls")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(troll)))
+                .andExpect(status().isBadRequest());
+
+        List<Troll> trolls = trollRepository.findAll();
+        assertThat(trolls).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkStrainIsRequired() throws Exception {
+        int databaseSizeBeforeTest = trollRepository.findAll().size();
+        // set the field null
+        troll.setStrain(null);
+
+        // Create the Troll, which fails.
+
+        restTrollMockMvc.perform(post("/api/trolls")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(troll)))
+                .andExpect(status().isBadRequest());
+
+        List<Troll> trolls = trollRepository.findAll();
+        assertThat(trolls).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkPaIsRequired() throws Exception {
+        int databaseSizeBeforeTest = trollRepository.findAll().size();
+        // set the field null
+        troll.setPa(null);
+
+        // Create the Troll, which fails.
+
+        restTrollMockMvc.perform(post("/api/trolls")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(troll)))
+                .andExpect(status().isBadRequest());
+
+        List<Troll> trolls = trollRepository.findAll();
+        assertThat(trolls).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkDlaIsRequired() throws Exception {
+        int databaseSizeBeforeTest = trollRepository.findAll().size();
+        // set the field null
+        troll.setDla(null);
+
+        // Create the Troll, which fails.
+
+        restTrollMockMvc.perform(post("/api/trolls")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(troll)))
+                .andExpect(status().isBadRequest());
+
+        List<Troll> trolls = trollRepository.findAll();
+        assertThat(trolls).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllTrolls() throws Exception {
         // Initialize the database
         trollRepository.saveAndFlush(troll);
@@ -1184,7 +1323,13 @@ public class TrollResourceIntTest {
                 .andExpect(jsonPath("$.[*].kill").value(hasItem(DEFAULT_KILL)))
                 .andExpect(jsonPath("$.[*].death").value(hasItem(DEFAULT_DEATH)))
                 .andExpect(jsonPath("$.[*].restrictedPassword").value(hasItem(DEFAULT_RESTRICTED_PASSWORD.toString())))
-                .andExpect(jsonPath("$.[*].deleted").value(hasItem(DEFAULT_DELETED.booleanValue())));
+                .andExpect(jsonPath("$.[*].deleted").value(hasItem(DEFAULT_DELETED.booleanValue())))
+                .andExpect(jsonPath("$.[*].hidden").value(hasItem(DEFAULT_HIDDEN.booleanValue())))
+                .andExpect(jsonPath("$.[*].invisible").value(hasItem(DEFAULT_INVISIBLE.booleanValue())))
+                .andExpect(jsonPath("$.[*].intangible").value(hasItem(DEFAULT_INTANGIBLE.booleanValue())))
+                .andExpect(jsonPath("$.[*].strain").value(hasItem(DEFAULT_STRAIN)))
+                .andExpect(jsonPath("$.[*].pa").value(hasItem(DEFAULT_PA)))
+                .andExpect(jsonPath("$.[*].dla").value(hasItem(DEFAULT_DLA_STR)));
     }
 
     @Test
@@ -1242,7 +1387,13 @@ public class TrollResourceIntTest {
             .andExpect(jsonPath("$.kill").value(DEFAULT_KILL))
             .andExpect(jsonPath("$.death").value(DEFAULT_DEATH))
             .andExpect(jsonPath("$.restrictedPassword").value(DEFAULT_RESTRICTED_PASSWORD.toString()))
-            .andExpect(jsonPath("$.deleted").value(DEFAULT_DELETED.booleanValue()));
+            .andExpect(jsonPath("$.deleted").value(DEFAULT_DELETED.booleanValue()))
+            .andExpect(jsonPath("$.hidden").value(DEFAULT_HIDDEN.booleanValue()))
+            .andExpect(jsonPath("$.invisible").value(DEFAULT_INVISIBLE.booleanValue()))
+            .andExpect(jsonPath("$.intangible").value(DEFAULT_INTANGIBLE.booleanValue()))
+            .andExpect(jsonPath("$.strain").value(DEFAULT_STRAIN))
+            .andExpect(jsonPath("$.pa").value(DEFAULT_PA))
+            .andExpect(jsonPath("$.dla").value(DEFAULT_DLA_STR));
     }
 
     @Test
@@ -1307,6 +1458,12 @@ public class TrollResourceIntTest {
         troll.setDeath(UPDATED_DEATH);
         troll.setRestrictedPassword(UPDATED_RESTRICTED_PASSWORD);
         troll.setDeleted(UPDATED_DELETED);
+        troll.setHidden(UPDATED_HIDDEN);
+        troll.setInvisible(UPDATED_INVISIBLE);
+        troll.setIntangible(UPDATED_INTANGIBLE);
+        troll.setStrain(UPDATED_STRAIN);
+        troll.setPa(UPDATED_PA);
+        troll.setDla(UPDATED_DLA);
 
         restTrollMockMvc.perform(put("/api/trolls")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -1362,6 +1519,12 @@ public class TrollResourceIntTest {
         assertThat(testTroll.getDeath()).isEqualTo(UPDATED_DEATH);
         assertThat(testTroll.getRestrictedPassword()).isEqualTo(UPDATED_RESTRICTED_PASSWORD);
         assertThat(testTroll.getDeleted()).isEqualTo(UPDATED_DELETED);
+        assertThat(testTroll.getHidden()).isEqualTo(UPDATED_HIDDEN);
+        assertThat(testTroll.getInvisible()).isEqualTo(UPDATED_INVISIBLE);
+        assertThat(testTroll.getIntangible()).isEqualTo(UPDATED_INTANGIBLE);
+        assertThat(testTroll.getStrain()).isEqualTo(UPDATED_STRAIN);
+        assertThat(testTroll.getPa()).isEqualTo(UPDATED_PA);
+        assertThat(testTroll.getDla()).isEqualTo(UPDATED_DLA);
     }
 
     @Test

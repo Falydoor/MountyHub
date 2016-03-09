@@ -1,17 +1,18 @@
 package com.mountyhub.app.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.mountyhub.app.domain.enumeration.TrollRace;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import java.time.ZonedDateTime;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 import java.io.Serializable;
-import java.time.ZonedDateTime;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
+import java.util.Objects;
+
+import com.mountyhub.app.domain.enumeration.TrollRace;
 
 /**
  * A Troll.
@@ -205,6 +206,30 @@ public class Troll implements Serializable {
     @NotNull
     @Column(name = "deleted", nullable = false)
     private Boolean deleted;
+
+    @NotNull
+    @Column(name = "hidden", nullable = false)
+    private Boolean hidden;
+
+    @NotNull
+    @Column(name = "invisible", nullable = false)
+    private Boolean invisible;
+
+    @NotNull
+    @Column(name = "intangible", nullable = false)
+    private Boolean intangible;
+
+    @NotNull
+    @Column(name = "strain", nullable = false)
+    private Integer strain;
+
+    @NotNull
+    @Column(name = "pa", nullable = false)
+    private Integer pa;
+
+    @NotNull
+    @Column(name = "dla", nullable = false)
+    private ZonedDateTime dla;
 
     @OneToOne(mappedBy = "troll")
     @JsonIgnore
@@ -586,6 +611,54 @@ public class Troll implements Serializable {
         this.deleted = deleted;
     }
 
+    public Boolean getHidden() {
+        return hidden;
+    }
+
+    public void setHidden(Boolean hidden) {
+        this.hidden = hidden;
+    }
+
+    public Boolean getInvisible() {
+        return invisible;
+    }
+
+    public void setInvisible(Boolean invisible) {
+        this.invisible = invisible;
+    }
+
+    public Boolean getIntangible() {
+        return intangible;
+    }
+
+    public void setIntangible(Boolean intangible) {
+        this.intangible = intangible;
+    }
+
+    public Integer getStrain() {
+        return strain;
+    }
+
+    public void setStrain(Integer strain) {
+        this.strain = strain;
+    }
+
+    public Integer getPa() {
+        return pa;
+    }
+
+    public void setPa(Integer pa) {
+        this.pa = pa;
+    }
+
+    public ZonedDateTime getDla() {
+        return dla;
+    }
+
+    public void setDla(ZonedDateTime dla) {
+        this.dla = dla;
+    }
+
     public User getUser() {
         return user;
     }
@@ -619,7 +692,7 @@ public class Troll implements Serializable {
             return false;
         }
         Troll troll = (Troll) o;
-        if (troll.id == null || id == null) {
+        if(troll.id == null || id == null) {
             return false;
         }
         return Objects.equals(id, troll.id);
@@ -679,6 +752,12 @@ public class Troll implements Serializable {
             ", death='" + death + "'" +
             ", restrictedPassword='" + restrictedPassword + "'" +
             ", deleted='" + deleted + "'" +
+            ", hidden='" + hidden + "'" +
+            ", invisible='" + invisible + "'" +
+            ", intangible='" + intangible + "'" +
+            ", strain='" + strain + "'" +
+            ", pa='" + pa + "'" +
+            ", dla='" + dla + "'" +
             '}';
     }
 }

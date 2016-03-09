@@ -201,9 +201,35 @@
                 <constraints nullable="false" />
             </column>
             
+            <column name="hidden" type="bit">
+                <constraints nullable="false" />
+            </column>
+            
+            <column name="invisible" type="bit">
+                <constraints nullable="false" />
+            </column>
+            
+            <column name="intangible" type="bit">
+                <constraints nullable="false" />
+            </column>
+            
+            <column name="strain" type="integer">
+                <constraints nullable="false" />
+            </column>
+            
+            <column name="pa" type="integer">
+                <constraints nullable="false" />
+            </column>
+            
+            <column name="dla" type="timestamp">
+                <constraints nullable="false" />
+            </column>
+            
             <!-- jhipster-needle-liquibase-add-column - Jhipster will add columns here, do not remove-->
         </createTable>
         <dropDefaultValue tableName="troll" columnName="birth_date" columnDataType="datetime"/>
+
+        <dropDefaultValue tableName="troll" columnName="dla" columnDataType="datetime"/>
 
         
     </changeSet>

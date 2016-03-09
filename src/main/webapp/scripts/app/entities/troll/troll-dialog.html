@@ -722,6 +722,90 @@
                 </p>
             </div>
         </div>
+        <div class="form-group">
+            <label class="control-label" for="field_hidden">Hidden</label>
+            <input type="checkbox" class="form-control" name="hidden" id="field_hidden"
+                    ng-model="troll.hidden"
+                     />
+            <div ng-show="editForm.hidden.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.hidden.$error.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_invisible">Invisible</label>
+            <input type="checkbox" class="form-control" name="invisible" id="field_invisible"
+                    ng-model="troll.invisible"
+                     />
+            <div ng-show="editForm.invisible.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.invisible.$error.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_intangible">Intangible</label>
+            <input type="checkbox" class="form-control" name="intangible" id="field_intangible"
+                    ng-model="troll.intangible"
+                     />
+            <div ng-show="editForm.intangible.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.intangible.$error.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_strain">Strain</label>
+            <input type="number" class="form-control" name="strain" id="field_strain"
+                    ng-model="troll.strain"
+                    required />
+            <div ng-show="editForm.strain.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.strain.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.strain.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_pa">Pa</label>
+            <input type="number" class="form-control" name="pa" id="field_pa"
+                    ng-model="troll.pa"
+                    required />
+            <div ng-show="editForm.pa.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.pa.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.pa.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_dla">Dla</label>
+            <input type="datetime-local" class="form-control" name="dla" id="field_dla"
+                    ng-model="troll.dla"
+                    required />
+            <div ng-show="editForm.dla.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.dla.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.dla.$error.ZonedDateTimelocal">
+                    This field should be a date and time.
+                </p>
+            </div>
+        </div>
 
     </div>
     <div class="modal-footer">

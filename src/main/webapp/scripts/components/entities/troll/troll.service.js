@@ -9,6 +9,7 @@ angular.module('mountyhubApp')
                 transformResponse: function (data) {
                     data = angular.fromJson(data);
                     data.birthDate = DateUtils.convertDateTimeFromServer(data.birthDate);
+                    data.dla = DateUtils.convertDateTimeFromServer(data.dla);
                     return data;
                 }
             },

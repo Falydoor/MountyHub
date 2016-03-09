@@ -384,6 +384,54 @@
             "fieldValidateRules": [
                 "required"
             ]
+        },
+        {
+            "fieldId": 46,
+            "fieldName": "hidden",
+            "fieldType": "Boolean",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldId": 47,
+            "fieldName": "invisible",
+            "fieldType": "Boolean",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldId": 48,
+            "fieldName": "intangible",
+            "fieldType": "Boolean",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldId": 49,
+            "fieldName": "strain",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldId": 50,
+            "fieldName": "pa",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldId": 51,
+            "fieldName": "dla",
+            "fieldType": "ZonedDateTime",
+            "fieldValidateRules": [
+                "required"
+            ]
         }
     ],
     "changelogDate": "20160226033555",

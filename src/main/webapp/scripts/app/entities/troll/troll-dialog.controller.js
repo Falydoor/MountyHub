@@ -45,4 +45,13 @@ angular.module('mountyhubApp').controller('TrollDialogController',
         $scope.datePickerForBirthDateOpen = function($event) {
             $scope.datePickerForBirthDate.status.opened = true;
         };
+        $scope.datePickerForDla = {};
+
+        $scope.datePickerForDla.status = {
+            opened: false
+        };
+
+        $scope.datePickerForDlaOpen = function($event) {
+            $scope.datePickerForDla.status.opened = true;
+        };
 }]);

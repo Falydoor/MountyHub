@@ -4,6 +4,10 @@ $icon-font-path: "../../bower_components/bootstrap-sass/assets/fonts/bootstrap/"
 @import "../bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
 // endbower
 
+.container{
+    width: 100%;
+}
+
 body {
     background: #fafafa;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -247,4 +251,9 @@ ul#strength {
     display: block;
     width: 100%;
     color: black;
+}
+
+.glyphicon-refresh {
+    color: blue;
+    vertical-align: top;
 }

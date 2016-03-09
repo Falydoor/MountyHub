@@ -5,6 +5,7 @@ angular.module('mountyhubApp')
         return $resource('api/monProfil', {}, {
             get: {method: 'GET'},
             save: {method: 'POST'},
-            delete: {method: 'DELETE'}
+            delete: {method: 'DELETE'},
+            refresh: {method: 'PUT'}
         });
     });

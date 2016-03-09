@@ -25,9 +25,12 @@
     <h1 class="text-center">{{troll.name}} <a
         href="http://games.mountyhall.com/mountyhall/View/PJView.php?ai_IDPJ={{troll.number}}"
         target="_blank">{{troll.number}}</a></h1>
-    <h3 class="text-center">{{troll.race}} niveau {{troll.level}}</h3>
+    <h3 class="text-center">{{troll.race}} niveau {{troll.level}} né le {{troll.birthDateFormatted}}</h3>
     <div class="col-md-6">
-        <h4 class="text-center">Caractéristiques</h4>
+        <h4 class="text-center">Caractéristiques <span class="glyphicon glyphicon-refresh" aria-hidden="true"
+                                                       ng-click="refreshProfil('characteristic')"
+                                                       uib-tooltip="Mise à jour il y a {{troll.lastCharacteristicDate}}"></span>
+        </h4>
         <table class="table" style="background-color: white">
             <tr>
                 <th>Nom</th>
@@ -47,8 +50,11 @@
             </tr>
         </table>
     </div>
-    <div class="col-md-3">
-        <h4 class="text-center">État</h4>
+    <div class="col-md-4">
+        <h4 class="text-center">État <span class="glyphicon glyphicon-refresh" aria-hidden="true"
+                                           ng-click="refreshProfil('SP_Profil3')"
+                                           uib-tooltip="Mis à jour il y a {{troll.lastStateDate}}"></span>
+        </h4>
         <div class="progress">
             <div
                 class="progress-bar progress-bar-{{troll.percentHitPoint > 66 ? 'success' : troll.percentHitPoint > 33 ? 'warning' : 'danger'}}"
@@ -81,7 +87,7 @@
             </tr>
         </table>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-2">
         <h4 class="text-center">Appel scripts (24H)</h4>
         <table class="table" style="background-color: white">
             <tr>
@@ -89,33 +95,45 @@
                 <th class="text-center">Compteur</th>
             </tr>
             <tr>
-                <td>Dynamique (limité à 5)</td>
+                <td>Dynamique</td>
                 <td class="text-center">{{troll.scriptDynamiqueByDay}}</td>
             </tr>
             <tr>
-                <td>Statique (limité à 2)</td>
+                <td>Statique</td>
                 <td class="text-center">{{troll.scriptStatiqueByDay}}</td>
             </tr>
             <tr>
-                <td>Message (limité à 2)</td>
+                <td>Message</td>
                 <td class="text-center">{{troll.scriptMessageByDay}}</td>
             </tr>
             <tr>
-                <td>Appel (limité à 1)</td>
+                <td>Appel</td>
                 <td class="text-center">{{troll.scriptAppelByDay}}</td>
             </tr>
         </table>
     </div>
     <div class="col-md-12">
-        <h4 class="text-center">Equipement</h4>
+        <h4 class="text-center">Equipement <span class="glyphicon glyphicon-refresh" aria-hidden="true"
+                                                 ng-click="refreshProfil('SP_Equipement')"
+                                                 uib-tooltip="Mise à jour il y a {{troll.lastGearDate}}"></span>
+        </h4>
         <table class="table" style="background-color: white">
             <tr>
+                <th>Equipé</th>
                 <th>Type</th>
                 <th>Nom</th>
                 <th>Effet</th>
                 <th>Poids</th>
             </tr>
-            <tr ng-repeat="gear in troll.gears">
+            <tr ng-repeat="gear in troll.gears | filter:{weared:true}">
+                <td>Oui</td>
+                <td>{{gear.type | capitalize}}</td>
+                <td>{{gear.name}} {{gear.template}}</td>
+                <td>{{gear.description}}</td>
+                <td>{{gear.weight}} min</td>
+            </tr>
+            <tr ng-repeat="gear in troll.gears | filter:{weared:false}">
+                <td>Non</td>
                 <td>{{gear.type | capitalize}}</td>
                 <td>{{gear.name}} {{gear.template}}</td>
                 <td>{{gear.description}}</td>

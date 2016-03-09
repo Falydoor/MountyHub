@@ -38,6 +38,9 @@ public class ScriptCallService {
         // Call the script and save it
         String response = IOUtils.toString(new URL(url), "Windows-1252");
         scriptCall.setBody(response);
+        if (troll.getId() != null) {
+            scriptCall.setTroll(troll);
+        }
         scriptCallRepository.save(scriptCall);
 
         // Bad number/password

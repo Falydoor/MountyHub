@@ -29,196 +29,194 @@ public class Troll implements Serializable {
     @NotNull
     @Column(name = "number", nullable = false)
     private Long number;
-    
+
     @NotNull
     @Column(name = "name", nullable = false)
     private String name;
-    
+
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "race", nullable = false)
     private TrollRace race;
-    
+
     @NotNull
     @Column(name = "birth_date", nullable = false)
     private ZonedDateTime birthDate;
-    
+
     @NotNull
     @Column(name = "x", nullable = false)
     private Integer x;
-    
+
     @NotNull
     @Column(name = "y", nullable = false)
     private Integer y;
-    
+
     @NotNull
     @Column(name = "z", nullable = false)
     private Integer z;
-    
+
     @NotNull
     @Column(name = "attack", nullable = false)
     private Integer attack;
-    
+
     @NotNull
     @Column(name = "dodge", nullable = false)
     private Integer dodge;
-    
+
     @NotNull
     @Column(name = "damage", nullable = false)
     private Integer damage;
-    
+
     @NotNull
     @Column(name = "regeneration", nullable = false)
     private Integer regeneration;
-    
+
     @NotNull
     @Column(name = "hit_point", nullable = false)
     private Integer hitPoint;
-    
+
     @NotNull
     @Column(name = "current_hit_point", nullable = false)
     private Integer currentHitPoint;
-    
+
     @NotNull
     @Column(name = "view", nullable = false)
     private Integer view;
-    
+
     @NotNull
     @Column(name = "rm", nullable = false)
     private Integer rm;
-    
+
     @NotNull
     @Column(name = "mm", nullable = false)
     private Integer mm;
-    
+
     @NotNull
     @Column(name = "armor", nullable = false)
     private Integer armor;
-    
+
     @NotNull
     @Column(name = "turn", nullable = false)
     private Float turn;
-    
+
     @NotNull
     @Column(name = "weight", nullable = false)
     private Float weight;
-    
+
     @NotNull
     @Column(name = "focus", nullable = false)
     private Integer focus;
-    
+
     @NotNull
     @Column(name = "attack_p", nullable = false)
     private Integer attackP;
-    
+
     @NotNull
     @Column(name = "dodge_p", nullable = false)
     private Integer dodgeP;
-    
+
     @NotNull
     @Column(name = "damage_p", nullable = false)
     private Integer damageP;
-    
+
     @NotNull
     @Column(name = "regeneration_p", nullable = false)
     private Integer regenerationP;
-    
+
     @NotNull
     @Column(name = "hit_point_p", nullable = false)
     private Integer hitPointP;
-    
+
     @NotNull
     @Column(name = "attack_m", nullable = false)
     private Integer attackM;
-    
+
     @NotNull
     @Column(name = "dodge_m", nullable = false)
     private Integer dodgeM;
-    
+
     @NotNull
     @Column(name = "damage_m", nullable = false)
     private Integer damageM;
-    
+
     @NotNull
     @Column(name = "regeneration_m", nullable = false)
     private Integer regenerationM;
-    
+
     @NotNull
     @Column(name = "hit_point_m", nullable = false)
     private Integer hitPointM;
-    
+
     @NotNull
     @Column(name = "view_p", nullable = false)
     private Integer viewP;
-    
+
     @NotNull
     @Column(name = "rm_p", nullable = false)
     private Integer rmP;
-    
+
     @NotNull
     @Column(name = "mm_p", nullable = false)
     private Integer mmP;
-    
+
     @NotNull
     @Column(name = "armor_p", nullable = false)
     private Integer armorP;
-    
+
     @NotNull
     @Column(name = "weight_p", nullable = false)
     private Float weightP;
-    
+
     @NotNull
     @Column(name = "view_m", nullable = false)
     private Integer viewM;
-    
+
     @NotNull
     @Column(name = "rm_m", nullable = false)
     private Integer rmM;
-    
+
     @NotNull
     @Column(name = "mm_m", nullable = false)
     private Integer mmM;
-    
+
     @NotNull
     @Column(name = "armor_m", nullable = false)
     private Integer armorM;
-    
+
     @NotNull
     @Column(name = "weight_m", nullable = false)
     private Float weightM;
-    
+
     @NotNull
     @Column(name = "level", nullable = false)
     private Integer level;
-    
+
     @NotNull
     @Column(name = "kill", nullable = false)
     private Integer kill;
-    
+
     @NotNull
     @Column(name = "death", nullable = false)
     private Integer death;
-    
+
     @NotNull
     @Column(name = "restricted_password", nullable = false)
     private String restrictedPassword;
-    
+
     @NotNull
     @Column(name = "deleted", nullable = false)
     private Boolean deleted;
-    
+
     @OneToOne(mappedBy = "troll")
     @JsonIgnore
     private User user;
 
     @OneToMany(mappedBy = "troll")
     @JsonIgnore
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<ScriptCall> scriptCalls = new HashSet<>();
 
     @OneToMany(mappedBy = "troll")
     @JsonIgnore
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Gear> gears = new HashSet<>();
 
     public Long getId() {
@@ -232,7 +230,7 @@ public class Troll implements Serializable {
     public Long getNumber() {
         return number;
     }
-    
+
     public void setNumber(Long number) {
         this.number = number;
     }
@@ -240,7 +238,7 @@ public class Troll implements Serializable {
     public String getName() {
         return name;
     }
-    
+
     public void setName(String name) {
         this.name = name;
     }
@@ -248,7 +246,7 @@ public class Troll implements Serializable {
     public TrollRace getRace() {
         return race;
     }
-    
+
     public void setRace(TrollRace race) {
         this.race = race;
     }
@@ -256,7 +254,7 @@ public class Troll implements Serializable {
     public ZonedDateTime getBirthDate() {
         return birthDate;
     }
-    
+
     public void setBirthDate(ZonedDateTime birthDate) {
         this.birthDate = birthDate;
     }
@@ -264,7 +262,7 @@ public class Troll implements Serializable {
     public Integer getX() {
         return x;
     }
-    
+
     public void setX(Integer x) {
         this.x = x;
     }
@@ -272,7 +270,7 @@ public class Troll implements Serializable {
     public Integer getY() {
         return y;
     }
-    
+
     public void setY(Integer y) {
         this.y = y;
     }
@@ -280,7 +278,7 @@ public class Troll implements Serializable {
     public Integer getZ() {
         return z;
     }
-    
+
     public void setZ(Integer z) {
         this.z = z;
     }
@@ -288,7 +286,7 @@ public class Troll implements Serializable {
     public Integer getAttack() {
         return attack;
     }
-    
+
     public void setAttack(Integer attack) {
         this.attack = attack;
     }
@@ -296,7 +294,7 @@ public class Troll implements Serializable {
     public Integer getDodge() {
         return dodge;
     }
-    
+
     public void setDodge(Integer dodge) {
         this.dodge = dodge;
     }
@@ -304,7 +302,7 @@ public class Troll implements Serializable {
     public Integer getDamage() {
         return damage;
     }
-    
+
     public void setDamage(Integer damage) {
         this.damage = damage;
     }
@@ -312,7 +310,7 @@ public class Troll implements Serializable {
     public Integer getRegeneration() {
         return regeneration;
     }
-    
+
     public void setRegeneration(Integer regeneration) {
         this.regeneration = regeneration;
     }
@@ -320,7 +318,7 @@ public class Troll implements Serializable {
     public Integer getHitPoint() {
         return hitPoint;
     }
-    
+
     public void setHitPoint(Integer hitPoint) {
         this.hitPoint = hitPoint;
     }
@@ -328,7 +326,7 @@ public class Troll implements Serializable {
     public Integer getCurrentHitPoint() {
         return currentHitPoint;
     }
-    
+
     public void setCurrentHitPoint(Integer currentHitPoint) {
         this.currentHitPoint = currentHitPoint;
     }
@@ -336,7 +334,7 @@ public class Troll implements Serializable {
     public Integer getView() {
         return view;
     }
-    
+
     public void setView(Integer view) {
         this.view = view;
     }
@@ -344,7 +342,7 @@ public class Troll implements Serializable {
     public Integer getRm() {
         return rm;
     }
-    
+
     public void setRm(Integer rm) {
         this.rm = rm;
     }
@@ -352,7 +350,7 @@ public class Troll implements Serializable {
     public Integer getMm() {
         return mm;
     }
-    
+
     public void setMm(Integer mm) {
         this.mm = mm;
     }
@@ -360,7 +358,7 @@ public class Troll implements Serializable {
     public Integer getArmor() {
         return armor;
     }
-    
+
     public void setArmor(Integer armor) {
         this.armor = armor;
     }
@@ -368,7 +366,7 @@ public class Troll implements Serializable {
     public Float getTurn() {
         return turn;
     }
-    
+
     public void setTurn(Float turn) {
         this.turn = turn;
     }
@@ -376,7 +374,7 @@ public class Troll implements Serializable {
     public Float getWeight() {
         return weight;
     }
-    
+
     public void setWeight(Float weight) {
         this.weight = weight;
     }
@@ -384,7 +382,7 @@ public class Troll implements Serializable {
     public Integer getFocus() {
         return focus;
     }
-    
+
     public void setFocus(Integer focus) {
         this.focus = focus;
     }
@@ -392,7 +390,7 @@ public class Troll implements Serializable {
     public Integer getAttackP() {
         return attackP;
     }
-    
+
     public void setAttackP(Integer attackP) {
         this.attackP = attackP;
     }
@@ -400,7 +398,7 @@ public class Troll implements Serializable {
     public Integer getDodgeP() {
         return dodgeP;
     }
-    
+
     public void setDodgeP(Integer dodgeP) {
         this.dodgeP = dodgeP;
     }
@@ -408,7 +406,7 @@ public class Troll implements Serializable {
     public Integer getDamageP() {
         return damageP;
     }
-    
+
     public void setDamageP(Integer damageP) {
         this.damageP = damageP;
     }
@@ -416,7 +414,7 @@ public class Troll implements Serializable {
     public Integer getRegenerationP() {
         return regenerationP;
     }
-    
+
     public void setRegenerationP(Integer regenerationP) {
         this.regenerationP = regenerationP;
     }
@@ -424,7 +422,7 @@ public class Troll implements Serializable {
     public Integer getHitPointP() {
         return hitPointP;
     }
-    
+
     public void setHitPointP(Integer hitPointP) {
         this.hitPointP = hitPointP;
     }
@@ -432,7 +430,7 @@ public class Troll implements Serializable {
     public Integer getAttackM() {
         return attackM;
     }
-    
+
     public void setAttackM(Integer attackM) {
         this.attackM = attackM;
     }
@@ -440,7 +438,7 @@ public class Troll implements Serializable {
     public Integer getDodgeM() {
         return dodgeM;
     }
-    
+
     public void setDodgeM(Integer dodgeM) {
         this.dodgeM = dodgeM;
     }
@@ -448,7 +446,7 @@ public class Troll implements Serializable {
     public Integer getDamageM() {
         return damageM;
     }
-    
+
     public void setDamageM(Integer damageM) {
         this.damageM = damageM;
     }
@@ -456,7 +454,7 @@ public class Troll implements Serializable {
     public Integer getRegenerationM() {
         return regenerationM;
     }
-    
+
     public void setRegenerationM(Integer regenerationM) {
         this.regenerationM = regenerationM;
     }
@@ -464,7 +462,7 @@ public class Troll implements Serializable {
     public Integer getHitPointM() {
         return hitPointM;
     }
-    
+
     public void setHitPointM(Integer hitPointM) {
         this.hitPointM = hitPointM;
     }
@@ -472,7 +470,7 @@ public class Troll implements Serializable {
     public Integer getViewP() {
         return viewP;
     }
-    
+
     public void setViewP(Integer viewP) {
         this.viewP = viewP;
     }
@@ -480,7 +478,7 @@ public class Troll implements Serializable {
     public Integer getRmP() {
         return rmP;
     }
-    
+
     public void setRmP(Integer rmP) {
         this.rmP = rmP;
     }
@@ -488,7 +486,7 @@ public class Troll implements Serializable {
     public Integer getMmP() {
         return mmP;
     }
-    
+
     public void setMmP(Integer mmP) {
         this.mmP = mmP;
     }
@@ -496,7 +494,7 @@ public class Troll implements Serializable {
     public Integer getArmorP() {
         return armorP;
     }
-    
+
     public void setArmorP(Integer armorP) {
         this.armorP = armorP;
     }
@@ -504,7 +502,7 @@ public class Troll implements Serializable {
     public Float getWeightP() {
         return weightP;
     }
-    
+
     public void setWeightP(Float weightP) {
         this.weightP = weightP;
     }
@@ -512,7 +510,7 @@ public class Troll implements Serializable {
     public Integer getViewM() {
         return viewM;
     }
-    
+
     public void setViewM(Integer viewM) {
         this.viewM = viewM;
     }
@@ -520,7 +518,7 @@ public class Troll implements Serializable {
     public Integer getRmM() {
         return rmM;
     }
-    
+
     public void setRmM(Integer rmM) {
         this.rmM = rmM;
     }
@@ -528,7 +526,7 @@ public class Troll implements Serializable {
     public Integer getMmM() {
         return mmM;
     }
-    
+
     public void setMmM(Integer mmM) {
         this.mmM = mmM;
     }
@@ -536,7 +534,7 @@ public class Troll implements Serializable {
     public Integer getArmorM() {
         return armorM;
     }
-    
+
     public void setArmorM(Integer armorM) {
         this.armorM = armorM;
     }
@@ -544,7 +542,7 @@ public class Troll implements Serializable {
     public Float getWeightM() {
         return weightM;
     }
-    
+
     public void setWeightM(Float weightM) {
         this.weightM = weightM;
     }
@@ -552,7 +550,7 @@ public class Troll implements Serializable {
     public Integer getLevel() {
         return level;
     }
-    
+
     public void setLevel(Integer level) {
         this.level = level;
     }
@@ -560,7 +558,7 @@ public class Troll implements Serializable {
     public Integer getKill() {
         return kill;
     }
-    
+
     public void setKill(Integer kill) {
         this.kill = kill;
     }
@@ -568,7 +566,7 @@ public class Troll implements Serializable {
     public Integer getDeath() {
         return death;
     }
-    
+
     public void setDeath(Integer death) {
         this.death = death;
     }
@@ -576,7 +574,7 @@ public class Troll implements Serializable {
     public String getRestrictedPassword() {
         return restrictedPassword;
     }
-    
+
     public void setRestrictedPassword(String restrictedPassword) {
         this.restrictedPassword = restrictedPassword;
     }
@@ -584,7 +582,7 @@ public class Troll implements Serializable {
     public Boolean getDeleted() {
         return deleted;
     }
-    
+
     public void setDeleted(Boolean deleted) {
         this.deleted = deleted;
     }

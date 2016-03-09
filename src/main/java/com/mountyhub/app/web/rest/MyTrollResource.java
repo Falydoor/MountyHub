@@ -2,6 +2,7 @@ package com.mountyhub.app.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.mountyhub.app.domain.Troll;
+import com.mountyhub.app.domain.enumeration.ScriptName;
 import com.mountyhub.app.exception.MountyHallScriptException;
 import com.mountyhub.app.exception.MountyHubException;
 import com.mountyhub.app.security.SecurityUtils;
@@ -26,7 +27,7 @@ import java.net.URISyntaxException;
  * Created by Theo on 2/29/16.
  */
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/monProfil")
 public class MyTrollResource {
 
     private final Logger log = LoggerFactory.getLogger(MyTrollResource.class);
@@ -34,8 +35,7 @@ public class MyTrollResource {
     @Inject
     private TrollService trollService;
 
-    @RequestMapping(value = "/monProfil",
-        method = RequestMethod.POST,
+    @RequestMapping(method = RequestMethod.POST,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<?> addTroll(@RequestBody Troll troll) throws URISyntaxException {
@@ -54,8 +54,7 @@ public class MyTrollResource {
         }
     }
 
-    @RequestMapping(value = "/monProfil",
-        method = RequestMethod.DELETE,
+    @RequestMapping(method = RequestMethod.DELETE,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<?> deleteTroll() throws URISyntaxException {
@@ -71,8 +70,7 @@ public class MyTrollResource {
         }
     }
 
-    @RequestMapping(value = "/monProfil",
-        method = RequestMethod.GET,
+    @RequestMapping(method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<?> getProfil() throws URISyntaxException {
@@ -83,6 +81,23 @@ public class MyTrollResource {
                 .body(profil);
         } catch (MountyHubException e) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("troll", "", e.getMessage())).build();
+        }
+    }
+
+    @RequestMapping(method = RequestMethod.PUT,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<?> refreshProfil(@RequestBody String scriptName) throws URISyntaxException {
+        log.debug("REST refresh Profil : {}", scriptName);
+        try {
+            trollService.refreshTroll(ScriptName.valueOf(scriptName));
+            ProfilDTO profil = trollService.getPrivateProfil();
+            return ResponseEntity.created(new URI("/monProfil"))
+                .body(profil);
+        } catch (MountyHubException | MountyHallScriptException e) {
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("troll", "", e.getMessage())).build();
+        } catch (IOException e) {
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("troll", "", "Erreur lors de la récuperation des infos de votre troll !")).build();
         }
     }
 

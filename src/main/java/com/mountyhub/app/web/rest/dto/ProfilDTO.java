@@ -2,7 +2,6 @@ package com.mountyhub.app.web.rest.dto;
 
 import com.mountyhub.app.domain.enumeration.TrollRace;
 
-import java.time.ZonedDateTime;
 import java.util.List;
 
 /**
@@ -15,7 +14,7 @@ public class ProfilDTO {
 
     private TrollRace race;
 
-    private ZonedDateTime birthDate;
+    private String birthDateFormatted;
 
     private Integer x;
 
@@ -119,6 +118,36 @@ public class ProfilDTO {
 
     private String woundsTimeFormatted;
 
+    private String lastGearDate;
+
+    private String lastCharacteristicDate;
+
+    private String lastStateDate;
+
+    public String getLastGearDate() {
+        return lastGearDate;
+    }
+
+    public void setLastGearDate(String lastGearDate) {
+        this.lastGearDate = lastGearDate;
+    }
+
+    public String getLastCharacteristicDate() {
+        return lastCharacteristicDate;
+    }
+
+    public void setLastCharacteristicDate(String lastCharacteristicDate) {
+        this.lastCharacteristicDate = lastCharacteristicDate;
+    }
+
+    public String getLastStateDate() {
+        return lastStateDate;
+    }
+
+    public void setLastStateDate(String lastStateDate) {
+        this.lastStateDate = lastStateDate;
+    }
+
     public String getWeightTimeFormatted() {
         return weightTimeFormatted;
     }
@@ -199,12 +228,12 @@ public class ProfilDTO {
         this.race = race;
     }
 
-    public ZonedDateTime getBirthDate() {
-        return birthDate;
+    public String getBirthDateFormatted() {
+        return birthDateFormatted;
     }
 
-    public void setBirthDate(ZonedDateTime birthDate) {
-        this.birthDate = birthDate;
+    public void setBirthDateFormatted(String birthDateFormatted) {
+        this.birthDateFormatted = birthDateFormatted;
     }
 
     public Integer getX() {

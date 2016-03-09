@@ -51,8 +51,8 @@ angular.module('mountyhubApp')
             }
         };
 
-        $scope.refreshProfil = function (scriptName) {
-            $scope.troll = MonProfil.refresh(scriptName);
+        $scope.refreshProfil = function (refreshType) {
+            $scope.troll = MonProfil.refresh(refreshType);
         };
 
     });

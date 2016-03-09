@@ -83,31 +83,26 @@ public class TrollService {
             if (userResult.isPresent()) {
                 throw new MountyHubException("Le numero de troll " + troll.getNumber() + " est déjà associé à l'utilisateur " + userResult.get().getLogin() + " !");
             }
-        }
 
-        // Caract, position and profil call
-        ScriptCall caractCall = MountyHallScriptUtil.createScriptCall(ScriptName.SP_Caract);
-        ScriptCall positionCall = MountyHallScriptUtil.createScriptCall(ScriptName.SP_Profil3);
-        ScriptCall profilCall = MountyHallScriptUtil.createScriptCall(ScriptName.SP_ProfilPublic2);
-        ScriptCall gearCall = MountyHallScriptUtil.createScriptCall(ScriptName.SP_Equipement);
+            // Troll previously deleted
+            Optional<Troll> trollResult = trollRepository.findOneByNumberAndDeletedTrue(troll.getNumber());
+            if (trollResult.isPresent()) {
+                troll = trollResult.get();
+            }
+        }
 
         try {
             // Set characteristic, position and profil
-            scriptCallService.callScript(caractCall, troll);
-            setTrollCharacteristicFromMHScript(caractCall, troll);
-            scriptCallService.callScript(positionCall, troll);
-            setTrollPositionFromMHScript(positionCall, troll);
-            scriptCallService.callScript(profilCall, troll);
-            setTrollProfilFromMHScript(profilCall, troll);
+            ScriptCall caractCall = setTrollCharacteristicFromMHScript(troll);
+            ScriptCall positionCall = setTrollPositionFromMHScript(troll);
+            ScriptCall profilCall = setTrollProfilFromMHScript(troll);
 
             // Save the troll
             trollRepository.save(troll);
             log.debug("Created Information for Troll: {}", troll);
 
             // Save gear
-            scriptCallService.callScript(gearCall, troll);
-            gearCall.setTroll(troll);
-            setTrollGearFromMHScript(gearCall);
+            setTrollGearFromMHScript(troll);
 
             // Save script calls with troll number
             caractCall.setTroll(troll);
@@ -129,7 +124,10 @@ public class TrollService {
         }
     }
 
-    public void setTrollGearFromMHScript(ScriptCall scriptCall) throws IOException, MountyHallScriptException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+    public void setTrollGearFromMHScript(Troll troll) throws IOException, MountyHallScriptException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+        ScriptCall scriptCall = MountyHallScriptUtil.createScriptCall(ScriptName.SP_Equipement);
+        scriptCallService.callScript(scriptCall, troll);
+
         String[] lines = StringUtils.split(scriptCall.getBody(), "\n");
 
         scriptCall.setSuccessful(true);
@@ -146,10 +144,6 @@ public class TrollService {
             weared.add(number);
             Optional<Gear> gearResult = gearRepository.findByNumber(number);
             Gear gear = gearResult.isPresent() ? gearResult.get() : new Gear();
-            // Skip if the gear is already persisted
-            if (gear.getId() != null && "1".equals(values[3]) == gear.getIdentified()) {
-                continue;
-            }
             gear.setNumber(number);
             gear.setWeared(Integer.valueOf(values[1]) > 0);
             gear.setType(GearType.fromString(values[2]));
@@ -163,35 +157,23 @@ public class TrollService {
             gear.setTemplate(values[5]);
             gear.setDescription(values[6]);
             gear.setWeight(gear.getIdentified() ? Float.valueOf(values[7]) : 0);
-            gear.setArmor(0);
-            gear.setArmorM(0);
-            gear.setAttack(0);
-            gear.setAttackM(0);
-            gear.setDamage(0);
-            gear.setDamageM(0);
-            gear.setDodge(0);
-            gear.setDodgeM(0);
-            gear.setHitPoint(0);
-            gear.setMm(0);
-            gear.setRm(0);
-            gear.setRegeneration(0);
-            gear.setView(0);
-            gear.setTurn(0);
-            gear.setProtection("");
             if (gear.getWeared()) {
                 MountyHallUtil.setCharacteristicsFromDescription(gear, gear.getDescription());
             }
-            gear.setTroll(scriptCall.getTroll());
+            gear.setTroll(troll);
             gearRepository.save(gear);
         }
 
         // Delete gear that aren't weared
-        scriptCall.getTroll().getGears().stream()
+        troll.getGears().stream()
             .filter(gear -> !weared.contains(gear.getNumber()))
             .forEach(gear -> gearRepository.deleteByNumber(gear.getNumber()));
     }
 
-    public void setTrollProfilFromMHScript(ScriptCall scriptCall, Troll troll) throws MountyHallScriptException, IOException {
+    public ScriptCall setTrollProfilFromMHScript(Troll troll) throws MountyHallScriptException, IOException {
+        ScriptCall scriptCall = MountyHallScriptUtil.createScriptCall(ScriptName.SP_ProfilPublic2);
+        scriptCallService.callScript(scriptCall, troll);
+
         String[] lines = StringUtils.split(scriptCall.getBody(), "\n");
 
         // Bad lines size
@@ -209,9 +191,14 @@ public class TrollService {
         troll.setBirthDate(MountyHallScriptUtil.parseDate(values[4]));
         troll.setKill(Integer.valueOf(values[9]));
         troll.setDeath(Integer.valueOf(values[10]));
+
+        return scriptCall;
     }
 
-    public void setTrollPositionFromMHScript(ScriptCall scriptCall, Troll troll) throws MountyHallScriptException, IOException {
+    public ScriptCall setTrollPositionFromMHScript(Troll troll) throws MountyHallScriptException, IOException {
+        ScriptCall scriptCall = MountyHallScriptUtil.createScriptCall(ScriptName.SP_Profil3);
+        scriptCallService.callScript(scriptCall, troll);
+
         String[] lines = StringUtils.split(scriptCall.getBody(), "\n");
 
         // Bad lines size
@@ -228,9 +215,14 @@ public class TrollService {
         troll.setX(Integer.valueOf(values[2]));
         troll.setY(Integer.valueOf(values[3]));
         troll.setZ(Integer.valueOf(values[4]));
+
+        return scriptCall;
     }
 
-    public void setTrollCharacteristicFromMHScript(ScriptCall scriptCall, Troll troll) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, MountyHallScriptException, IOException {
+    public ScriptCall setTrollCharacteristicFromMHScript(Troll troll) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, MountyHallScriptException, IOException {
+        ScriptCall scriptCall = MountyHallScriptUtil.createScriptCall(ScriptName.SP_Caract);
+        scriptCallService.callScript(scriptCall, troll);
+
         String[] lines = StringUtils.split(scriptCall.getBody(), "\n");
 
         // Bad lines size
@@ -292,6 +284,8 @@ public class TrollService {
                 }
             }
         }
+
+        return scriptCall;
     }
 
     /**
@@ -388,40 +382,28 @@ public class TrollService {
         userRepository.save(currentUser);
     }
 
-    public void refreshTroll(ScriptName scriptName) throws IOException, MountyHallScriptException, MountyHubException {
+    public void refreshTroll(String refreshType) throws IOException, MountyHallScriptException, MountyHubException {
         Troll troll = userService.getUserWithAuthorities().getTroll();
 
         if (troll == null) {
             throw new MountyHubException("Vous n'avez pas de Troll !");
         }
 
-        switch (scriptName) {
-            case SP_Profil3:
-                try {
-                    ScriptCall caractCall = MountyHallScriptUtil.createScriptCall(ScriptName.SP_Caract);
-                    ScriptCall positionCall = MountyHallScriptUtil.createScriptCall(ScriptName.SP_Profil3);
-                    scriptCallService.callScript(caractCall, troll);
-                    setTrollCharacteristicFromMHScript(caractCall, troll);
-                    scriptCallService.callScript(positionCall, troll);
-                    setTrollPositionFromMHScript(positionCall, troll);
+        try {
+            switch (refreshType) {
+                case "gear":
+                    setTrollGearFromMHScript(troll);
+                case "state":
+                    setTrollPositionFromMHScript(troll);
+                case "characteristic":
+                    setTrollCharacteristicFromMHScript(troll);
                     trollRepository.save(troll);
-                    scriptCallRepository.save(caractCall);
-                    scriptCallRepository.save(positionCall);
-                } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                    throw new MountyHallScriptException("Erreur lors du parsage du script MountyHall !", e);
-                }
-                break;
-            case SP_Equipement:
-                try {
-                    ScriptCall gearCall = MountyHallScriptUtil.createScriptCall(ScriptName.SP_Equipement);
-                    scriptCallService.callScript(gearCall, troll);
-                    setTrollGearFromMHScript(gearCall);
-                } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                    throw new MountyHallScriptException("Erreur lors du parsage du script MountyHall !", e);
-                }
-                break;
-            default:
-                throw new MountyHubException("Type de refresh non-implémenté !");
+                    break;
+                default:
+                    throw new MountyHubException("Type de refresh non-implémenté !");
+            }
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            throw new MountyHallScriptException("Erreur lors du parsage du script MountyHall !", e);
         }
 
     }

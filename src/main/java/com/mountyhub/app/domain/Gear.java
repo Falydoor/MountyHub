@@ -1,16 +1,13 @@
 package com.mountyhub.app.domain;
 
+import com.mountyhub.app.domain.enumeration.GearType;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.Objects;
-
-import com.mountyhub.app.domain.enumeration.GearType;
 
 /**
  * A Gear.
@@ -27,99 +24,117 @@ public class Gear implements Serializable {
     @NotNull
     @Column(name = "number", nullable = false)
     private Long number;
-    
+
     @NotNull
     @Column(name = "weared", nullable = false)
     private Boolean weared;
-    
+
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false)
     private GearType type;
-    
+
     @NotNull
     @Column(name = "identified", nullable = false)
     private Boolean identified;
-    
+
     @NotNull
     @Column(name = "name", nullable = false)
     private String name;
-    
+
     @NotNull
     @Column(name = "template", nullable = false)
     private String template;
-    
+
     @NotNull
     @Column(name = "description", nullable = false)
     private String description;
-    
+
     @NotNull
     @Column(name = "weight", nullable = false)
     private Float weight;
-    
+
     @NotNull
     @Column(name = "attack", nullable = false)
     private Integer attack;
-    
+
     @NotNull
     @Column(name = "attack_m", nullable = false)
     private Integer attackM;
-    
+
     @NotNull
     @Column(name = "dodge", nullable = false)
     private Integer dodge;
-    
+
     @NotNull
     @Column(name = "dodge_m", nullable = false)
     private Integer dodgeM;
-    
+
     @NotNull
     @Column(name = "damage", nullable = false)
     private Integer damage;
-    
+
     @NotNull
     @Column(name = "damage_m", nullable = false)
     private Integer damageM;
-    
+
     @NotNull
     @Column(name = "regeneration", nullable = false)
     private Integer regeneration;
-    
+
     @NotNull
     @Column(name = "hit_point", nullable = false)
     private Integer hitPoint;
-    
+
     @NotNull
     @Column(name = "view", nullable = false)
     private Integer view;
-    
+
     @NotNull
     @Column(name = "rm", nullable = false)
     private Integer rm;
-    
+
     @NotNull
     @Column(name = "mm", nullable = false)
     private Integer mm;
-    
+
     @NotNull
     @Column(name = "armor", nullable = false)
     private Integer armor;
-    
+
     @NotNull
     @Column(name = "armor_m", nullable = false)
     private Integer armorM;
-    
+
     @NotNull
     @Column(name = "turn", nullable = false)
     private Integer turn;
-    
+
     @NotNull
     @Column(name = "protection", nullable = false)
     private String protection;
-    
+
     @ManyToOne
     @JoinColumn(name = "troll_id")
     private Troll troll;
+
+    public Gear() {
+        this.setArmor(0);
+        this.setArmorM(0);
+        this.setAttack(0);
+        this.setAttackM(0);
+        this.setDamage(0);
+        this.setDamageM(0);
+        this.setDodge(0);
+        this.setDodgeM(0);
+        this.setHitPoint(0);
+        this.setMm(0);
+        this.setRm(0);
+        this.setRegeneration(0);
+        this.setView(0);
+        this.setTurn(0);
+        this.setProtection("");
+    }
 
     public Long getId() {
         return id;
@@ -132,7 +147,7 @@ public class Gear implements Serializable {
     public Long getNumber() {
         return number;
     }
-    
+
     public void setNumber(Long number) {
         this.number = number;
     }
@@ -140,7 +155,7 @@ public class Gear implements Serializable {
     public Boolean getWeared() {
         return weared;
     }
-    
+
     public void setWeared(Boolean weared) {
         this.weared = weared;
     }
@@ -148,7 +163,7 @@ public class Gear implements Serializable {
     public GearType getType() {
         return type;
     }
-    
+
     public void setType(GearType type) {
         this.type = type;
     }
@@ -156,7 +171,7 @@ public class Gear implements Serializable {
     public Boolean getIdentified() {
         return identified;
     }
-    
+
     public void setIdentified(Boolean identified) {
         this.identified = identified;
     }
@@ -164,7 +179,7 @@ public class Gear implements Serializable {
     public String getName() {
         return name;
     }
-    
+
     public void setName(String name) {
         this.name = name;
     }
@@ -172,7 +187,7 @@ public class Gear implements Serializable {
     public String getTemplate() {
         return template;
     }
-    
+
     public void setTemplate(String template) {
         this.template = template;
     }
@@ -180,7 +195,7 @@ public class Gear implements Serializable {
     public String getDescription() {
         return description;
     }
-    
+
     public void setDescription(String description) {
         this.description = description;
     }
@@ -188,7 +203,7 @@ public class Gear implements Serializable {
     public Float getWeight() {
         return weight;
     }
-    
+
     public void setWeight(Float weight) {
         this.weight = weight;
     }
@@ -196,7 +211,7 @@ public class Gear implements Serializable {
     public Integer getAttack() {
         return attack;
     }
-    
+
     public void setAttack(Integer attack) {
         this.attack = attack;
     }
@@ -204,7 +219,7 @@ public class Gear implements Serializable {
     public Integer getAttackM() {
         return attackM;
     }
-    
+
     public void setAttackM(Integer attackM) {
         this.attackM = attackM;
     }
@@ -212,7 +227,7 @@ public class Gear implements Serializable {
     public Integer getDodge() {
         return dodge;
     }
-    
+
     public void setDodge(Integer dodge) {
         this.dodge = dodge;
     }
@@ -220,7 +235,7 @@ public class Gear implements Serializable {
     public Integer getDodgeM() {
         return dodgeM;
     }
-    
+
     public void setDodgeM(Integer dodgeM) {
         this.dodgeM = dodgeM;
     }
@@ -228,7 +243,7 @@ public class Gear implements Serializable {
     public Integer getDamage() {
         return damage;
     }
-    
+
     public void setDamage(Integer damage) {
         this.damage = damage;
     }
@@ -236,7 +251,7 @@ public class Gear implements Serializable {
     public Integer getDamageM() {
         return damageM;
     }
-    
+
     public void setDamageM(Integer damageM) {
         this.damageM = damageM;
     }
@@ -244,7 +259,7 @@ public class Gear implements Serializable {
     public Integer getRegeneration() {
         return regeneration;
     }
-    
+
     public void setRegeneration(Integer regeneration) {
         this.regeneration = regeneration;
     }
@@ -252,7 +267,7 @@ public class Gear implements Serializable {
     public Integer getHitPoint() {
         return hitPoint;
     }
-    
+
     public void setHitPoint(Integer hitPoint) {
         this.hitPoint = hitPoint;
     }
@@ -260,7 +275,7 @@ public class Gear implements Serializable {
     public Integer getView() {
         return view;
     }
-    
+
     public void setView(Integer view) {
         this.view = view;
     }
@@ -268,7 +283,7 @@ public class Gear implements Serializable {
     public Integer getRm() {
         return rm;
     }
-    
+
     public void setRm(Integer rm) {
         this.rm = rm;
     }
@@ -276,7 +291,7 @@ public class Gear implements Serializable {
     public Integer getMm() {
         return mm;
     }
-    
+
     public void setMm(Integer mm) {
         this.mm = mm;
     }
@@ -284,7 +299,7 @@ public class Gear implements Serializable {
     public Integer getArmor() {
         return armor;
     }
-    
+
     public void setArmor(Integer armor) {
         this.armor = armor;
     }
@@ -292,7 +307,7 @@ public class Gear implements Serializable {
     public Integer getArmorM() {
         return armorM;
     }
-    
+
     public void setArmorM(Integer armorM) {
         this.armorM = armorM;
     }
@@ -300,7 +315,7 @@ public class Gear implements Serializable {
     public Integer getTurn() {
         return turn;
     }
-    
+
     public void setTurn(Integer turn) {
         this.turn = turn;
     }
@@ -308,7 +323,7 @@ public class Gear implements Serializable {
     public String getProtection() {
         return protection;
     }
-    
+
     public void setProtection(String protection) {
         this.protection = protection;
     }
@@ -330,7 +345,7 @@ public class Gear implements Serializable {
             return false;
         }
         Gear gear = (Gear) o;
-        if(gear.id == null || id == null) {
+        if (gear.id == null || id == null) {
             return false;
         }
         return Objects.equals(id, gear.id);

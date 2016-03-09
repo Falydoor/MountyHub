@@ -2,7 +2,6 @@ package com.mountyhub.app.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.mountyhub.app.domain.Troll;
-import com.mountyhub.app.domain.enumeration.ScriptName;
 import com.mountyhub.app.exception.MountyHallScriptException;
 import com.mountyhub.app.exception.MountyHubException;
 import com.mountyhub.app.security.SecurityUtils;
@@ -87,10 +86,10 @@ public class MyTrollResource {
     @RequestMapping(method = RequestMethod.PUT,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<?> refreshProfil(@RequestBody String scriptName) throws URISyntaxException {
-        log.debug("REST refresh Profil : {}", scriptName);
+    public ResponseEntity<?> refreshProfil(@RequestBody String refreshType) throws URISyntaxException {
+        log.debug("REST refresh Profil : {}", refreshType);
         try {
-            trollService.refreshTroll(ScriptName.valueOf(scriptName));
+            trollService.refreshTroll(refreshType);
             ProfilDTO profil = trollService.getPrivateProfil();
             return ResponseEntity.created(new URI("/monProfil"))
                 .body(profil);

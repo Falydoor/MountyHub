@@ -3,6 +3,7 @@ package com.mountyhub.app.service.util;
 import com.mountyhub.app.domain.ScriptCall;
 import com.mountyhub.app.domain.enumeration.ScriptName;
 import com.mountyhub.app.domain.enumeration.ScriptType;
+import com.mountyhub.app.exception.MountyHallScriptException;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -43,7 +44,20 @@ public final class MountyHallScriptUtil {
         return ZonedDateTime.parse(date, DateTimeFormatter.ISO_ZONED_DATE_TIME);
     }
 
-    public static ScriptCall createScriptCall(ScriptName name, ScriptType type) {
+    public static ScriptCall createScriptCall(ScriptName name) throws MountyHallScriptException {
+        ScriptType type;
+        switch (name) {
+            case SP_Caract:
+            case SP_Profil3:
+                type = ScriptType.DYNAMIQUE;
+                break;
+            case SP_Equipement:
+            case SP_ProfilPublic2:
+                type = ScriptType.STATIQUE;
+                break;
+            default:
+                throw new MountyHallScriptException("Script non-implémenté !");
+        }
         ScriptCall scriptCall = new ScriptCall();
         scriptCall.setDateCalled(ZonedDateTime.now());
         scriptCall.setName(name);

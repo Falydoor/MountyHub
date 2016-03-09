@@ -86,10 +86,10 @@ public class TrollService {
         }
 
         // Caract, position and profil call
-        ScriptCall caractCall = MountyHallScriptUtil.createScriptCall(ScriptName.SP_Caract, ScriptType.DYNAMIQUE);
-        ScriptCall positionCall = MountyHallScriptUtil.createScriptCall(ScriptName.SP_Profil3, ScriptType.DYNAMIQUE);
-        ScriptCall profilCall = MountyHallScriptUtil.createScriptCall(ScriptName.SP_ProfilPublic2, ScriptType.STATIQUE);
-        ScriptCall gearCall = MountyHallScriptUtil.createScriptCall(ScriptName.SP_Equipement, ScriptType.STATIQUE);
+        ScriptCall caractCall = MountyHallScriptUtil.createScriptCall(ScriptName.SP_Caract);
+        ScriptCall positionCall = MountyHallScriptUtil.createScriptCall(ScriptName.SP_Profil3);
+        ScriptCall profilCall = MountyHallScriptUtil.createScriptCall(ScriptName.SP_ProfilPublic2);
+        ScriptCall gearCall = MountyHallScriptUtil.createScriptCall(ScriptName.SP_Equipement);
 
         try {
             // Set characteristic, position and profil
@@ -398,8 +398,8 @@ public class TrollService {
         switch (scriptName) {
             case SP_Profil3:
                 try {
-                    ScriptCall caractCall = MountyHallScriptUtil.createScriptCall(ScriptName.SP_Caract, ScriptType.DYNAMIQUE);
-                    ScriptCall positionCall = MountyHallScriptUtil.createScriptCall(ScriptName.SP_Profil3, ScriptType.DYNAMIQUE);
+                    ScriptCall caractCall = MountyHallScriptUtil.createScriptCall(ScriptName.SP_Caract);
+                    ScriptCall positionCall = MountyHallScriptUtil.createScriptCall(ScriptName.SP_Profil3);
                     scriptCallService.callScript(caractCall, troll);
                     setTrollCharacteristicFromMHScript(caractCall, troll);
                     scriptCallService.callScript(positionCall, troll);
@@ -413,7 +413,7 @@ public class TrollService {
                 break;
             case SP_Equipement:
                 try {
-                    ScriptCall gearCall = MountyHallScriptUtil.createScriptCall(ScriptName.SP_Equipement, ScriptType.STATIQUE);
+                    ScriptCall gearCall = MountyHallScriptUtil.createScriptCall(ScriptName.SP_Equipement);
                     scriptCallService.callScript(gearCall, troll);
                     setTrollGearFromMHScript(gearCall);
                 } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {

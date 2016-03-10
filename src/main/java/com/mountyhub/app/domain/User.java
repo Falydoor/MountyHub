@@ -89,6 +89,10 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @JoinColumn(name="troll_id")
     private Troll troll;
 
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private Set<UserOption> userOptions = new HashSet<>();
+
     public Long getId() {
         return id;
     }
@@ -199,6 +203,14 @@ public class User extends AbstractAuditingEntity implements Serializable {
 
     public void setTroll(Troll troll) {
         this.troll = troll;
+    }
+
+    public Set<UserOption> getUserOptions() {
+        return userOptions;
+    }
+
+    public void setUserOptions(Set<UserOption> userOptions) {
+        this.userOptions = userOptions;
     }
 
     @Override

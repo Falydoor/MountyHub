@@ -1,8 +1,14 @@
 package com.mountyhub.app.service.util;
 
+import com.mountyhub.app.domain.UserOption;
+import com.mountyhub.app.domain.enumeration.UserOptionName;
+
 import java.time.Duration;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
+import java.util.Set;
 
 /**
  * Created by Theo on 3/2/16.
@@ -24,8 +30,8 @@ public class DateUtil {
         return turn.plusSeconds(seconds.longValue());
     }
 
-    public static String formatZonedDate(ZonedDateTime date) {
-        return date.format(DateTimeFormatter.ofPattern("HH:mm:ss dd/MM/YYYY"));
+    public static String formatZonedDate(ZonedDateTime date, ZoneId zoneId) {
+        return date.withZoneSameInstant(zoneId).format(DateTimeFormatter.ofPattern("HH:mm:ss dd/MM/YYYY"));
     }
 
     public static String formatSinceDate(ZonedDateTime date) {
@@ -41,5 +47,10 @@ public class DateUtil {
         // 2016-02-03 04:54:13
         date = date.replace(" ", "T") + "+01:00[Europe/Paris]";
         return ZonedDateTime.parse(date, DateTimeFormatter.ISO_ZONED_DATE_TIME);
+    }
+
+    public static ZoneId getZoneIdFromUserOption(Set<UserOption> options) {
+        Optional<UserOption> zone = options.stream().filter(userOption -> userOption.getName() == UserOptionName.ZONEID).findFirst();
+        return zone.isPresent() ? ZoneId.of(zone.get().getValue()) : ZoneId.of("GMT+01:00");
     }
 }

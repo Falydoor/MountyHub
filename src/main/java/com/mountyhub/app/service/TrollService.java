@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.time.Duration;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -294,8 +295,9 @@ public class TrollService {
         // Additionnal fields
         profil.setTotalHitPoint(profil.getHitPoint() + profil.getHitPointP() + profil.getHitPointM());
         profil.setPercentHitPoint(100 * profil.getCurrentHitPoint() / profil.getTotalHitPoint());
-        profil.setBirthDateFormatted(DateUtil.formatZonedDate(troll.getBirthDate()));
-        profil.setDla(DateUtil.formatZonedDate(troll.getDla()));
+        ZoneId zoneId = DateUtil.getZoneIdFromUserOption(user.getUserOptions());
+        profil.setBirthDateFormatted(DateUtil.formatZonedDate(troll.getBirthDate(), zoneId));
+        profil.setDla(DateUtil.formatZonedDate(troll.getDla(), zoneId));
 
         // Gears
         List<GearDTO> gearDTOs = troll.getGears().stream().map(gear -> {

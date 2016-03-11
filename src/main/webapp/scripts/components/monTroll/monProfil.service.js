@@ -6,6 +6,7 @@ angular.module('mountyhubApp')
             get: {method: 'GET'},
             save: {method: 'POST'},
             delete: {method: 'DELETE'},
-            refresh: {method: 'PUT'}
+            refresh: {method: 'PUT'},
+            refreshTZ: {url: 'api/monProfil/refreshTZ', method: 'PUT'}
         });
     });

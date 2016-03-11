@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('mountyhubApp')
-    .controller('MonProfilController', function ($scope, MonProfil, troll) {
+    .controller('MonProfilController', function ($scope, MonProfil, UserOption, troll) {
         $scope.troll = troll;
         var total = function (v, vp, vm) {
             return v + vp + vm;
@@ -25,6 +25,11 @@ angular.module('mountyhubApp')
             {n: "Résistance à la Magie", p: "rm", d: " points", a: total, s: true},
             {n: "Maîtrise de la Magie", p: "mm", d: " points", a: total, s: true}
         ];
+        $scope.timezones = [];
+        for (var i = -12; i <= 13; ++i) {
+            var j = "0" + Math.abs(i);
+            $scope.timezones.push("GMT" + (i >= 0 ? "+" + j.slice(-2) : "-" + j.slice(-2)) + ":00");
+        }
 
         var callbackSuccess = function (troll) {
             $scope.troll = troll;
@@ -55,6 +60,12 @@ angular.module('mountyhubApp')
 
         $scope.refreshProfil = function (refreshType) {
             MonProfil.refresh(refreshType, callbackSuccess);
+        };
+
+        $scope.updateTimezone = function () {
+            MonProfil.refreshTZ($scope.troll.userOptions.ZONEID, function () {
+                MonProfil.get({}, callbackSuccess);
+            });
         };
 
     });

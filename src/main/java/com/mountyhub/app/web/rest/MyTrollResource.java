@@ -2,8 +2,10 @@ package com.mountyhub.app.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.mountyhub.app.domain.Troll;
+import com.mountyhub.app.domain.UserOption;
 import com.mountyhub.app.exception.MountyHallScriptException;
 import com.mountyhub.app.exception.MountyHubException;
+import com.mountyhub.app.repository.UserOptionRepository;
 import com.mountyhub.app.security.SecurityUtils;
 import com.mountyhub.app.service.TrollService;
 import com.mountyhub.app.web.rest.dto.ProfilDTO;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -33,6 +36,9 @@ public class MyTrollResource {
 
     @Inject
     private TrollService trollService;
+
+    @Inject
+    UserOptionRepository userOptionRepository;
 
     @RequestMapping(method = RequestMethod.POST,
         produces = MediaType.APPLICATION_JSON_VALUE)
@@ -92,6 +98,7 @@ public class MyTrollResource {
             trollService.refreshTroll(refreshType);
             ProfilDTO profil = trollService.getPrivateProfil();
             return ResponseEntity.created(new URI("/monProfil"))
+                .headers(HeaderUtil.createAlert("Profil correctement mis à jour !", ""))
                 .body(profil);
         } catch (MountyHubException | MountyHallScriptException e) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("troll", "", e.getMessage())).build();
@@ -100,4 +107,14 @@ public class MyTrollResource {
         }
     }
 
+    @RequestMapping(value = "/refreshTZ", method = RequestMethod.PUT,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<?> refreshProfilTZ(@Valid @RequestBody UserOption userOption) throws URISyntaxException {
+        log.debug("REST refresh Profil TZ : {}", userOption);
+        UserOption result = userOptionRepository.save(userOption);
+        return ResponseEntity.ok()
+            .headers(HeaderUtil.createAlert("Votre fuseau horaire a bien été modifié !", ""))
+            .body(result);
+    }
 }

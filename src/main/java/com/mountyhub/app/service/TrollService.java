@@ -1,12 +1,10 @@
 package com.mountyhub.app.service;
 
-import com.mountyhub.app.domain.Gear;
-import com.mountyhub.app.domain.ScriptCall;
-import com.mountyhub.app.domain.Troll;
-import com.mountyhub.app.domain.User;
+import com.mountyhub.app.domain.*;
 import com.mountyhub.app.domain.enumeration.ScriptName;
 import com.mountyhub.app.domain.enumeration.ScriptType;
 import com.mountyhub.app.domain.enumeration.TrollRace;
+import com.mountyhub.app.domain.enumeration.UserOptionName;
 import com.mountyhub.app.exception.MountyHallScriptException;
 import com.mountyhub.app.exception.MountyHubException;
 import com.mountyhub.app.repository.GearRepository;
@@ -298,6 +296,12 @@ public class TrollService {
         ZoneId zoneId = DateUtil.getZoneIdFromUserOption(user.getUserOptions());
         profil.setBirthDateFormatted(DateUtil.formatZonedDate(troll.getBirthDate(), zoneId));
         profil.setDla(DateUtil.formatZonedDate(troll.getDla(), zoneId));
+        profil.setUserOptions(user.getUserOptions().stream().collect(Collectors.toMap(userOption -> userOption.getName().toString(), userOption1 -> userOption1)));
+        UserOption userOption = new UserOption();
+        userOption.setName(UserOptionName.ZONEID);
+        userOption.setUser(user);
+        userOption.setValue("GMT+01:00");
+        profil.getUserOptions().putIfAbsent(UserOptionName.ZONEID.toString(), userOption);
 
         // Gears
         List<GearDTO> gearDTOs = troll.getGears().stream().map(gear -> {

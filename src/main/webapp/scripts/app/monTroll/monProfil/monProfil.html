@@ -152,6 +152,12 @@
     </div>
     <div class="col-md-12">
         <h4 class="text-center">Divers</h4>
+        <label>
+            Fuseau horaire :
+            <select ng-model="troll.userOptions.ZONEID.value" ng-change="updateTimezone()">
+                <option ng-repeat="timezone in timezones" value="{{timezone}}">{{timezone}}</option>
+            </select>
+        </label>
         <button class="btn btn-danger" ng-click="deleteTroll()">Supprimer mon troll</button>
     </div>
 </div>

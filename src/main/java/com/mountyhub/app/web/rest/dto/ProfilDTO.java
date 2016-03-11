@@ -1,5 +1,6 @@
 package com.mountyhub.app.web.rest.dto;
 
+import com.mountyhub.app.domain.UserOption;
 import com.mountyhub.app.domain.enumeration.ScriptName;
 import com.mountyhub.app.domain.enumeration.ScriptType;
 import com.mountyhub.app.domain.enumeration.TrollRace;
@@ -130,6 +131,16 @@ public class ProfilDTO {
     private Integer strain;
 
     private Integer pa;
+
+    private Map<String, UserOption> userOptions;
+
+    public Map<String, UserOption> getUserOptions() {
+        return userOptions;
+    }
+
+    public void setUserOptions(Map<String, UserOption> userOptions) {
+        this.userOptions = userOptions;
+    }
 
     public Integer getPa() {
         return pa;

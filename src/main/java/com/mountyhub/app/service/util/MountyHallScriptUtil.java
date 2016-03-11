@@ -48,7 +48,7 @@ public final class MountyHallScriptUtil {
         ScriptType type;
         switch (name) {
             case SP_Caract:
-            case SP_Profil3:
+            case SP_Profil2:
                 type = ScriptType.DYNAMIQUE;
                 break;
             case SP_Equipement:
@@ -87,17 +87,20 @@ public final class MountyHallScriptUtil {
     }
 
     public static void parseState(Troll troll, String[] values) {
-        // ID, Nom; Position X ; Position Y ; Position N ; PA Restant; DLA ; Fatigue ; Camouflage; Invisible ; Intangible ; PX; PX perso; PI; Gigots de Gob'
-        troll.setName(values[1]);
-        troll.setX(Integer.valueOf(values[2]));
-        troll.setY(Integer.valueOf(values[3]));
-        troll.setZ(Integer.valueOf(values[4]));
-        troll.setPa(Integer.valueOf(values[5]));
-        troll.setDla(DateUtil.parseDateFromMHScript(values[6]));
-        troll.setStrain(Integer.valueOf(values[7]));
-        troll.setHidden("1".equals(values[8]));
-        troll.setInvisible("1".equals(values[9]));
-        troll.setIntangible("1".equals(values[10]));
+        // ID, Position X ; Position Y ; Position N ; PV Actuels; PV Max ; PA Restant; DLA ; Nb Dés d'Attaque ; Nb Dés d'Esquive ; Nb Dés de Dégat ;
+        // Nb Dés de Régénération ; Vue ; Armure ; MM ; RM ; attaques subies ; fatigue ; camouflage ? ; invisible ? ; intangible ? ;
+        // Nb parades programmées ; Nb contre-attaques programmées ; durée du tour ; bonus de durée (hors équipement) ; Armure naturelle ;
+        // Nombre de dés d'armure en moins
+        troll.setX(Integer.valueOf(values[1]));
+        troll.setY(Integer.valueOf(values[2]));
+        troll.setZ(Integer.valueOf(values[3]));
+        troll.setCurrentHitPoint(Integer.valueOf(values[4]));
+        troll.setPa(Integer.valueOf(values[6]));
+        troll.setDla(DateUtil.parseDateFromMHScript(values[7]));
+        troll.setStrain(Integer.valueOf(values[17]));
+        troll.setHidden("1".equals(values[18]));
+        troll.setInvisible("1".equals(values[19]));
+        troll.setIntangible("1".equals(values[20]));
     }
 
 }

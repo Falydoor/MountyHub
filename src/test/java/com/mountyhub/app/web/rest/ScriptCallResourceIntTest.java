@@ -51,7 +51,7 @@ public class ScriptCallResourceIntTest {
 
     
     private static final ScriptName DEFAULT_NAME = ScriptName.SP_Caract;
-    private static final ScriptName UPDATED_NAME = ScriptName.SP_Profil3;
+    private static final ScriptName UPDATED_NAME = ScriptName.SP_Profil2;
     
     private static final ScriptType DEFAULT_TYPE = ScriptType.DYNAMIQUE;
     private static final ScriptType UPDATED_TYPE = ScriptType.STATIQUE;

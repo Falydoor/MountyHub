@@ -166,6 +166,7 @@ public class TrollService {
         String[] values = StringUtils.split(lines[0], ";");
 
         // numéro; Nom; Race; Niveau; Date d'inscription ; E-mail ; Blason ; Intangible ; Nb mouches ; Nb kills ; Nb morts; Numéro de Guilde; Nniveau de Rang; PNJ ?
+        troll.setName(values[1]);
         troll.setRace(TrollRace.valueOf(values[2]));
         troll.setLevel(Integer.valueOf(values[3]));
         troll.setBirthDate(DateUtil.parseDateFromMHScript(values[4]));
@@ -176,7 +177,7 @@ public class TrollService {
     }
 
     public ScriptCall setTrollStateFromMHScript(Troll troll) throws MountyHallScriptException, IOException {
-        ScriptCall scriptCall = MountyHallScriptUtil.createScriptCall(ScriptName.SP_Profil3);
+        ScriptCall scriptCall = MountyHallScriptUtil.createScriptCall(ScriptName.SP_Profil2);
         scriptCallService.callScript(scriptCall, troll);
 
         String[] lines = StringUtils.split(scriptCall.getBody(), "\n");
@@ -233,8 +234,12 @@ public class TrollService {
 
             // Set characteristics of the troll
             for (int i = 0; i < MountyHallUtil.methodsByName.length; ++i) {
-                // CurrentHitPoint and Focus are skipped for BMP/BMM
-                if (StringUtils.isNotEmpty(sufix) && (i == 5 || i == 12)) {
+                // CurrentHitPoint is skipped
+                if (i == 5) {
+                    continue;
+                }
+                // Focus is skipped for BMP/BMM
+                if (StringUtils.isNotEmpty(sufix) && i == 12) {
                     continue;
                 }
                 // Weight is skipped for BMM
@@ -366,17 +371,18 @@ public class TrollService {
 
         try {
             switch (refreshType) {
-                case "gear":
-                    setTrollGearFromMHScript(troll);
                 case "state":
                     setTrollStateFromMHScript(troll);
+                    break;
+                case "gear":
+                    setTrollGearFromMHScript(troll);
                 case "characteristic":
                     setTrollCharacteristicFromMHScript(troll);
-                    trollRepository.save(troll);
                     break;
                 default:
                     throw new MountyHubException("Type de refresh non-implémenté !");
             }
+            trollRepository.save(troll);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             throw new MountyHallScriptException("Erreur lors du parsage du script MountyHall !", e);
         }

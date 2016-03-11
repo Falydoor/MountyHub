@@ -31,7 +31,7 @@ public class DateUtil {
     }
 
     public static String formatZonedDate(ZonedDateTime date, ZoneId zoneId) {
-        return date.withZoneSameInstant(zoneId).format(DateTimeFormatter.ofPattern("HH:mm:ss dd/MM/YYYY"));
+        return date.withZoneSameInstant(zoneId).format(DateTimeFormatter.ofPattern("dd/MM/YYYY HH:mm:ss"));
     }
 
     public static String formatSinceDate(ZonedDateTime date) {

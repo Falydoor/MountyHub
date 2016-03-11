@@ -134,6 +134,16 @@ public class ProfilDTO {
 
     private Map<String, UserOption> userOptions;
 
+    private String nextDla;
+
+    public String getNextDla() {
+        return nextDla;
+    }
+
+    public void setNextDla(String nextDla) {
+        this.nextDla = nextDla;
+    }
+
     public Map<String, UserOption> getUserOptions() {
         return userOptions;
     }

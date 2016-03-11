@@ -323,9 +323,11 @@ public class TrollService {
         profil.setBonusMalusTimeFormatted(DateUtil.formatDuration(bonusMalus));
         Duration weight = DateUtil.getDurationFromFloatMinutes(profil.getWeightP());
         profil.setWeightTimeFormatted(DateUtil.formatDuration(weight));
-        Duration wounds = DateUtil.getDurationFromFloatMinutes(250F / profil.getTotalHitPoint() * (profil.getTotalHitPoint() - profil.getCurrentHitPoint()));
+        Duration wounds = DateUtil.getDurationFromFloatMinutes((float) Math.round(250F / profil.getTotalHitPoint() * (profil.getTotalHitPoint() - profil.getCurrentHitPoint())));
         profil.setWoundsTimeFormatted(DateUtil.formatDuration(wounds));
-        profil.setTurnTotalFormatted(DateUtil.formatDuration(turn.plus(weight).plus(bonusMalus).plus(wounds)));
+        Duration totalTurn = turn.plus(weight).plus(bonusMalus).plus(wounds);
+        profil.setTurnTotalFormatted(DateUtil.formatDuration(totalTurn));
+        profil.setNextDla(DateUtil.formatZonedDate(troll.getDla().plus(totalTurn), zoneId));
 
         // Scripts call per day
         ZonedDateTime yesterday = ZonedDateTime.now().minusDays(1);

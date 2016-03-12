@@ -349,7 +349,7 @@ public class TrollService {
         profil.setGearEffect(MountyHallUtil.formatGlobalEffect(gearRepository.getWearedGlobalEffect(troll.getId())));
 
         // Flies
-        List<FlyDTO> flies = troll.getFlys().stream().sorted((f1, f2) -> f1.getType().compareTo(f2.getType())).map(fly -> {
+        List<FlyDTO> flies = troll.getFlys().stream().sorted((f1, f2) -> f1.getType().toString().compareTo(f2.getType().toString())).map(fly -> {
             FlyDTO dto = new FlyDTO();
             BeanUtils.copyProperties(fly, dto);
             dto.setEffect(MountyHallUtil.flyTypeToEffect(fly.getType()));

@@ -340,13 +340,18 @@ public class TrollService {
         profil.getUserOptions().putIfAbsent(UserOptionName.ZONEID.toString(), userOption);
 
         // Gears
+        List<String> protections = new ArrayList<>();
         List<GearDTO> gears = troll.getGears().stream().map(gear -> {
             GearDTO dto = new GearDTO();
             BeanUtils.copyProperties(gear, dto);
+            if (gear.getWeared() && StringUtils.isNoneBlank(gear.getProtection())) {
+                protections.add(gear.getProtection());
+            }
             return dto;
         }).collect(Collectors.toList());
         profil.setGears(gears);
         profil.setGearEffect(MountyHallUtil.formatGlobalEffect(gearRepository.getWearedGlobalEffect(troll.getId())));
+        profil.setProtection(StringUtils.join(protections, " | "));
 
         // Flies
         List<FlyDTO> flies = troll.getFlys().stream().sorted((f1, f2) -> f1.getType().toString().compareTo(f2.getType().toString())).map(fly -> {

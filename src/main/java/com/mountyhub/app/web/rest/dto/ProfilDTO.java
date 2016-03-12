@@ -142,6 +142,16 @@ public class ProfilDTO {
 
     private String flyEffect;
 
+    private String protection;
+
+    public String getProtection() {
+        return protection;
+    }
+
+    public void setProtection(String protection) {
+        this.protection = protection;
+    }
+
     public List<FlyDTO> getFlies() {
         return flies;
     }

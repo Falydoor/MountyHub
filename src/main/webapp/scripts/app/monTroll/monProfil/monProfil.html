@@ -69,6 +69,7 @@
             <span class="label label-danger" ng-if="troll.intangible">Intangible</span>
         </p>
         <p class="text-center"><strong>X = {{troll.x}} | Y = {{troll.y}} | Z = {{troll.z}}</strong></p>
+        <p ng-if="troll.protection">Protection : <strong>{{troll.protection}}</strong></p>
         <table class="table" style="background-color: white">
             <tr>
                 <td>DLA</td>
@@ -133,21 +134,21 @@
         <h6 class="text-center">{{troll.gearEffect}}</h6>
         <table class="table" style="background-color: white">
             <tr>
-                <th>Equipé</th>
+                <th class="text-center">Equipé</th>
                 <th>Type</th>
                 <th>Nom</th>
                 <th>Effet</th>
                 <th>Poids</th>
             </tr>
             <tr ng-repeat="gear in troll.gears | filter:{weared:true}">
-                <td>Oui</td>
+                <td class="text-center"><span class="glyphicon glyphicon-ok"></span></td>
                 <td>{{gear.type | capitalize}}</td>
                 <td>{{gear.name}} {{gear.template}}</td>
                 <td>{{gear.description}}</td>
                 <td>{{gear.weight}} min</td>
             </tr>
             <tr ng-repeat="gear in troll.gears | filter:{weared:false}">
-                <td>Non</td>
+                <td class="text-center"><span class="glyphicon glyphicon-remove"></span></td>
                 <td>{{gear.type | capitalize}}</td>
                 <td>{{gear.name}} {{gear.template}}</td>
                 <td>{{gear.description}}</td>

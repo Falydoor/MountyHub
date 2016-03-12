@@ -1,10 +1,7 @@
 package com.mountyhub.app.service;
 
 import com.mountyhub.app.domain.*;
-import com.mountyhub.app.domain.enumeration.ScriptName;
-import com.mountyhub.app.domain.enumeration.ScriptType;
-import com.mountyhub.app.domain.enumeration.TrollRace;
-import com.mountyhub.app.domain.enumeration.UserOptionName;
+import com.mountyhub.app.domain.enumeration.*;
 import com.mountyhub.app.exception.MountyHallScriptException;
 import com.mountyhub.app.exception.MountyHubException;
 import com.mountyhub.app.repository.*;
@@ -13,6 +10,7 @@ import com.mountyhub.app.service.util.MountyHallScriptUtil;
 import com.mountyhub.app.service.util.MountyHallUtil;
 import com.mountyhub.app.web.rest.dto.FlyDTO;
 import com.mountyhub.app.web.rest.dto.GearDTO;
+import com.mountyhub.app.web.rest.dto.GlobalEffectDTO;
 import com.mountyhub.app.web.rest.dto.ProfilDTO;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -358,6 +356,9 @@ public class TrollService {
             return dto;
         }).collect(Collectors.toList());
         profil.setFlies(flies);
+        Map<FlyType, Long> fliesByType = troll.getFlys().stream().filter(Fly::getHere)
+            .collect(Collectors.groupingBy(Fly::getType, Collectors.counting()));
+        profil.setFlyEffect(MountyHallUtil.formatGlobalEffect(new GlobalEffectDTO(fliesByType)));
 
         // Turn, bonus/malus, weight, wounds and total turn
         Duration turn = DateUtil.getDurationFromFloatMinutes(profil.getTurn());

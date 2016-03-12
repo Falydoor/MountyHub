@@ -1,5 +1,9 @@
 package com.mountyhub.app.web.rest.dto;
 
+import com.mountyhub.app.domain.enumeration.FlyType;
+
+import java.util.Map;
+
 /**
  * Created by Theo on 3/11/16.
  */
@@ -34,6 +38,23 @@ public class GlobalEffectDTO {
         this.armor = armor;
         this.armorM = armorM;
         this.turn = turn;
+    }
+
+    public GlobalEffectDTO(Map<FlyType, Long> fliesByType) {
+        this.attack = fliesByType.getOrDefault(FlyType.CROBATE, 0L);
+        this.attackM = 0L;
+        this.dodge = fliesByType.getOrDefault(FlyType.VERTIE, 0L);
+        this.dodgeM = 0L;
+        this.damage = fliesByType.getOrDefault(FlyType.NABOLISANT, 0L);
+        this.damageM = 0L;
+        this.regeneration = fliesByType.getOrDefault(FlyType.MIEL, 0L);
+        this.hitPoint = fliesByType.getOrDefault(FlyType.TELAITE, 0L) * 5;
+        this.view = fliesByType.getOrDefault(FlyType.LUNETTES, 0L);
+        this.rm = 0L;
+        this.mm = 0L;
+        this.armor = fliesByType.getOrDefault(FlyType.XIDANT, 0L);
+        this.armorM = 0L;
+        this.turn = fliesByType.getOrDefault(FlyType.RIVATANT, 0L) * -20;
     }
 
     public Long getAttack() {

@@ -327,6 +327,7 @@ public class TrollService {
         Duration wounds = DateUtil.getDurationFromFloatMinutes((float) Math.round(250F / profil.getTotalHitPoint() * (profil.getTotalHitPoint() - profil.getCurrentHitPoint())));
         profil.setWoundsTimeFormatted(DateUtil.formatDuration(wounds));
         Duration totalTurn = turn.plus(weight).plus(bonusMalus).plus(wounds);
+        totalTurn = totalTurn.compareTo(turn) < 0 ? turn : totalTurn;
         profil.setTurnTotalFormatted(DateUtil.formatDuration(totalTurn));
         profil.setNextDla(DateUtil.formatZonedDate(troll.getDla().plus(totalTurn), zoneId));
 

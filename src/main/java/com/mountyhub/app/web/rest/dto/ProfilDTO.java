@@ -136,6 +136,16 @@ public class ProfilDTO {
 
     private String nextDla;
 
+    private String gearEffect;
+
+    public String getGearEffect() {
+        return gearEffect;
+    }
+
+    public void setGearEffect(String gearEffect) {
+        this.gearEffect = gearEffect;
+    }
+
     public String getNextDla() {
         return nextDla;
     }

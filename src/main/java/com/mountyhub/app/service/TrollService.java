@@ -315,6 +315,7 @@ public class TrollService {
             return dto;
         }).collect(Collectors.toList());
         profil.setGears(gearDTOs);
+        profil.setGearEffect(MountyHallUtil.formatGlobalEffect(gearRepository.getWearedGlobalEffect(troll.getId())));
 
         // Turn, bonus/malus, weight, wounds and total turn
         Duration turn = DateUtil.getDurationFromFloatMinutes(profil.getTurn());

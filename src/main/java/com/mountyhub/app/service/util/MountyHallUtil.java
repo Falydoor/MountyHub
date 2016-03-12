@@ -1,13 +1,17 @@
 package com.mountyhub.app.service.util;
 
+import com.google.common.collect.ImmutableMap;
+import com.mountyhub.app.web.rest.dto.GlobalEffectDTO;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by Theo on 3/4/16.
@@ -16,26 +20,30 @@ public final class MountyHallUtil {
 
     private static final Logger log = LoggerFactory.getLogger(MountyHallUtil.class);
 
-    public static Map<String, String> methodsByNameGlobal;
+    public static ImmutableMap<String, String> methodsByNameEffect;
+
+    public static ImmutableMap<String, String> methodsByNameGlobal;
 
     public static String[] methodsByName;
 
+    public static List<String> nameNoMagic = Arrays.asList("REG", "PV", "Vue", "TOUR", "RM", "MM");
+
     static {
-        methodsByNameGlobal = new HashMap<>();
-        methodsByNameGlobal.put("ATT", "Attack");
-        methodsByNameGlobal.put("ESQ", "Dodge");
-        methodsByNameGlobal.put("DEG", "Damage");
-        methodsByNameGlobal.put("REG", "Regeneration");
-        methodsByNameGlobal.put("PV", "HitPoint");
-        methodsByNameGlobal.put("CurrentHitPoint", "CurrentHitPoint");
-        methodsByNameGlobal.put("Vue", "View");
-        methodsByNameGlobal.put("RM", "Rm");
-        methodsByNameGlobal.put("MM", "Mm");
-        methodsByNameGlobal.put("Armure", "Armor");
-        methodsByNameGlobal.put("TOUR", "Turn");
-        methodsByNameGlobal.put("Weight", "Weight");
-        methodsByNameGlobal.put("Focus", "Focus");
-        methodsByNameGlobal.put("Protection", "Protection");
+        methodsByNameEffect = ImmutableMap.<String, String>builder().put("ATT", "Attack")
+            .put("ESQ", "Dodge")
+            .put("DEG", "Damage")
+            .put("REG", "Regeneration")
+            .put("PV", "HitPoint")
+            .put("Vue", "View")
+            .put("TOUR", "Turn")
+            .put("Armure", "Armor")
+            .put("RM", "Rm")
+            .put("MM", "Mm").build();
+        methodsByNameGlobal = ImmutableMap.<String, String>builder().putAll(methodsByNameEffect)
+            .put("Weight", "Weight")
+            .put("Focus", "Focus")
+            .put("CurrentHitPoint", "CurrentHitPoint")
+            .put("Protection", "Protection").build();
         methodsByName = new String[]{"Attack", "Dodge", "Damage", "Regeneration", "HitPoint", "CurrentHitPoint", "View", "Rm", "Mm", "Armor", "Turn", "Weight", "Focus"};
     }
 
@@ -74,5 +82,47 @@ public final class MountyHallUtil {
                 log.debug("Unable to find " + values[0] + " in methodsByNameGlobal");
             }
         }
+    }
+
+    public static String formatGlobalEffect(GlobalEffectDTO globalEffectDTO) {
+        List<String> effects = new ArrayList<>();
+        methodsByNameEffect.entrySet().stream().forEach(entry -> {
+            Long value = 0L;
+            Long valueM = 0L;
+            try {
+                String methodName = "get" + entry.getValue();
+                Method method = globalEffectDTO.getClass().getMethod(methodName);
+                value = (Long) method.invoke(globalEffectDTO);
+                if (nameNoMagic.contains(entry.getKey())) {
+                    if (value != 0) {
+                        effects.add(formatValue(value, valueM, entry.getKey()));
+                    }
+                    return;
+                }
+                Method methodM = globalEffectDTO.getClass().getMethod(methodName + "M");
+                valueM = (Long) methodM.invoke(globalEffectDTO);
+                if (value != 0 || valueM != 0) {
+                    effects.add(formatValue(value, valueM, entry.getKey()));
+                }
+            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+                log.error("Unable to retrieve value", e);
+            }
+        });
+        return StringUtils.join(effects, " | ");
+    }
+
+    private static String formatValue(Long value, Long valueM, String name) {
+        DecimalFormat decimalFormat = new DecimalFormat("+#;-#");
+        String effect = name + " : " + decimalFormat.format(value);
+        if (valueM != 0) {
+            effect += "/" + decimalFormat.format(valueM);
+        }
+        if ("TOUR".equals(name)) {
+            effect += " min";
+        }
+        if ("RM".equals(name) || "MM".equals(name)) {
+            effect += " %";
+        }
+        return effect;
     }
 }

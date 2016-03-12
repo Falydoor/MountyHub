@@ -165,14 +165,14 @@
         <h6 class="text-center">{{troll.flyEffect}}</h6>
         <table class="table" style="background-color: white">
             <tr>
-                <th>Type</th>
                 <th class="text-center">Présente</th>
+                <th>Type</th>
                 <th>Nom</th>
                 <th>Effet</th>
             </tr>
             <tr ng-repeat="fly in troll.flies | filter:{here:true}">
-                <td>{{fly.type | capitalize}}</td>
                 <td class="text-center"><span class="glyphicon glyphicon-{{fly.here ? 'ok' : 'remove'}}"></span></td>
+                <td>{{fly.type | capitalize}}</td>
                 <td>{{fly.name}}</td>
                 <td>{{fly.effect}}</td>
             </tr>

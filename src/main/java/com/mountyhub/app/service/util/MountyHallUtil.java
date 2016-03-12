@@ -1,6 +1,7 @@
 package com.mountyhub.app.service.util;
 
 import com.google.common.collect.ImmutableMap;
+import com.mountyhub.app.domain.enumeration.FlyType;
 import com.mountyhub.app.web.rest.dto.GlobalEffectDTO;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -124,5 +125,28 @@ public final class MountyHallUtil {
             effect += " %";
         }
         return effect;
+    }
+
+    public static String flyTypeToEffect(FlyType type) {
+        switch (type) {
+            case CROBATE:
+                return "ATT : +1";
+            case LUNETTES:
+                return "Vue : +1";
+            case MIEL:
+                return "REG : +1";
+            case NABOLISANT:
+                return "DEG : +1";
+            case RIVATANT:
+                return "TOUR : -20 min";
+            case TELAITE:
+                return "PV : +5";
+            case VERTIE:
+                return "ESQ : +1";
+            case XIDANT:
+                return "Armure : +1";
+            default:
+                return "";
+        }
     }
 }

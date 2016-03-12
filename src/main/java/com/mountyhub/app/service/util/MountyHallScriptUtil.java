@@ -1,8 +1,10 @@
 package com.mountyhub.app.service.util;
 
+import com.mountyhub.app.domain.Fly;
 import com.mountyhub.app.domain.Gear;
 import com.mountyhub.app.domain.ScriptCall;
 import com.mountyhub.app.domain.Troll;
+import com.mountyhub.app.domain.enumeration.FlyType;
 import com.mountyhub.app.domain.enumeration.GearType;
 import com.mountyhub.app.domain.enumeration.ScriptName;
 import com.mountyhub.app.domain.enumeration.ScriptType;
@@ -104,4 +106,12 @@ public final class MountyHallScriptUtil {
         troll.setIntangible("1".equals(values[20]));
     }
 
+    public static void parseFly(Fly fly, String[] values) {
+        // ID ; nom ; type ; âge ; présence
+        fly.setNumber(Long.parseLong(values[0]));
+        fly.setName(values[1]);
+        fly.setType(FlyType.valueOf(StringUtils.stripAccents(values[2]).toUpperCase()));
+        fly.setOld(Integer.valueOf(values[3]));
+        fly.setHere("LA".equals(values[4]));
+    }
 }

@@ -138,6 +138,26 @@ public class ProfilDTO {
 
     private String gearEffect;
 
+    private List<FlyDTO> flies;
+
+    private String flyEffect;
+
+    public List<FlyDTO> getFlies() {
+        return flies;
+    }
+
+    public void setFlies(List<FlyDTO> flies) {
+        this.flies = flies;
+    }
+
+    public String getFlyEffect() {
+        return flyEffect;
+    }
+
+    public void setFlyEffect(String flyEffect) {
+        this.flyEffect = flyEffect;
+    }
+
     public String getGearEffect() {
         return gearEffect;
     }

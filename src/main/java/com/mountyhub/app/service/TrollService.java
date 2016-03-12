@@ -7,13 +7,11 @@ import com.mountyhub.app.domain.enumeration.TrollRace;
 import com.mountyhub.app.domain.enumeration.UserOptionName;
 import com.mountyhub.app.exception.MountyHallScriptException;
 import com.mountyhub.app.exception.MountyHubException;
-import com.mountyhub.app.repository.GearRepository;
-import com.mountyhub.app.repository.ScriptCallRepository;
-import com.mountyhub.app.repository.TrollRepository;
-import com.mountyhub.app.repository.UserRepository;
+import com.mountyhub.app.repository.*;
 import com.mountyhub.app.service.util.DateUtil;
 import com.mountyhub.app.service.util.MountyHallScriptUtil;
 import com.mountyhub.app.service.util.MountyHallUtil;
+import com.mountyhub.app.web.rest.dto.FlyDTO;
 import com.mountyhub.app.web.rest.dto.GearDTO;
 import com.mountyhub.app.web.rest.dto.ProfilDTO;
 import org.apache.commons.lang3.StringUtils;
@@ -64,6 +62,9 @@ public class TrollService {
     @Inject
     private ScriptCallService scriptCallService;
 
+    @Inject
+    private FlyRepository flyRepository;
+
     public Troll createUpdateTroll(Troll troll) throws IOException, MountyHubException, MountyHallScriptException {
         // Check if the troll isn't already linked to a user for a troll creation
         User currentUser = null;
@@ -101,6 +102,9 @@ public class TrollService {
             // Save gear
             setTrollGearFromMHScript(troll);
 
+            // Save fly
+            setTrollFlyFromMHScript(troll);
+
             // Save script calls with troll number
             caractCall.setTroll(troll);
             scriptCallRepository.save(caractCall);
@@ -119,6 +123,35 @@ public class TrollService {
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             throw new MountyHallScriptException("Erreur lors du parsage du script MountyHall !", e);
         }
+    }
+
+    public void setTrollFlyFromMHScript(Troll troll) throws MountyHallScriptException, IOException {
+        ScriptCall scriptCall = MountyHallScriptUtil.createScriptCall(ScriptName.SP_Mouche);
+        scriptCallService.callScript(scriptCall, troll);
+
+        String[] lines = StringUtils.split(scriptCall.getBody(), "\n");
+
+        scriptCall.setSuccessful(true);
+        scriptCallRepository.save(scriptCall);
+
+        List<Long> exist = new ArrayList<>();
+
+        for (String line : lines) {
+            line = StringUtils.replace(line, "\\'", "'");
+            String[] values = StringUtils.splitByWholeSeparatorPreserveAllTokens(line, ";");
+
+            Optional<Fly> flyResult = flyRepository.findByNumber(Long.valueOf(values[0]));
+            Fly fly = flyResult.isPresent() ? flyResult.get() : new Fly();
+            MountyHallScriptUtil.parseFly(fly, values);
+            fly.setTroll(troll);
+            flyRepository.save(fly);
+            exist.add(fly.getNumber());
+        }
+
+        // Delete fly that doesn't exist
+        troll.getFlys().stream()
+            .filter(fly -> !exist.contains(fly.getNumber()))
+            .forEach(fly -> flyRepository.deleteByNumber(fly.getNumber()));
     }
 
     public void setTrollGearFromMHScript(Troll troll) throws IOException, MountyHallScriptException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
@@ -309,13 +342,22 @@ public class TrollService {
         profil.getUserOptions().putIfAbsent(UserOptionName.ZONEID.toString(), userOption);
 
         // Gears
-        List<GearDTO> gearDTOs = troll.getGears().stream().map(gear -> {
+        List<GearDTO> gears = troll.getGears().stream().map(gear -> {
             GearDTO dto = new GearDTO();
             BeanUtils.copyProperties(gear, dto);
             return dto;
         }).collect(Collectors.toList());
-        profil.setGears(gearDTOs);
+        profil.setGears(gears);
         profil.setGearEffect(MountyHallUtil.formatGlobalEffect(gearRepository.getWearedGlobalEffect(troll.getId())));
+
+        // Flies
+        List<FlyDTO> flies = troll.getFlys().stream().sorted((f1, f2) -> f1.getType().compareTo(f2.getType())).map(fly -> {
+            FlyDTO dto = new FlyDTO();
+            BeanUtils.copyProperties(fly, dto);
+            dto.setEffect(MountyHallUtil.flyTypeToEffect(fly.getType()));
+            return dto;
+        }).collect(Collectors.toList());
+        profil.setFlies(flies);
 
         // Turn, bonus/malus, weight, wounds and total turn
         Duration turn = DateUtil.getDurationFromFloatMinutes(profil.getTurn());
@@ -378,8 +420,14 @@ public class TrollService {
                 case "state":
                     setTrollStateFromMHScript(troll);
                     break;
+                case "fly":
+                    setTrollFlyFromMHScript(troll);
+                    setTrollCharacteristicFromMHScript(troll);
+                    break;
                 case "gear":
                     setTrollGearFromMHScript(troll);
+                    setTrollCharacteristicFromMHScript(troll);
+                    break;
                 case "characteristic":
                     setTrollCharacteristicFromMHScript(troll);
                     break;

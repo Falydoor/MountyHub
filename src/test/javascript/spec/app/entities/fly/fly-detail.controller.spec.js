@@ -2,41 +2,35 @@
 
 describe('Controller Tests', function() {
 
-    describe('Troll Detail Controller', function() {
+    describe('Fly Detail Controller', function() {
         var $scope, $rootScope;
-        var MockEntity, MockTroll, MockUser, MockScriptCall, MockGear, MockFly;
+        var MockEntity, MockFly, MockTroll;
         var createController;
 
         beforeEach(inject(function($injector) {
             $rootScope = $injector.get('$rootScope');
             $scope = $rootScope.$new();
             MockEntity = jasmine.createSpy('MockEntity');
-            MockTroll = jasmine.createSpy('MockTroll');
-            MockUser = jasmine.createSpy('MockUser');
-            MockScriptCall = jasmine.createSpy('MockScriptCall');
-            MockGear = jasmine.createSpy('MockGear');
             MockFly = jasmine.createSpy('MockFly');
+            MockTroll = jasmine.createSpy('MockTroll');
             
 
             var locals = {
                 '$scope': $scope,
                 '$rootScope': $rootScope,
                 'entity': MockEntity ,
-                'Troll': MockTroll,
-                'User': MockUser,
-                'ScriptCall': MockScriptCall,
-                'Gear': MockGear,
-                'Fly': MockFly
+                'Fly': MockFly,
+                'Troll': MockTroll
             };
             createController = function() {
-                $injector.get('$controller')("TrollDetailController", locals);
+                $injector.get('$controller')("FlyDetailController", locals);
             };
         }));
 
 
         describe('Root Scope Listening', function() {
             it('Unregisters root scope listener upon scope destruction', function() {
-                var eventType = 'mountyhubApp:trollUpdate';
+                var eventType = 'mountyhubApp:flyUpdate';
 
                 createController();
                 expect($rootScope.$$listenerCount[eventType]).toEqual(1);

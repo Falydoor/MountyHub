@@ -21,6 +21,13 @@
             "otherEntityName": "gear",
             "relationshipType": "one-to-many",
             "otherEntityRelationshipName": "troll"
+        },
+        {
+            "relationshipId": 4,
+            "relationshipName": "fly",
+            "otherEntityName": "fly",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "troll"
         }
     ],
     "fields": [

@@ -1,0 +1,110 @@
+
+<form name="editForm" role="form" novalidate ng-submit="save()" show-validation>
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                ng-click="clear()">&times;</button>
+        <h4 class="modal-title" id="myFlyLabel">Create or edit a Fly</h4>
+    </div>
+    <div class="modal-body">
+        <jh-alert-error></jh-alert-error>
+        <div class="form-group">
+            <label for="id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                    ng-model="fly.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_number">Number</label>
+            <input type="number" class="form-control" name="number" id="field_number"
+                    ng-model="fly.number"
+                    required />
+            <div ng-show="editForm.number.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.number.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.number.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_old">Old</label>
+            <input type="number" class="form-control" name="old" id="field_old"
+                    ng-model="fly.old"
+                    required />
+            <div ng-show="editForm.old.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.old.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.old.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_here">Here</label>
+            <input type="checkbox" class="form-control" name="here" id="field_here"
+                    ng-model="fly.here"
+                     />
+            <div ng-show="editForm.here.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.here.$error.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_type">Type</label>
+            <select class="form-control" name="type" ng-model="fly.type" id="field_type" required>
+                <option value="CARNATION">CARNATION</option>
+                <option value="POGEE">POGEE</option>
+                <option value="HEROS">HEROS</option>
+                <option value="RIVATANT">RIVATANT</option>
+                <option value="XIDANT">XIDANT</option>
+                <option value="CROBATE">CROBATE</option>
+                <option value="NABOLISANT">NABOLISANT</option>
+                <option value="MIEL">MIEL</option>
+                <option value="LUNETTES">LUNETTES</option>
+                <option value="VERTIE">VERTIE</option>
+                <option value="TELAITE">TELAITE</option>
+            </select>
+            <div ng-show="editForm.type.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.type.$error.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_name">Name</label>
+            <input type="text" class="form-control" name="name" id="field_name"
+                    ng-model="fly.name"
+                    required />
+            <div ng-show="editForm.name.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.name.$error.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="field_troll">troll</label>
+            <select class="form-control" id="field_troll" name="troll" ng-model="fly.troll" ng-options="troll as troll.id for troll in trolls track by troll.id">
+                <option value=""></option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || isSaving" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span>Save</span>
+        </button>
+    </div>
+</form>

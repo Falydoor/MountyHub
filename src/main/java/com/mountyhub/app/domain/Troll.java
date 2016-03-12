@@ -1,18 +1,17 @@
 package com.mountyhub.app.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.mountyhub.app.domain.enumeration.TrollRace;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import java.time.ZonedDateTime;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.time.ZonedDateTime;
 import java.util.HashSet;
-import java.util.Set;
 import java.util.Objects;
-
-import com.mountyhub.app.domain.enumeration.TrollRace;
+import java.util.Set;
 
 /**
  * A Troll.
@@ -242,6 +241,10 @@ public class Troll implements Serializable {
     @OneToMany(mappedBy = "troll")
     @JsonIgnore
     private Set<Gear> gears = new HashSet<>();
+
+    @OneToMany(mappedBy = "troll")
+    @JsonIgnore
+    private Set<Fly> flys = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -683,6 +686,14 @@ public class Troll implements Serializable {
         this.gears = gears;
     }
 
+    public Set<Fly> getFlys() {
+        return flys;
+    }
+
+    public void setFlys(Set<Fly> flys) {
+        this.flys = flys;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -692,7 +703,7 @@ public class Troll implements Serializable {
             return false;
         }
         Troll troll = (Troll) o;
-        if(troll.id == null || id == null) {
+        if (troll.id == null || id == null) {
             return false;
         }
         return Objects.equals(id, troll.id);

@@ -1,0 +1,70 @@
+
+<div>
+    <h2><span>Fly</span> {{fly.id}}</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Field</th>
+                <th>Value</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <span>Number</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{fly.number}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Old</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{fly.old}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Here</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{fly.here}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Type</span>
+                </td>
+                <td>
+                    <span class="form-control-static" translate="{{'mountyhubApp.FlyType.' + fly.type}}">{{fly.type}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Name</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{fly.name}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>troll</span>
+                </td>
+                <td>
+                    <a class="form-control-static" ui-sref="troll.detail({id:fly.troll.id})">{{fly.troll.id}}</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button type="submit"
+            onclick="window.history.back()"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+</div>

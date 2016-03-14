@@ -84,6 +84,7 @@ public class TrollService {
             Optional<Troll> trollResult = trollRepository.findOneByNumberAndDeletedTrue(troll.getNumber());
             if (trollResult.isPresent()) {
                 troll = trollResult.get();
+                troll.setDeleted(false);
             }
         }
 

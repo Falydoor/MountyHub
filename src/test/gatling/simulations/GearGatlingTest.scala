@@ -67,7 +67,7 @@ class GearGatlingTest extends Simulation {
             .exec(http("Create new gear")
             .post("/api/gears")
             .headers(headers_http_authenticated)
-            .body(StringBody("""{"id":null, "number":null, "weared":null, "type":null, "identified":null, "name":"SAMPLE_TEXT", "template":"SAMPLE_TEXT", "description":"SAMPLE_TEXT", "weight":null, "attack":"0", "attackM":"0", "dodge":"0", "dodgeM":"0", "damage":"0", "damageM":"0", "regeneration":"0", "hitPoint":"0", "view":"0", "rm":"0", "mm":"0", "armor":"0", "armorM":"0", "turn":"0", "protection":"SAMPLE_TEXT"}""")).asJSON
+            .body(StringBody("""{"id":null, "number":null, "wore":null, "type":null, "identified":null, "name":"SAMPLE_TEXT", "template":"SAMPLE_TEXT", "description":"SAMPLE_TEXT", "weight":null, "attack":"0", "attackM":"0", "dodge":"0", "dodgeM":"0", "damage":"0", "damageM":"0", "regeneration":"0", "hitPoint":"0", "view":"0", "rm":"0", "mm":"0", "armor":"0", "armorM":"0", "turn":"0", "protection":"SAMPLE_TEXT"}""")).asJSON
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_gear_url")))
             .pause(10)

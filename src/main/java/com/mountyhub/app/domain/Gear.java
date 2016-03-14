@@ -1,13 +1,16 @@
 package com.mountyhub.app.domain;
 
-import com.mountyhub.app.domain.enumeration.GearType;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Objects;
+
+import com.mountyhub.app.domain.enumeration.GearType;
 
 /**
  * A Gear.
@@ -26,8 +29,8 @@ public class Gear implements Serializable {
     private Long number;
 
     @NotNull
-    @Column(name = "weared", nullable = false)
-    private Boolean weared;
+    @Column(name = "wore", nullable = false)
+    private Boolean wore;
 
     @NotNull
     @Enumerated(EnumType.STRING)
@@ -152,12 +155,12 @@ public class Gear implements Serializable {
         this.number = number;
     }
 
-    public Boolean getWeared() {
-        return weared;
+    public Boolean getWore() {
+        return wore;
     }
 
-    public void setWeared(Boolean weared) {
-        this.weared = weared;
+    public void setWore(Boolean wore) {
+        this.wore = wore;
     }
 
     public GearType getType() {
@@ -345,7 +348,7 @@ public class Gear implements Serializable {
             return false;
         }
         Gear gear = (Gear) o;
-        if (gear.id == null || id == null) {
+        if(gear.id == null || id == null) {
             return false;
         }
         return Objects.equals(id, gear.id);
@@ -361,7 +364,7 @@ public class Gear implements Serializable {
         return "Gear{" +
             "id=" + id +
             ", number='" + number + "'" +
-            ", weared='" + weared + "'" +
+            ", wore='" + wore + "'" +
             ", type='" + type + "'" +
             ", identified='" + identified + "'" +
             ", name='" + name + "'" +

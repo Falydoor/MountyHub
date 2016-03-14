@@ -72,7 +72,7 @@ public final class MountyHallScriptUtil {
     public static void parseGear(Gear gear, String[] values) throws UnsupportedEncodingException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         // ID, équipé ? ; type ; identifié ? ; nom ; magie ; description ; poids
         gear.setNumber(Long.parseLong(values[0]));
-        gear.setWeared(Integer.valueOf(values[1]) > 0);
+        gear.setWore(Integer.valueOf(values[1]) > 0);
         gear.setType(GearType.fromString(values[2]));
         gear.setIdentified("1".equals(values[3]));
         String name = values[4];
@@ -84,7 +84,7 @@ public final class MountyHallScriptUtil {
         gear.setTemplate(values[5]);
         gear.setDescription(values[6]);
         gear.setWeight(gear.getIdentified() ? Float.valueOf(values[7]) : 0);
-        if (gear.getWeared()) {
+        if (gear.getWore()) {
             MountyHallUtil.setCharacteristicsFromDescription(gear, gear.getDescription());
         }
     }

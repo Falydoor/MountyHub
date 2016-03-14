@@ -53,7 +53,7 @@ angular.module('mountyhubApp')
                             entity: function () {
                                 return {
                                     number: null,
-                                    weared: false,
+                                    wore: false,
                                     type: null,
                                     identified: false,
                                     name: null,

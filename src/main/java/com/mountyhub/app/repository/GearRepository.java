@@ -18,6 +18,6 @@ public interface GearRepository extends JpaRepository<Gear, Long> {
 
     @Query("SELECT new com.mountyhub.app.web.rest.dto.GlobalEffectDTO(SUM(attack), SUM(attackM), SUM(dodge), SUM(dodgeM), " +
         "SUM(damage), SUM(damageM), SUM(regeneration), SUM(hitPoint), SUM(view), SUM(rm), SUM(mm), SUM(armor), SUM(armorM), SUM(turn)) " +
-        "FROM Gear g WHERE weared IS TRUE AND troll_id = :trollId")
-    GlobalEffectDTO getWearedGlobalEffect(@Param("trollId") Long trollId);
+        "FROM Gear g WHERE wore IS TRUE AND troll_id = :trollId")
+    GlobalEffectDTO getWoreGlobalEffect(@Param("trollId") Long trollId);
 }

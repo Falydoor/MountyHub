@@ -16,14 +16,14 @@ public class GearDTO {
 
     private Float weight;
 
-    private Boolean weared;
+    private Boolean wore;
 
-    public Boolean getWeared() {
-        return weared;
+    public Boolean getWore() {
+        return wore;
     }
 
-    public void setWeared(Boolean weared) {
-        this.weared = weared;
+    public void setWore(Boolean wore) {
+        this.wore = wore;
     }
 
     public GearType getType() {

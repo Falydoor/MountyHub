@@ -29,7 +29,7 @@ angular.module('mountyhubApp')
         $scope.clear = function () {
             $scope.gear = {
                 number: null,
-                weared: false,
+                wore: false,
                 type: null,
                 identified: false,
                 name: null,

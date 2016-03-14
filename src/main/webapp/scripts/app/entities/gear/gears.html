@@ -20,7 +20,7 @@
                 <tr jh-sort="predicate" ascending="reverse" callback="loadAll()">
                     <th jh-sort-by="id"><span>ID</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="number"><span>Number</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="weared"><span>Weared</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="wore"><span>Wore</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="type"><span>Type</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="identified"><span>Identified</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="name"><span>Name</span> <span class="glyphicon glyphicon-sort"></span></th>
@@ -50,7 +50,7 @@
                 <tr ng-repeat="gear in gears track by gear.id">
                     <td><a ui-sref="gear.detail({id:gear.id})">{{gear.id}}</a></td>
                     <td>{{gear.number}}</td>
-                    <td>{{gear.weared}}</td>
+                    <td>{{gear.wore}}</td>
                     <td translate="{{'mountyhubApp.GearType.' + gear.type}}">{{gear.type}}</td>
                     <td>{{gear.identified}}</td>
                     <td>{{gear.name}}</td>

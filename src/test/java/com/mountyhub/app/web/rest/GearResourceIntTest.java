@@ -46,8 +46,8 @@ public class GearResourceIntTest {
     private static final Long DEFAULT_NUMBER = 1L;
     private static final Long UPDATED_NUMBER = 2L;
 
-    private static final Boolean DEFAULT_WEARED = false;
-    private static final Boolean UPDATED_WEARED = true;
+    private static final Boolean DEFAULT_WORE = false;
+    private static final Boolean UPDATED_WORE = true;
     
     private static final GearType DEFAULT_TYPE = GearType.ANNEAU;
     private static final GearType UPDATED_TYPE = GearType.BOTTES;
@@ -135,7 +135,7 @@ public class GearResourceIntTest {
     public void initTest() {
         gear = new Gear();
         gear.setNumber(DEFAULT_NUMBER);
-        gear.setWeared(DEFAULT_WEARED);
+        gear.setWore(DEFAULT_WORE);
         gear.setType(DEFAULT_TYPE);
         gear.setIdentified(DEFAULT_IDENTIFIED);
         gear.setName(DEFAULT_NAME);
@@ -176,7 +176,7 @@ public class GearResourceIntTest {
         assertThat(gears).hasSize(databaseSizeBeforeCreate + 1);
         Gear testGear = gears.get(gears.size() - 1);
         assertThat(testGear.getNumber()).isEqualTo(DEFAULT_NUMBER);
-        assertThat(testGear.getWeared()).isEqualTo(DEFAULT_WEARED);
+        assertThat(testGear.getWore()).isEqualTo(DEFAULT_WORE);
         assertThat(testGear.getType()).isEqualTo(DEFAULT_TYPE);
         assertThat(testGear.getIdentified()).isEqualTo(DEFAULT_IDENTIFIED);
         assertThat(testGear.getName()).isEqualTo(DEFAULT_NAME);
@@ -220,10 +220,10 @@ public class GearResourceIntTest {
 
     @Test
     @Transactional
-    public void checkWearedIsRequired() throws Exception {
+    public void checkWoreIsRequired() throws Exception {
         int databaseSizeBeforeTest = gearRepository.findAll().size();
         // set the field null
-        gear.setWeared(null);
+        gear.setWore(null);
 
         // Create the Gear, which fails.
 
@@ -626,7 +626,7 @@ public class GearResourceIntTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.[*].id").value(hasItem(gear.getId().intValue())))
                 .andExpect(jsonPath("$.[*].number").value(hasItem(DEFAULT_NUMBER.intValue())))
-                .andExpect(jsonPath("$.[*].weared").value(hasItem(DEFAULT_WEARED.booleanValue())))
+                .andExpect(jsonPath("$.[*].wore").value(hasItem(DEFAULT_WORE.booleanValue())))
                 .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())))
                 .andExpect(jsonPath("$.[*].identified").value(hasItem(DEFAULT_IDENTIFIED.booleanValue())))
                 .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
@@ -662,7 +662,7 @@ public class GearResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.id").value(gear.getId().intValue()))
             .andExpect(jsonPath("$.number").value(DEFAULT_NUMBER.intValue()))
-            .andExpect(jsonPath("$.weared").value(DEFAULT_WEARED.booleanValue()))
+            .andExpect(jsonPath("$.wore").value(DEFAULT_WORE.booleanValue()))
             .andExpect(jsonPath("$.type").value(DEFAULT_TYPE.toString()))
             .andExpect(jsonPath("$.identified").value(DEFAULT_IDENTIFIED.booleanValue()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
@@ -704,7 +704,7 @@ public class GearResourceIntTest {
 
         // Update the gear
         gear.setNumber(UPDATED_NUMBER);
-        gear.setWeared(UPDATED_WEARED);
+        gear.setWore(UPDATED_WORE);
         gear.setType(UPDATED_TYPE);
         gear.setIdentified(UPDATED_IDENTIFIED);
         gear.setName(UPDATED_NAME);
@@ -737,7 +737,7 @@ public class GearResourceIntTest {
         assertThat(gears).hasSize(databaseSizeBeforeUpdate);
         Gear testGear = gears.get(gears.size() - 1);
         assertThat(testGear.getNumber()).isEqualTo(UPDATED_NUMBER);
-        assertThat(testGear.getWeared()).isEqualTo(UPDATED_WEARED);
+        assertThat(testGear.getWore()).isEqualTo(UPDATED_WORE);
         assertThat(testGear.getType()).isEqualTo(UPDATED_TYPE);
         assertThat(testGear.getIdentified()).isEqualTo(UPDATED_IDENTIFIED);
         assertThat(testGear.getName()).isEqualTo(UPDATED_NAME);

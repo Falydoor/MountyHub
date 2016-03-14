@@ -19,7 +19,7 @@
         },
         {
             "fieldId": 2,
-            "fieldName": "weared",
+            "fieldName": "wore",
             "fieldType": "Boolean",
             "fieldValidateRules": [
                 "required"

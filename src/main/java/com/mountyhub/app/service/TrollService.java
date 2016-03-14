@@ -162,7 +162,7 @@ public class TrollService {
         scriptCall.setSuccessful(true);
         scriptCallRepository.save(scriptCall);
 
-        List<Long> weared = new ArrayList<>();
+        List<Long> wore = new ArrayList<>();
 
         for (String line : lines) {
             line = StringUtils.replace(line, "\\'", "'");
@@ -173,12 +173,12 @@ public class TrollService {
             MountyHallScriptUtil.parseGear(gear, values);
             gear.setTroll(troll);
             gearRepository.save(gear);
-            weared.add(gear.getNumber());
+            wore.add(gear.getNumber());
         }
 
-        // Delete gear that aren't weared
+        // Delete gear that aren't wore
         troll.getGears().stream()
-            .filter(gear -> !weared.contains(gear.getNumber()))
+            .filter(gear -> !wore.contains(gear.getNumber()))
             .forEach(gear -> gearRepository.deleteByNumber(gear.getNumber()));
     }
 
@@ -345,13 +345,13 @@ public class TrollService {
         List<GearDTO> gears = troll.getGears().stream().map(gear -> {
             GearDTO dto = new GearDTO();
             BeanUtils.copyProperties(gear, dto);
-            if (gear.getWeared() && StringUtils.isNoneBlank(gear.getProtection())) {
+            if (gear.getWore() && StringUtils.isNoneBlank(gear.getProtection())) {
                 protections.add(gear.getProtection());
             }
             return dto;
         }).collect(Collectors.toList());
         profil.setGears(gears);
-        profil.setGearEffect(MountyHallUtil.formatGlobalEffect(gearRepository.getWearedGlobalEffect(troll.getId())));
+        profil.setGearEffect(MountyHallUtil.formatGlobalEffect(gearRepository.getWoreGlobalEffect(troll.getId())));
         profil.setProtection(StringUtils.join(protections, " | "));
 
         // Flies

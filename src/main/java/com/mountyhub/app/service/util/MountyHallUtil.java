@@ -56,16 +56,7 @@ public final class MountyHallUtil {
             if (methodName != null) {
                 String[] effects = StringUtils.split(values[1], "\\");
 
-                switch (values[0]) {
-                    case "TOUR":
-                        effects[0] = StringUtils.replace(effects[0], " min", "");
-                        break;
-                    case "MM":
-                    case "RM":
-                        effects[0] = StringUtils.replace(effects[0], " %", "");
-                        break;
-                    default:
-                }
+                StringUtils.replace(effects[0], getSufixByCharacteristic(effects[0]), "");
 
                 methodName = "set" + methodName;
                 if (!"setProtection".equals(methodName)) {
@@ -114,17 +105,7 @@ public final class MountyHallUtil {
 
     private static String formatValue(Long value, Long valueM, String name) {
         DecimalFormat decimalFormat = new DecimalFormat("+#;-#");
-        String effect = name + " : " + decimalFormat.format(value);
-        if (valueM != 0) {
-            effect += "/" + decimalFormat.format(valueM);
-        }
-        if ("TOUR".equals(name)) {
-            effect += " min";
-        }
-        if ("RM".equals(name) || "MM".equals(name)) {
-            effect += " %";
-        }
-        return effect;
+        return name + " : " + decimalFormat.format(value) + (valueM != 0 ? "/" + decimalFormat.format(valueM) : "") + getSufixByCharacteristic(name);
     }
 
     public static String flyTypeToEffect(FlyType type) {
@@ -148,5 +129,15 @@ public final class MountyHallUtil {
             default:
                 return "";
         }
+    }
+
+    private static String getSufixByCharacteristic(String name) {
+        if ("TOUR".equals(name)) {
+            return " min";
+        }
+        if ("RM".equals(name) || "MM".equals(name)) {
+            return " %";
+        }
+        return "";
     }
 }

@@ -56,7 +56,7 @@ public final class MountyHallUtil {
             if (methodName != null) {
                 String[] effects = StringUtils.split(values[1], "\\");
 
-                StringUtils.replace(effects[0], getSufixByCharacteristic(effects[0]), "");
+                effects[0] = StringUtils.replace(effects[0], getSufixByCharacteristic(values[0]), "");
 
                 methodName = "set" + methodName;
                 if (!"setProtection".equals(methodName)) {

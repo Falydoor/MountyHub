@@ -65,7 +65,8 @@ public final class MountyHallScriptUtil {
         scriptCall.setDateCalled(ZonedDateTime.now());
         scriptCall.setName(name);
         scriptCall.setType(type);
-        scriptCall.setSuccessful(false);
+        scriptCall.setSuccessfullyCalled(false);
+        scriptCall.setSuccessfullyParsed(false);
         return scriptCall;
     }
 

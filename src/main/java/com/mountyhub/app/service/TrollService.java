@@ -130,9 +130,6 @@ public class TrollService {
 
         String[] lines = StringUtils.split(scriptCall.getBody(), "\n");
 
-        scriptCall.setSuccessful(true);
-        scriptCallRepository.save(scriptCall);
-
         List<Long> exist = new ArrayList<>();
 
         for (String line : lines) {
@@ -147,6 +144,9 @@ public class TrollService {
             exist.add(fly.getNumber());
         }
 
+        scriptCall.setSuccessfullyParsed(true);
+        scriptCallService.save(scriptCall);
+
         // Delete fly that doesn't exist
         troll.getFlys().stream()
             .filter(fly -> !exist.contains(fly.getNumber()))
@@ -158,9 +158,6 @@ public class TrollService {
         scriptCallService.callScript(scriptCall, troll);
 
         String[] lines = StringUtils.split(scriptCall.getBody(), "\n");
-
-        scriptCall.setSuccessful(true);
-        scriptCallRepository.save(scriptCall);
 
         List<Long> wore = new ArrayList<>();
 
@@ -175,6 +172,9 @@ public class TrollService {
             gearRepository.save(gear);
             wore.add(gear.getNumber());
         }
+
+        scriptCall.setSuccessfullyParsed(true);
+        scriptCallService.save(scriptCall);
 
         // Delete gear that aren't wore
         troll.getGears().stream()
@@ -193,8 +193,6 @@ public class TrollService {
             throw new MountyHallScriptException("Réponse du script MountyHall incorrect !");
         }
 
-        scriptCall.setSuccessful(true);
-        scriptCallRepository.save(scriptCall);
         String[] values = StringUtils.split(lines[0], ";");
 
         // numéro; Nom; Race; Niveau; Date d'inscription ; E-mail ; Blason ; Intangible ; Nb mouches ; Nb kills ; Nb morts; Numéro de Guilde; Nniveau de Rang; PNJ ?
@@ -204,6 +202,9 @@ public class TrollService {
         troll.setBirthDate(DateUtil.parseDateFromMHScript(values[4]));
         troll.setKill(Integer.valueOf(values[9]));
         troll.setDeath(Integer.valueOf(values[10]));
+
+        scriptCall.setSuccessfullyParsed(true);
+        scriptCallService.save(scriptCall);
 
         return scriptCall;
     }
@@ -219,10 +220,11 @@ public class TrollService {
             throw new MountyHallScriptException("Réponse du script MountyHall incorrect !");
         }
 
-        scriptCall.setSuccessful(true);
-        scriptCallRepository.save(scriptCall);
         String[] values = StringUtils.split(lines[0], ";");
         MountyHallScriptUtil.parseState(troll, values);
+
+        scriptCall.setSuccessfullyParsed(true);
+        scriptCallService.save(scriptCall);
 
         return scriptCall;
     }
@@ -245,9 +247,6 @@ public class TrollService {
             if (values.length != 14) {
                 throw new MountyHallScriptException("Réponse du script MountyHall incorrect !");
             }
-
-            scriptCall.setSuccessful(true);
-            scriptCallRepository.save(scriptCall);
 
             // Attaque; Esquive; Dégats; Régénération; PVMax; PVActuels; Portée deVue; RM; MM; Armure; Duree du Tour; Poids; Concentration
             Method method;
@@ -296,6 +295,9 @@ public class TrollService {
                 }
             }
         }
+
+        scriptCall.setSuccessfullyParsed(true);
+        scriptCallService.save(scriptCall);
 
         return scriptCall;
     }
@@ -383,13 +385,13 @@ public class TrollService {
         // Scripts call per day
         ZonedDateTime yesterday = ZonedDateTime.now().minusDays(1);
         Map<ScriptType, Long> scriptCallByDay = troll.getScriptCalls().stream()
-            .filter(script -> script.getSuccessful() && script.getDateCalled().isAfter(yesterday))
+            .filter(script -> script.getSuccessfullyCalled() && script.getDateCalled().isAfter(yesterday))
             .collect(Collectors.groupingBy(ScriptCall::getType, Collectors.counting()));
         profil.setScriptCallByDay(scriptCallByDay);
 
         // Last scripts call by type
         Map<ScriptName, String> scriptCallLastCall = troll.getScriptCalls().stream()
-            .filter(ScriptCall::getSuccessful)
+            .filter(ScriptCall::getSuccessfullyParsed)
             .sorted((sc1, sc2) -> sc2.getDateCalled().compareTo(sc1.getDateCalled()))
             .collect(Collectors.groupingBy(ScriptCall::getName))
             .entrySet()

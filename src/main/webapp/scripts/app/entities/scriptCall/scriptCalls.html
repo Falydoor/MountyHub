@@ -23,8 +23,9 @@
                     <th jh-sort-by="type"><span>Type</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="dateCalled"><span>DateCalled</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="url"><span>Url</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="successful"><span>Successful</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="successfullyCalled"><span>SuccessfullyCalled</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="body"><span>Body</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="successfullyParsed"><span>SuccessfullyParsed</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="troll.id"><span>troll</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th></th>
                 </tr>
@@ -36,8 +37,9 @@
                     <td translate="{{'mountyhubApp.ScriptType.' + scriptCall.type}}">{{scriptCall.type}}</td>
                     <td>{{scriptCall.dateCalled | date:'medium'}}</td>
                     <td>{{scriptCall.url}}</td>
-                    <td>{{scriptCall.successful}}</td>
+                    <td>{{scriptCall.successfullyCalled}}</td>
                     <td>{{scriptCall.body}}</td>
+                    <td>{{scriptCall.successfullyParsed}}</td>
                     <td>
                         <a ui-sref="troll.detail({id:scriptCall.troll.id})">{{scriptCall.troll.id}}</a>
                     </td>

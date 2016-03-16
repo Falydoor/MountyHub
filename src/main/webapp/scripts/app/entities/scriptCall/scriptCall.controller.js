@@ -32,8 +32,9 @@ angular.module('mountyhubApp')
                 type: null,
                 dateCalled: null,
                 url: null,
-                successful: false,
+                successfullyCalled: false,
                 body: null,
+                successfullyParsed: false,
                 id: null
             };
         };

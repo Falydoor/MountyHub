@@ -24,33 +24,37 @@
             <column name="name" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
-
+            
             <column name="type" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
-
+            
             <column name="date_called" type="timestamp">
                 <constraints nullable="false" />
             </column>
-
+            
             <column name="url" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
-
-            <column name="successful" type="bit">
+            
+            <column name="successfully_called" type="bit">
                 <constraints nullable="false" />
             </column>
-
-            <column name="body" type="varchar()">
+            
+            <column name="body" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
-
+            
+            <column name="successfully_parsed" type="bit">
+                <constraints nullable="false" />
+            </column>
+            
             <column name="troll_id" type="bigint"/>
             <!-- jhipster-needle-liquibase-add-column - Jhipster will add columns here, do not remove-->
         </createTable>
         <dropDefaultValue tableName="script_call" columnName="date_called" columnDataType="datetime"/>
 
-
+        
         <addForeignKeyConstraint baseColumnNames="troll_id"
                                  baseTableName="script_call"
                                  constraintName="fk_scriptcall_troll_id"

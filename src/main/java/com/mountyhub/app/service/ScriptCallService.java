@@ -10,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
@@ -21,7 +22,7 @@ import java.time.ZonedDateTime;
  * Created by Theo on 3/7/16.
  */
 @Service
-@Transactional
+@Transactional(propagation = Propagation.REQUIRES_NEW)
 public class ScriptCallService {
 
     private final Logger log = LoggerFactory.getLogger(ScriptCallService.class);
@@ -41,20 +42,25 @@ public class ScriptCallService {
         if (troll.getId() != null) {
             scriptCall.setTroll(troll);
         }
+        scriptCall.setSuccessfullyCalled(!StringUtils.startsWith(response, "Erreur"));
         scriptCallRepository.save(scriptCall);
 
         // Bad number/password
-        if (StringUtils.startsWith(response, "Erreur")) {
+        if (!scriptCall.getSuccessfullyCalled()) {
             throw new MountyHallScriptException("Le numéro de troll ou le mot de passe restreint sont faux !");
         }
     }
 
     public void checkScriptCallSizeByDay(ScriptCall scriptCall, Troll troll) throws MountyHallScriptException {
         ZonedDateTime date = scriptCall.getDateCalled().minusDays(1);
-        Long count = scriptCallRepository.countByTrollNumberAndTypeAndSuccessfulTrueAndDateCalledAfter(troll.getNumber(), scriptCall.getType(), date);
+        Long count = scriptCallRepository.countByTrollNumberAndTypeAndSuccessfullyCalledTrueAndDateCalledAfter(troll.getNumber(), scriptCall.getType(), date);
         if (count >= MountyHallScriptUtil.getScriptLimitByDay(scriptCall.getType())) {
             throw new MountyHallScriptException("Limite d'appel par jour des scripts de type " + scriptCall.getType() + " atteinte !");
         }
+    }
+
+    public void save(ScriptCall scriptCall) {
+        scriptCallRepository.save(scriptCall);
     }
 
 }

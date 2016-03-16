@@ -73,13 +73,13 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label" for="field_successful">Successful</label>
-            <input type="checkbox" class="form-control" name="successful" id="field_successful"
-                    ng-model="scriptCall.successful"
+            <label class="control-label" for="field_successfullyCalled">SuccessfullyCalled</label>
+            <input type="checkbox" class="form-control" name="successfullyCalled" id="field_successfullyCalled"
+                    ng-model="scriptCall.successfullyCalled"
                      />
-            <div ng-show="editForm.successful.$invalid">
+            <div ng-show="editForm.successfullyCalled.$invalid">
                 <p class="help-block"
-                    ng-show="editForm.successful.$error.required">
+                    ng-show="editForm.successfullyCalled.$error.required">
                     This field is required.
                 </p>
             </div>
@@ -92,6 +92,18 @@
             <div ng-show="editForm.body.$invalid">
                 <p class="help-block"
                     ng-show="editForm.body.$error.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_successfullyParsed">SuccessfullyParsed</label>
+            <input type="checkbox" class="form-control" name="successfullyParsed" id="field_successfullyParsed"
+                    ng-model="scriptCall.successfullyParsed"
+                     />
+            <div ng-show="editForm.successfullyParsed.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.successfullyParsed.$error.required">
                     This field is required.
                 </p>
             </div>

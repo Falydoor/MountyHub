@@ -67,7 +67,7 @@ class ScriptCallGatlingTest extends Simulation {
             .exec(http("Create new scriptCall")
             .post("/api/scriptCalls")
             .headers(headers_http_authenticated)
-            .body(StringBody("""{"id":null, "name":null, "type":null, "dateCalled":"2020-01-01T00:00:00.000Z", "url":"SAMPLE_TEXT", "successful":null, "body":"SAMPLE_TEXT"}""")).asJSON
+            .body(StringBody("""{"id":null, "name":null, "type":null, "dateCalled":"2020-01-01T00:00:00.000Z", "url":"SAMPLE_TEXT", "successfullyCalled":null, "body":"SAMPLE_TEXT", "successfullyParsed":null}""")).asJSON
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_scriptCall_url")))
             .pause(10)

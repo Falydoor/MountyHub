@@ -46,12 +46,16 @@ public class ScriptCall implements Serializable {
     private String url;
     
     @NotNull
-    @Column(name = "successful", nullable = false)
-    private Boolean successful;
+    @Column(name = "successfully_called", nullable = false)
+    private Boolean successfullyCalled;
     
     @NotNull
     @Column(name = "body", nullable = false)
     private String body;
+    
+    @NotNull
+    @Column(name = "successfully_parsed", nullable = false)
+    private Boolean successfullyParsed;
     
     @ManyToOne
     @JoinColumn(name = "troll_id")
@@ -97,12 +101,12 @@ public class ScriptCall implements Serializable {
         this.url = url;
     }
 
-    public Boolean getSuccessful() {
-        return successful;
+    public Boolean getSuccessfullyCalled() {
+        return successfullyCalled;
     }
     
-    public void setSuccessful(Boolean successful) {
-        this.successful = successful;
+    public void setSuccessfullyCalled(Boolean successfullyCalled) {
+        this.successfullyCalled = successfullyCalled;
     }
 
     public String getBody() {
@@ -111,6 +115,14 @@ public class ScriptCall implements Serializable {
     
     public void setBody(String body) {
         this.body = body;
+    }
+
+    public Boolean getSuccessfullyParsed() {
+        return successfullyParsed;
+    }
+    
+    public void setSuccessfullyParsed(Boolean successfullyParsed) {
+        this.successfullyParsed = successfullyParsed;
     }
 
     public Troll getTroll() {
@@ -149,8 +161,9 @@ public class ScriptCall implements Serializable {
             ", type='" + type + "'" +
             ", dateCalled='" + dateCalled + "'" +
             ", url='" + url + "'" +
-            ", successful='" + successful + "'" +
+            ", successfullyCalled='" + successfullyCalled + "'" +
             ", body='" + body + "'" +
+            ", successfullyParsed='" + successfullyParsed + "'" +
             '}';
     }
 }

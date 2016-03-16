@@ -10,5 +10,5 @@ import java.time.ZonedDateTime;
  * Spring Data JPA repository for the ScriptCall entity.
  */
 public interface ScriptCallRepository extends JpaRepository<ScriptCall, Long> {
-    Long countByTrollNumberAndTypeAndSuccessfulTrueAndDateCalledAfter(Long number, ScriptType type, ZonedDateTime dateCalled);
+    Long countByTrollNumberAndTypeAndSuccessfullyCalledTrueAndDateCalledAfter(Long number, ScriptType type, ZonedDateTime dateCalled);
 }

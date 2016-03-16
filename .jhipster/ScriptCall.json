@@ -45,7 +45,7 @@
         },
         {
             "fieldId": 5,
-            "fieldName": "successful",
+            "fieldName": "successfullyCalled",
             "fieldType": "Boolean",
             "fieldValidateRules": [
                 "required"
@@ -55,6 +55,14 @@
             "fieldId": 6,
             "fieldName": "body",
             "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldId": 7,
+            "fieldName": "successfullyParsed",
+            "fieldType": "Boolean",
             "fieldValidateRules": [
                 "required"
             ]

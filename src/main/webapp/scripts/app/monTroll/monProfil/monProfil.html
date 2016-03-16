@@ -28,7 +28,7 @@
     <h3 class="text-center">{{troll.race}} niveau {{troll.level}} né le {{troll.birthDateFormatted}}</h3>
     <div class="col-md-6">
         <h4 class="text-center">Caractéristiques <span class="glyphicon glyphicon-refresh" aria-hidden="true"
-                                                       ng-click="refreshProfil('characteristic')"
+                                                       ng-click="refreshProfil($event, 'characteristic')"
                                                        uib-tooltip="Mis à jour il y a {{troll.scriptCallLastCall.SP_Caract}}"></span>
         </h4>
         <table class="table" style="background-color: white">
@@ -52,7 +52,7 @@
     </div>
     <div class="col-md-4">
         <h4 class="text-center">État <span class="glyphicon glyphicon-refresh" aria-hidden="true"
-                                           ng-click="refreshProfil('state')"
+                                           ng-click="refreshProfil($event, 'state')"
                                            uib-tooltip="Mis à jour il y a {{troll.scriptCallLastCall.SP_Profil2}}"></span>
         </h4>
         <div class="progress" style="margin-bottom: 5px;">
@@ -126,57 +126,66 @@
             </tr>
         </table>
     </div>
-    <div class="col-md-12">
-        <h4 class="text-center">Equipement <span class="glyphicon glyphicon-refresh" aria-hidden="true"
-                                                 ng-click="refreshProfil('gear')"
-                                                 uib-tooltip="Mis à jour il y a {{troll.scriptCallLastCall.SP_Equipement}}"></span>
-        </h4>
-        <h6 class="text-center">{{troll.gearEffect}}</h6>
-        <table class="table" style="background-color: white">
-            <tr>
-                <th class="text-center">Equipé</th>
-                <th>Type</th>
-                <th>Nom</th>
-                <th>Effet</th>
-                <th>Poids</th>
-            </tr>
-            <tr ng-repeat="gear in troll.gears | filter:{weared:true}">
-                <td class="text-center"><span class="glyphicon glyphicon-ok"></span></td>
-                <td>{{gear.type | capitalize}}</td>
-                <td>{{gear.name}} {{gear.template}}</td>
-                <td>{{gear.description}}</td>
-                <td>{{gear.weight}} min</td>
-            </tr>
-            <tr ng-repeat="gear in troll.gears | filter:{weared:false}">
-                <td class="text-center"><span class="glyphicon glyphicon-remove"></span></td>
-                <td>{{gear.type | capitalize}}</td>
-                <td>{{gear.name}} {{gear.template}}</td>
-                <td>{{gear.description}}</td>
-                <td>{{gear.weight}} min</td>
-            </tr>
-        </table>
+    <div class="col-md-12 part">
+        <div class="part-header" data-toggle="collapse" href="#gear">
+            <h4 class="text-center">Equipement <span class="glyphicon glyphicon-refresh" aria-hidden="true"
+                                                     ng-click="refreshProfil($event, 'gear')"
+                                                     uib-tooltip="Mis à jour il y a {{troll.scriptCallLastCall.SP_Equipement}}"></span>
+            </h4>
+            <h6 class="text-center">{{troll.gearEffect}}</h6>
+        </div>
+        <div class="collapse" id="gear">
+            <table class="table" style="background-color: white">
+                <tr>
+                    <th class="text-center">Equipé</th>
+                    <th>Type</th>
+                    <th>Nom</th>
+                    <th>Effet</th>
+                    <th>Poids</th>
+                </tr>
+                <tr ng-repeat="gear in troll.gears | filter:{wore:true}">
+                    <td class="text-center"><span class="glyphicon glyphicon-ok"></span></td>
+                    <td>{{gear.type | capitalize}}</td>
+                    <td>{{gear.name}} {{gear.template}}</td>
+                    <td>{{gear.description}}</td>
+                    <td>{{gear.weight}} min</td>
+                </tr>
+                <tr ng-repeat="gear in troll.gears | filter:{wore:false}">
+                    <td class="text-center"><span class="glyphicon glyphicon-remove"></span></td>
+                    <td>{{gear.type | capitalize}}</td>
+                    <td>{{gear.name}} {{gear.template}}</td>
+                    <td>{{gear.description}}</td>
+                    <td>{{gear.weight}} min</td>
+                </tr>
+            </table>
+        </div>
     </div>
-    <div class="col-md-6">
-        <h4 class="text-center">{{troll.flies.length}} Mouches <span class="glyphicon glyphicon-refresh"
-                                                                     aria-hidden="true"
-                                                                     ng-click="refreshProfil('fly')"
-                                                                     uib-tooltip="Mis à jour il y a {{troll.scriptCallLastCall.SP_Mouche}}"></span>
-        </h4>
-        <h6 class="text-center">{{troll.flyEffect}}</h6>
-        <table class="table" style="background-color: white">
-            <tr>
-                <th class="text-center">Présente</th>
-                <th>Type</th>
-                <th>Nom</th>
-                <th>Effet</th>
-            </tr>
-            <tr ng-repeat="fly in troll.flies | filter:{here:true}">
-                <td class="text-center"><span class="glyphicon glyphicon-{{fly.here ? 'ok' : 'remove'}}"></span></td>
-                <td>{{fly.type | capitalize}}</td>
-                <td>{{fly.name}}</td>
-                <td>{{fly.effect}}</td>
-            </tr>
-        </table>
+    <div class="col-md-6 part">
+        <div class="part-header" data-toggle="collapse" href="#flies">
+            <h4 class="text-center">{{troll.flies.length}} Mouches <span class="glyphicon glyphicon-refresh"
+                                                                         aria-hidden="true"
+                                                                         ng-click="refreshProfil($event, 'fly')"
+                                                                         uib-tooltip="Mis à jour il y a {{troll.scriptCallLastCall.SP_Mouche}}"></span>
+            </h4>
+            <h6 class="text-center">{{troll.flyEffect}}</h6>
+        </div>
+        <div class="collapse" id="flies">
+            <table class="table" style="background-color: white">
+                <tr>
+                    <th class="text-center">Présente</th>
+                    <th>Type</th>
+                    <th>Nom</th>
+                    <th>Effet</th>
+                </tr>
+                <tr ng-repeat="fly in troll.flies | filter:{here:true}">
+                    <td class="text-center"><span class="glyphicon glyphicon-{{fly.here ? 'ok' : 'remove'}}"></span>
+                    </td>
+                    <td>{{fly.type | capitalize}}</td>
+                    <td>{{fly.name}}</td>
+                    <td>{{fly.effect}}</td>
+                </tr>
+            </table>
+        </div>
     </div>
     <div class="col-md-12">
         <h4 class="text-center">Divers</h4>

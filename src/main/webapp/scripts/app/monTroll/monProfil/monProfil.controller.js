@@ -58,7 +58,8 @@ angular.module('mountyhubApp')
             }
         };
 
-        $scope.refreshProfil = function (refreshType) {
+        $scope.refreshProfil = function ($event, refreshType) {
+            $event.stopPropagation();
             MonProfil.refresh(refreshType, callbackSuccess);
         };
 

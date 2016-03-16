@@ -37,7 +37,7 @@ public class DateUtil {
     public static String formatSinceDate(ZonedDateTime date) {
         Duration duration = Duration.between(date.toLocalDateTime(), ZonedDateTime.now().toLocalDateTime());
         long days = duration.toDays();
-        long hours = duration.toHours();
+        long hours = duration.toHours() % 24;
         long mins = duration.toMinutes() % 60;
         long secs = duration.getSeconds() % 60;
         return secs == 0 ? "0s" : (days > 0 ? days + "j " : "") + (hours > 0 ? hours + "h " : "") + (mins > 0 ? mins + "m " : "") + (secs > 0 ? secs + "s" : "");

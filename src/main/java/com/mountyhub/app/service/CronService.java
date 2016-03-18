@@ -1,9 +1,11 @@
 package com.mountyhub.app.service;
 
 import com.mountyhub.app.domain.CompetenceMH;
+import com.mountyhub.app.domain.SpellMH;
 import com.mountyhub.app.exception.MountyHallScriptException;
 import com.mountyhub.app.exception.MountyHubException;
 import com.mountyhub.app.repository.CompetenceMHRepository;
+import com.mountyhub.app.repository.SpellMHRepository;
 import com.mountyhub.app.repository.TrollRepository;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -36,6 +38,9 @@ public class CronService {
 
     @Inject
     private CompetenceMHRepository competenceMHRepository;
+
+    @Inject
+    private SpellMHRepository spellMHRepository;
 
     /**
      * Update every troll's informations one time per day at midnight.
@@ -77,5 +82,31 @@ public class CronService {
             log.debug("FAIL TO UPDATE COMPETENCES : " + e.getMessage());
         }
         log.debug("END UPDATING COMPETENCES");
+    }
+
+    /**
+     * Update spells one time per day at 35 to one.
+     */
+    @Scheduled(cron = "0 35 0 * * ?", zone = zone)
+    public void dailySpellsUpdate() {
+        log.debug("START UPDATING SPELLS");
+        try {
+            String response = IOUtils.toString(new URI("ftp://ftp.mountyhall.com/Public_Sortileges.txt"), "Windows-1252");
+            String[] lines = StringUtils.split(response, "\n");
+
+            for (String line : lines) {
+                String[] values = StringUtils.split(line, ";");
+                Long number = Long.valueOf(values[0]);
+                Optional<SpellMH> spellResult = spellMHRepository.findByNumber(number);
+                SpellMH spell = spellResult.isPresent() ? spellResult.get() : new SpellMH();
+                spell.setNumber(number);
+                spell.setName(values[1]);
+                spell.setPa(Integer.valueOf(values[3]));
+                spellMHRepository.save(spell);
+            }
+        } catch (IOException | URISyntaxException e) {
+            log.debug("FAIL TO UPDATE SPELLS : " + e.getMessage());
+        }
+        log.debug("END UPDATING SPELLS");
     }
 }

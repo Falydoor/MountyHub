@@ -3,6 +3,7 @@ package com.mountyhub.app.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import com.mountyhub.app.domain.SpellMH;
 import com.mountyhub.app.repository.SpellMHRepository;
+import com.mountyhub.app.service.CronService;
 import com.mountyhub.app.web.rest.util.HeaderUtil;
 import com.mountyhub.app.web.rest.util.PaginationUtil;
 import org.slf4j.Logger;
@@ -30,10 +31,13 @@ import java.util.Optional;
 public class SpellMHResource {
 
     private final Logger log = LoggerFactory.getLogger(SpellMHResource.class);
-        
+
     @Inject
     private SpellMHRepository spellMHRepository;
-    
+
+    @Inject
+    private CronService cronService;
+
     /**
      * POST  /spellMHs -> Create a new spellMH.
      */
@@ -80,7 +84,11 @@ public class SpellMHResource {
     public ResponseEntity<List<SpellMH>> getAllSpellMHs(Pageable pageable)
         throws URISyntaxException {
         log.debug("REST request to get a page of SpellMHs");
-        Page<SpellMH> page = spellMHRepository.findAll(pageable); 
+        Page<SpellMH> page = spellMHRepository.findAll(pageable);
+        if (page.getTotalElements() == 0) {
+            cronService.dailySpellsUpdate();
+            page = spellMHRepository.findAll(pageable);
+        }
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/spellMHs");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }

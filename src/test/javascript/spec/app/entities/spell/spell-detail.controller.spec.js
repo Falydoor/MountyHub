@@ -2,45 +2,37 @@
 
 describe('Controller Tests', function() {
 
-    describe('Troll Detail Controller', function() {
+    describe('Spell Detail Controller', function() {
         var $scope, $rootScope;
-        var MockEntity, MockTroll, MockUser, MockScriptCall, MockGear, MockFly, MockCompetence, MockSpell;
+        var MockEntity, MockSpell, MockSpellMH, MockTroll;
         var createController;
 
         beforeEach(inject(function($injector) {
             $rootScope = $injector.get('$rootScope');
             $scope = $rootScope.$new();
             MockEntity = jasmine.createSpy('MockEntity');
-            MockTroll = jasmine.createSpy('MockTroll');
-            MockUser = jasmine.createSpy('MockUser');
-            MockScriptCall = jasmine.createSpy('MockScriptCall');
-            MockGear = jasmine.createSpy('MockGear');
-            MockFly = jasmine.createSpy('MockFly');
-            MockCompetence = jasmine.createSpy('MockCompetence');
             MockSpell = jasmine.createSpy('MockSpell');
+            MockSpellMH = jasmine.createSpy('MockSpellMH');
+            MockTroll = jasmine.createSpy('MockTroll');
             
 
             var locals = {
                 '$scope': $scope,
                 '$rootScope': $rootScope,
                 'entity': MockEntity ,
-                'Troll': MockTroll,
-                'User': MockUser,
-                'ScriptCall': MockScriptCall,
-                'Gear': MockGear,
-                'Fly': MockFly,
-                'Competence': MockCompetence,
-                'Spell': MockSpell
+                'Spell': MockSpell,
+                'SpellMH': MockSpellMH,
+                'Troll': MockTroll
             };
             createController = function() {
-                $injector.get('$controller')("TrollDetailController", locals);
+                $injector.get('$controller')("SpellDetailController", locals);
             };
         }));
 
 
         describe('Root Scope Listening', function() {
             it('Unregisters root scope listener upon scope destruction', function() {
-                var eventType = 'mountyhubApp:trollUpdate';
+                var eventType = 'mountyhubApp:spellUpdate';
 
                 createController();
                 expect($rootScope.$$listenerCount[eventType]).toEqual(1);

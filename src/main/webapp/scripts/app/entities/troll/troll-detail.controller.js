@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('mountyhubApp')
-    .controller('TrollDetailController', function ($scope, $rootScope, $stateParams, entity, Troll, User, ScriptCall, Gear, Fly, Competence) {
+    .controller('TrollDetailController', function ($scope, $rootScope, $stateParams, entity, Troll, User, ScriptCall, Gear, Fly, Competence, Spell) {
         $scope.troll = entity;
         $scope.load = function (id) {
             Troll.get({id: id}, function(result) {

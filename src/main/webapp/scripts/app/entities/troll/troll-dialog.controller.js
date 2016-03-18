@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('mountyhubApp').controller('TrollDialogController',
-    ['$scope', '$stateParams', '$uibModalInstance', 'entity', 'Troll', 'User', 'ScriptCall', 'Gear', 'Fly', 'Competence',
-        function($scope, $stateParams, $uibModalInstance, entity, Troll, User, ScriptCall, Gear, Fly, Competence) {
+    ['$scope', '$stateParams', '$uibModalInstance', 'entity', 'Troll', 'User', 'ScriptCall', 'Gear', 'Fly', 'Competence', 'Spell',
+        function($scope, $stateParams, $uibModalInstance, entity, Troll, User, ScriptCall, Gear, Fly, Competence, Spell) {
 
         $scope.troll = entity;
         $scope.users = User.query();
@@ -10,6 +10,7 @@ angular.module('mountyhubApp').controller('TrollDialogController',
         $scope.gears = Gear.query();
         $scope.flys = Fly.query();
         $scope.competences = Competence.query();
+        $scope.spells = Spell.query();
         $scope.load = function(id) {
             Troll.get({id : id}, function(result) {
                 $scope.troll = result;

@@ -1,0 +1,71 @@
+<div>
+    <h2>Spells</h2>
+    <jh-alert></jh-alert>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-4 no-padding-left">
+                <button class="btn btn-primary" ui-sref="spell.new" >
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span 
+                       >Create new Spell
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive">
+        <table class="jh-table table table-striped">
+            <thead>
+                <tr jh-sort="predicate" ascending="reverse" callback="loadAll()">
+                    <th jh-sort-by="id"><span>ID</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="percent"><span>Percent</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="percentBonus"><span>PercentBonus</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="level"><span>Level</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="spellMH.id"><span>spellMH</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="troll.id"><span>troll</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="spell in spells track by spell.id">
+                    <td><a ui-sref="spell.detail({id:spell.id})">{{spell.id}}</a></td>
+                    <td>{{spell.percent}}</td>
+                    <td>{{spell.percentBonus}}</td>
+                    <td>{{spell.level}}</td>
+                    <td>
+                        <a ui-sref="spellMH.detail({id:spell.spellMH.id})">{{spell.spellMH.id}}</a>
+                    </td>
+                    <td>
+                        <a ui-sref="troll.detail({id:spell.troll.id})">{{spell.troll.id}}</a>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit"
+                                    ui-sref="spell.detail({id:spell.id})"
+                                    class="btn btn-info btn-sm"> 
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                                <span class="hidden-xs hidden-sm"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="spell.edit({id:spell.id})"
+                                    class="btn btn-primary btn-sm">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                                <span class="hidden-xs hidden-sm"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="spell.delete({id:spell.id})"
+                                    class="btn btn-danger btn-sm">                                    
+                                <span class="glyphicon glyphicon-remove-circle"></span>
+                                <span class="hidden-xs hidden-sm"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="text-center">
+        <uib-pagination class="pagination-sm" total-items="totalItems" ng-model="page" ng-change="loadAll()"></uib-pagination>
+    </div>
+</div>

@@ -35,6 +35,13 @@
             "otherEntityName": "competence",
             "relationshipType": "one-to-many",
             "otherEntityRelationshipName": "troll"
+        },
+        {
+            "relationshipId": 6,
+            "relationshipName": "spell",
+            "otherEntityName": "spell",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "troll"
         }
     ],
     "fields": [

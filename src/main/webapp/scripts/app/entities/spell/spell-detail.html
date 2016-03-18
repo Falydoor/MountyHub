@@ -1,0 +1,62 @@
+
+<div>
+    <h2><span>Spell</span> {{spell.id}}</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Field</th>
+                <th>Value</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <span>Percent</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{spell.percent}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>PercentBonus</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{spell.percentBonus}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Level</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{spell.level}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>spellMH</span>
+                </td>
+                <td>
+                    <a class="form-control-static" ui-sref="spellMH.detail({id:spell.spellMH.id})">{{spell.spellMH.id}}</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>troll</span>
+                </td>
+                <td>
+                    <a class="form-control-static" ui-sref="troll.detail({id:spell.troll.id})">{{spell.troll.id}}</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button type="submit"
+            onclick="window.history.back()"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+</div>

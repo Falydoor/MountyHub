@@ -302,22 +302,6 @@ public class TrollService {
         return scriptCall;
     }
 
-    /**
-     * Update every troll's informations one time per day at midnight.
-     */
-    @Scheduled(cron = "0 0 0 * * ?")
-    public void dailyTrollsUpdate() {
-        log.debug("START UPDATING TROLLS");
-        trollRepository.findAll().stream().forEach(troll -> {
-            try {
-                createUpdateTroll(troll);
-            } catch (IOException | MountyHubException | MountyHallScriptException e) {
-                log.debug("FAIL TO UPDATE TROLL " + troll.getId() + " : " + e.getMessage());
-            }
-        });
-        log.debug("END UPDATING TROLLS");
-    }
-
     public ProfilDTO getPrivateProfil() throws MountyHubException {
         User user = userService.getUserWithAuthorities();
         ProfilDTO profil = new ProfilDTO();

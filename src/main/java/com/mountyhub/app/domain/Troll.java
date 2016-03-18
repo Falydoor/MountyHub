@@ -246,6 +246,10 @@ public class Troll implements Serializable {
     @JsonIgnore
     private Set<Fly> flys = new HashSet<>();
 
+    @OneToMany(mappedBy = "troll")
+    @JsonIgnore
+    private Set<Competence> competences = new HashSet<>();
+
     public Long getId() {
         return id;
     }
@@ -692,6 +696,14 @@ public class Troll implements Serializable {
 
     public void setFlys(Set<Fly> flys) {
         this.flys = flys;
+    }
+
+    public Set<Competence> getCompetences() {
+        return competences;
+    }
+
+    public void setCompetences(Set<Competence> competences) {
+        this.competences = competences;
     }
 
     @Override

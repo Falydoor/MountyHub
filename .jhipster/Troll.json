@@ -28,6 +28,13 @@
             "otherEntityName": "fly",
             "relationshipType": "one-to-many",
             "otherEntityRelationshipName": "troll"
+        },
+        {
+            "relationshipId": 5,
+            "relationshipName": "competence",
+            "otherEntityName": "competence",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "troll"
         }
     ],
     "fields": [

@@ -13,5 +13,6 @@
     <include file="classpath:config/liquibase/changelog/20160312202037_added_entity_Fly.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20160316203952_added_entity_CompetenceMH.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20160318152930_added_entity_SpellMH.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20160318155411_added_entity_Competence.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
 </databaseChangeLog>

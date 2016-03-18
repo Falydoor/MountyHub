@@ -3,6 +3,7 @@ package com.mountyhub.app.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import com.mountyhub.app.domain.CompetenceMH;
 import com.mountyhub.app.repository.CompetenceMHRepository;
+import com.mountyhub.app.service.CronService;
 import com.mountyhub.app.web.rest.util.HeaderUtil;
 import com.mountyhub.app.web.rest.util.PaginationUtil;
 import org.slf4j.Logger;
@@ -30,10 +31,13 @@ import java.util.Optional;
 public class CompetenceMHResource {
 
     private final Logger log = LoggerFactory.getLogger(CompetenceMHResource.class);
-        
+
     @Inject
     private CompetenceMHRepository competenceMHRepository;
-    
+
+    @Inject
+    private CronService cronService;
+
     /**
      * POST  /competenceMHs -> Create a new competenceMH.
      */
@@ -80,7 +84,11 @@ public class CompetenceMHResource {
     public ResponseEntity<List<CompetenceMH>> getAllCompetenceMHs(Pageable pageable)
         throws URISyntaxException {
         log.debug("REST request to get a page of CompetenceMHs");
-        Page<CompetenceMH> page = competenceMHRepository.findAll(pageable); 
+        Page<CompetenceMH> page = competenceMHRepository.findAll(pageable);
+        if (page.getTotalElements() == 0) {
+            cronService.dailyCompetencesUpdate();
+            page = competenceMHRepository.findAll(pageable);
+        }
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/competenceMHs");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }

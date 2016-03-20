@@ -56,6 +56,7 @@ public final class MountyHallScriptUtil {
             case SP_Equipement:
             case SP_ProfilPublic2:
             case SP_Mouche:
+            case SP_Aptitudes2:
                 type = ScriptType.STATIQUE;
                 break;
             default:

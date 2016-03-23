@@ -92,6 +92,12 @@ public class CronService {
         log.debug("START UPDATING SPELLS");
         try {
             String response = IOUtils.toString(new URI("ftp://ftp.mountyhall.com/Public_Sortileges.txt"), "Windows-1252");
+            // Race's spells
+            response += "1;Projectile magique;0;4\n";
+            response += "2;Hypnotisme;0;4\n";
+            response += "3;Vampirisme;0;4\n";
+            response += "4;Rafale psychique;0;4\n";
+            response += "14;Siphon des âme;0;4";
             String[] lines = StringUtils.split(response, "\n");
 
             for (String line : lines) {

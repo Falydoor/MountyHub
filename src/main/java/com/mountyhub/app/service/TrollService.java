@@ -16,7 +16,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -63,6 +62,18 @@ public class TrollService {
     @Inject
     private FlyRepository flyRepository;
 
+    @Inject
+    private CompetenceMHRepository competenceMHRepository;
+
+    @Inject
+    private SpellMHRepository spellMHRepository;
+
+    @Inject
+    private CompetenceRepository competenceRepository;
+
+    @Inject
+    private SpellRepository spellRepository;
+
     public Troll createUpdateTroll(Troll troll) throws IOException, MountyHubException, MountyHallScriptException {
         // Check if the troll isn't already linked to a user for a troll creation
         User currentUser = null;
@@ -104,6 +115,9 @@ public class TrollService {
             // Save fly
             setTrollFlyFromMHScript(troll);
 
+            // Save comp/spell
+            setTrollCompSpellFromMHScript(troll);
+
             // Save script calls with troll number
             caractCall.setTroll(troll);
             scriptCallRepository.save(caractCall);
@@ -121,6 +135,55 @@ public class TrollService {
             return troll;
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             throw new MountyHallScriptException("Erreur lors du parsage du script MountyHall !", e);
+        }
+    }
+
+    public void setTrollCompSpellFromMHScript(Troll troll) throws MountyHallScriptException, IOException {
+        ScriptCall scriptCall = MountyHallScriptUtil.createScriptCall(ScriptName.SP_Aptitudes2);
+        scriptCallService.callScript(scriptCall, troll);
+
+        String[] lines = StringUtils.split(scriptCall.getBody(), "\n");
+
+        for (String line : lines) {
+            String[] values = StringUtils.splitByWholeSeparatorPreserveAllTokens(line, ";");
+
+            Map<Long, Competence> competences = troll.getCompetences().stream().collect(Collectors.toMap(competence -> competence.getCompetenceMH().getNumber(), competence -> competence));
+            Map<Long, Spell> spells = troll.getSpells().stream().collect(Collectors.toMap(spell -> spell.getSpellMH().getNumber(), spell -> spell));
+            long number = Long.parseLong(values[1]);
+            if ("C".equals(values[0])) {
+                Competence competence = competences.get(number);
+                if (competence == null) {
+                    competence = new Competence();
+                    competence.setTroll(troll);
+                    Optional<CompetenceMH> competenceMH = competenceMHRepository.findByNumber(number);
+                    if (!competenceMH.isPresent()) {
+                        throw new MountyHallScriptException("Compétence non-présente dans le référentiel !");
+                    }
+                    competence.setCompetenceMH(competenceMH.get());
+                }
+                competence.setPercent(Integer.parseInt(values[2]));
+                competence.setPercentBonus(Integer.parseInt(values[3]));
+                competence.setLevel(Integer.parseInt(values[4]));
+                competenceRepository.save(competence);
+            } else if ("S".equals(values[0])) {
+                Spell spell = spells.get(number);
+                if (spell == null) {
+                    spell = new Spell();
+                    spell.setTroll(troll);
+                    Optional<SpellMH> spellMH = spellMHRepository.findByNumber(number);
+                    if (!spellMH.isPresent()) {
+                        throw new MountyHallScriptException("Sortilège non-présent dans le référentiel !");
+                    }
+                    spell.setSpellMH(spellMH.get());
+                }
+                spell.setPercent(Integer.parseInt(values[2]));
+                spell.setPercentBonus(Integer.parseInt(values[3]));
+                spell.setLevel(Integer.parseInt(values[4]));
+                spellRepository.save(spell);
+            }
+
+            scriptCall.setSuccessfullyParsed(true);
+            scriptCallService.save(scriptCall);
         }
     }
 
@@ -423,6 +486,9 @@ public class TrollService {
                     break;
                 case "characteristic":
                     setTrollCharacteristicFromMHScript(troll);
+                    break;
+                case "compAndSpell":
+                    setTrollCompSpellFromMHScript(troll);
                     break;
                 default:
                     throw new MountyHubException("Type de refresh non-implémenté !");

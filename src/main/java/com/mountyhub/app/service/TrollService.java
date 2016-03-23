@@ -403,7 +403,7 @@ public class TrollService {
         profil.setProtection(StringUtils.join(protections, " | "));
 
         // Flies
-        List<FlyDTO> flies = troll.getFlys().stream().sorted((f1, f2) -> f1.getType().toString().compareTo(f2.getType().toString())).map(fly -> {
+        List<FlyDTO> flies = troll.getFlys().stream().map(fly -> {
             FlyDTO dto = new FlyDTO();
             BeanUtils.copyProperties(fly, dto);
             dto.setEffect(MountyHallUtil.flyTypeToEffect(fly.getType()));
@@ -460,7 +460,6 @@ public class TrollService {
         // Last scripts call by type
         Map<ScriptName, String> scriptCallLastCall = troll.getScriptCalls().stream()
             .filter(ScriptCall::getSuccessfullyParsed)
-            .sorted((sc1, sc2) -> sc2.getDateCalled().compareTo(sc1.getDateCalled()))
             .collect(Collectors.groupingBy(ScriptCall::getName))
             .entrySet()
             .stream()

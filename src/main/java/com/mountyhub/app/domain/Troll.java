@@ -236,6 +236,7 @@ public class Troll implements Serializable {
 
     @OneToMany(mappedBy = "troll")
     @JsonIgnore
+    @OrderBy("dateCalled DESC")
     private Set<ScriptCall> scriptCalls = new HashSet<>();
 
     @OneToMany(mappedBy = "troll")
@@ -244,6 +245,7 @@ public class Troll implements Serializable {
 
     @OneToMany(mappedBy = "troll")
     @JsonIgnore
+    @OrderBy("type")
     private Set<Fly> flys = new HashSet<>();
 
     @OneToMany(mappedBy = "troll")

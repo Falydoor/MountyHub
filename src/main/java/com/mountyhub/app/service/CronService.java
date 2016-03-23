@@ -97,7 +97,9 @@ public class CronService {
             response += "2;Hypnotisme;0;4\n";
             response += "3;Vampirisme;0;4\n";
             response += "4;Rafale psychique;0;4\n";
-            response += "14;Siphon des âme;0;4";
+            response += "14;Siphon des âme;0;4\n";
+            // Unknown spells
+            response += "31;?;0;4\n";
             String[] lines = StringUtils.split(response, "\n");
 
             for (String line : lines) {

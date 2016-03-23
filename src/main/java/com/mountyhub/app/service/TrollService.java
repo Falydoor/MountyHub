@@ -147,38 +147,40 @@ public class TrollService {
         for (String line : lines) {
             String[] values = StringUtils.splitByWholeSeparatorPreserveAllTokens(line, ";");
 
-            Map<Long, Competence> competences = troll.getCompetences().stream().collect(Collectors.toMap(competence -> competence.getCompetenceMH().getNumber(), competence -> competence));
-            Map<Long, Spell> spells = troll.getSpells().stream().collect(Collectors.toMap(spell -> spell.getSpellMH().getNumber(), spell -> spell));
+            Map<String, Competence> competences = troll.getCompetences().stream().collect(Collectors.toMap(competence -> competence.getCompetenceMH().getNumber() + "-" + competence.getLevel(), competence -> competence));
+            Map<String, Spell> spells = troll.getSpells().stream().collect(Collectors.toMap(spell -> spell.getSpellMH().getNumber() + "-" + spell.getLevel(), spell -> spell));
             long number = Long.parseLong(values[1]);
+            int level = Integer.parseInt(values[4]);
+            String key = number + "-" + level;
             if ("C".equals(values[0])) {
-                Competence competence = competences.get(number);
+                Competence competence = competences.get(key);
                 if (competence == null) {
                     competence = new Competence();
                     competence.setTroll(troll);
                     Optional<CompetenceMH> competenceMH = competenceMHRepository.findByNumber(number);
                     if (!competenceMH.isPresent()) {
-                        throw new MountyHallScriptException("Compétence non-présente dans le référentiel !");
+                        throw new MountyHallScriptException("Compétence " + number + " non-présente dans le référentiel !");
                     }
                     competence.setCompetenceMH(competenceMH.get());
                 }
                 competence.setPercent(Integer.parseInt(values[2]));
                 competence.setPercentBonus(Integer.parseInt(values[3]));
-                competence.setLevel(Integer.parseInt(values[4]));
+                competence.setLevel(level);
                 competenceRepository.save(competence);
             } else if ("S".equals(values[0])) {
-                Spell spell = spells.get(number);
+                Spell spell = spells.get(key);
                 if (spell == null) {
                     spell = new Spell();
                     spell.setTroll(troll);
                     Optional<SpellMH> spellMH = spellMHRepository.findByNumber(number);
                     if (!spellMH.isPresent()) {
-                        throw new MountyHallScriptException("Sortilège non-présent dans le référentiel !");
+                        throw new MountyHallScriptException("Sortilège " + number + " non-présent dans le référentiel !");
                     }
                     spell.setSpellMH(spellMH.get());
                 }
                 spell.setPercent(Integer.parseInt(values[2]));
                 spell.setPercentBonus(Integer.parseInt(values[3]));
-                spell.setLevel(Integer.parseInt(values[4]));
+                spell.setLevel(level);
                 spellRepository.save(spell);
             }
 

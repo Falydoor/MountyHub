@@ -26,105 +26,156 @@
         href="http://games.mountyhall.com/mountyhall/View/PJView.php?ai_IDPJ={{troll.number}}"
         target="_blank">{{troll.number}}</a></h1>
     <h3 class="text-center">{{troll.race}} niveau {{troll.level}} né le {{troll.birthDateFormatted}}</h3>
-    <div class="col-md-6">
-        <h4 class="text-center">Caractéristiques <span class="glyphicon glyphicon-refresh" aria-hidden="true"
-                                                       ng-click="refreshProfil($event, 'characteristic')"
-                                                       uib-tooltip="Mis à jour il y a {{troll.scriptCallLastCall.SP_Caract}}"></span>
-        </h4>
-        <table class="table" style="background-color: white">
-            <tr>
-                <th>Nom</th>
-                <th class="text-center">Base</th>
-                <th class="text-center">Physique</th>
-                <th class="text-center">Magique</th>
-                <th class="text-center">Total (moy.)</th>
-            </tr>
-            <tr ng-repeat="carac in caracs">
-                <td>{{carac.n}}</td>
-                <td class="text-center">{{troll[carac.p]}}{{carac.d}}</td>
-                <td class="text-center{{addContext(troll[carac.p + 'P'])}}">{{addSign(troll[carac.p + 'P'])}}</td>
-                <td class="text-center{{addContext(troll[carac.p + 'M'])}}">{{addSign(troll[carac.p + 'M'])}}</td>
-                <td class="text-center">{{carac.a(troll[carac.p], troll[carac.p + 'P'], troll[carac.p + 'M'])}}{{carac.s
-                    ? carac.d : ''}}
-                </td>
-            </tr>
-        </table>
+    <div class="row">
+        <div class="col-md-6">
+            <h4 class="text-center">Caractéristiques <span class="glyphicon glyphicon-refresh" aria-hidden="true"
+                                                           ng-click="refreshProfil($event, 'characteristic')"
+                                                           uib-tooltip="Mis à jour il y a {{troll.scriptCallLastCall.SP_Caract}}"></span>
+            </h4>
+            <table class="table" style="background-color: white">
+                <tr>
+                    <th>Nom</th>
+                    <th class="text-center">Base</th>
+                    <th class="text-center">Physique</th>
+                    <th class="text-center">Magique</th>
+                    <th class="text-center">Total (moy.)</th>
+                </tr>
+                <tr ng-repeat="carac in caracs">
+                    <td>{{carac.n}}</td>
+                    <td class="text-center">{{troll[carac.p]}}{{carac.d}}</td>
+                    <td class="text-center{{addContext(troll[carac.p + 'P'])}}">{{addSign(troll[carac.p + 'P'])}}</td>
+                    <td class="text-center{{addContext(troll[carac.p + 'M'])}}">{{addSign(troll[carac.p + 'M'])}}</td>
+                    <td class="text-center">{{carac.a(troll[carac.p], troll[carac.p + 'P'], troll[carac.p +
+                        'M'])}}{{carac.s
+                        ? carac.d : ''}}
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-md-4">
+            <h4 class="text-center">État <span class="glyphicon glyphicon-refresh" aria-hidden="true"
+                                               ng-click="refreshProfil($event, 'state')"
+                                               uib-tooltip="Mis à jour il y a {{troll.scriptCallLastCall.SP_Profil2}}"></span>
+            </h4>
+            <div class="progress" style="margin-bottom: 5px;">
+                <div
+                    class="progress-bar progress-bar-{{troll.percentHitPoint > 66 ? 'success' : troll.percentHitPoint > 33 ? 'warning' : 'danger'}}"
+                    role="progressbar"
+                    style="width: {{troll.percentHitPoint}}%;">
+                    <span>{{troll.currentHitPoint}} / {{troll.totalHitPoint}} PV</span>
+                </div>
+            </div>
+            <p class="text-center" style="margin-bottom: 5px;">
+                <span class="label label-danger" ng-if="troll.hidden">Camouflé</span>
+                <span class="label label-danger" ng-if="troll.invisible">Invisible</span>
+                <span class="label label-danger" ng-if="troll.intangible">Intangible</span>
+            </p>
+            <p class="text-center"><strong>X = {{troll.x}} | Y = {{troll.y}} | Z = {{troll.z}}</strong></p>
+            <p ng-if="troll.protection">Protection : <strong>{{troll.protection}}</strong></p>
+            <table class="table" style="background-color: white">
+                <tr>
+                    <td>DLA</td>
+                    <td class="text-right"><strong>{{troll.dla}}</strong></td>
+                </tr>
+                <tr>
+                    <td>Estimation DLA suivante</td>
+                    <td class="text-right"><strong>{{troll.nextDla}}</strong></td>
+                </tr>
+                <tr>
+                    <td>Durée tour</td>
+                    <td class="text-right">{{troll.turnFormatted}}</td>
+                </tr>
+                <tr ng-if="troll.weightTimeFormatted">
+                    <td>Poids équipement</td>
+                    <td class="text-right">{{troll.weightTimeFormatted}}</td>
+                </tr>
+                <tr ng-if="troll.bonusMalusTimeFormatted">
+                    <td>Durée bonus/malus</td>
+                    <td class="text-right">{{troll.bonusMalusTimeFormatted}}</td>
+                </tr>
+                <tr ng-if="troll.woundsTimeFormatted">
+                    <td>Durée due aux blessures</td>
+                    <td class="text-right">{{troll.woundsTimeFormatted}}</td>
+                </tr>
+                <tr>
+                    <td>Durée tour total</td>
+                    <td class="text-right">{{troll.turnTotalFormatted}}</td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-md-2">
+            <h4 class="text-center">Appel scripts (24H)</h4>
+            <table class="table" style="background-color: white">
+                <tr>
+                    <th>Nom</th>
+                    <th class="text-center">Compteur</th>
+                </tr>
+                <tr>
+                    <td>Dynamique</td>
+                    <td class="text-center">{{troll.scriptCallByDay.DYNAMIQUE || 0}}</td>
+                </tr>
+                <tr>
+                    <td>Statique</td>
+                    <td class="text-center">{{troll.scriptCallByDay.STATIQUE || 0}}</td>
+                </tr>
+                <tr>
+                    <td>Message</td>
+                    <td class="text-center">{{troll.scriptCallByDay.MESSAGE || 0}}</td>
+                </tr>
+                <tr>
+                    <td>Appel</td>
+                    <td class="text-center">{{troll.scriptCallByDay.APPEL || 0}}</td>
+                </tr>
+            </table>
+        </div>
     </div>
-    <div class="col-md-4">
-        <h4 class="text-center">État <span class="glyphicon glyphicon-refresh" aria-hidden="true"
-                                           ng-click="refreshProfil($event, 'state')"
-                                           uib-tooltip="Mis à jour il y a {{troll.scriptCallLastCall.SP_Profil2}}"></span>
-        </h4>
-        <div class="progress" style="margin-bottom: 5px;">
-            <div
-                class="progress-bar progress-bar-{{troll.percentHitPoint > 66 ? 'success' : troll.percentHitPoint > 33 ? 'warning' : 'danger'}}"
-                role="progressbar"
-                style="width: {{troll.percentHitPoint}}%;">
-                <span>{{troll.currentHitPoint}} / {{troll.totalHitPoint}} PV</span>
+    <div class="row" style="margin: 0">
+        <div class="col-md-5 part">
+            <div class="part-header" data-toggle="collapse" href="#comps">
+                <h4 class="text-center">Compétences <span class="glyphicon glyphicon-refresh"
+                                                          aria-hidden="true"
+                                                          ng-click="refreshProfil($event, 'compAndSpell')"
+                                                          uib-tooltip="Mis à jour il y a {{troll.scriptCallLastCall.SP_Aptitudes2}}"></span>
+                </h4>
+            </div>
+            <div class="collapse" id="comps">
+                <table class="table">
+                    <tr>
+                        <th>Nom</th>
+                        <th class="text-center">Niveau</th>
+                        <th class="text-center">Maîtrise</th>
+                    </tr>
+                    <tr ng-repeat="competence in troll.aptitudes | filter:{type:'C'}">
+                        <td>{{competence.name}}</td>
+                        <td class="text-center">{{competence.level}}</td>
+                        <td class="text-center">{{competence.percent}}%</td>
+                    </tr>
+                </table>
             </div>
         </div>
-        <p class="text-center" style="margin-bottom: 5px;">
-            <span class="label label-danger" ng-if="troll.hidden">Camouflé</span>
-            <span class="label label-danger" ng-if="troll.invisible">Invisible</span>
-            <span class="label label-danger" ng-if="troll.intangible">Intangible</span>
-        </p>
-        <p class="text-center"><strong>X = {{troll.x}} | Y = {{troll.y}} | Z = {{troll.z}}</strong></p>
-        <p ng-if="troll.protection">Protection : <strong>{{troll.protection}}</strong></p>
-        <table class="table" style="background-color: white">
-            <tr>
-                <td>DLA</td>
-                <td class="text-right"><strong>{{troll.dla}}</strong></td>
-            </tr>
-            <tr>
-                <td>Estimation DLA suivante</td>
-                <td class="text-right"><strong>{{troll.nextDla}}</strong></td>
-            </tr>
-            <tr>
-                <td>Durée tour</td>
-                <td class="text-right">{{troll.turnFormatted}}</td>
-            </tr>
-            <tr ng-if="troll.weightTimeFormatted">
-                <td>Poids équipement</td>
-                <td class="text-right">{{troll.weightTimeFormatted}}</td>
-            </tr>
-            <tr ng-if="troll.bonusMalusTimeFormatted">
-                <td>Durée bonus/malus</td>
-                <td class="text-right">{{troll.bonusMalusTimeFormatted}}</td>
-            </tr>
-            <tr ng-if="troll.woundsTimeFormatted">
-                <td>Durée due aux blessures</td>
-                <td class="text-right">{{troll.woundsTimeFormatted}}</td>
-            </tr>
-            <tr>
-                <td>Durée tour total</td>
-                <td class="text-right">{{troll.turnTotalFormatted}}</td>
-            </tr>
-        </table>
-    </div>
-    <div class="col-md-2">
-        <h4 class="text-center">Appel scripts (24H)</h4>
-        <table class="table" style="background-color: white">
-            <tr>
-                <th>Nom</th>
-                <th class="text-center">Compteur</th>
-            </tr>
-            <tr>
-                <td>Dynamique</td>
-                <td class="text-center">{{troll.scriptCallByDay.DYNAMIQUE || 0}}</td>
-            </tr>
-            <tr>
-                <td>Statique</td>
-                <td class="text-center">{{troll.scriptCallByDay.STATIQUE || 0}}</td>
-            </tr>
-            <tr>
-                <td>Message</td>
-                <td class="text-center">{{troll.scriptCallByDay.MESSAGE || 0}}</td>
-            </tr>
-            <tr>
-                <td>Appel</td>
-                <td class="text-center">{{troll.scriptCallByDay.APPEL || 0}}</td>
-            </tr>
-        </table>
+        <div class="col-md-5 part pull-right">
+            <div class="part-header" data-toggle="collapse" href="#spells">
+                <h4 class="text-center">Sortilèges <span class="glyphicon glyphicon-refresh"
+                                                         aria-hidden="true"
+                                                         ng-click="refreshProfil($event, 'compAndSpell')"
+                                                         uib-tooltip="Mis à jour il y a {{troll.scriptCallLastCall.SP_Aptitudes2}}"></span>
+                </h4>
+            </div>
+            <div class="collapse" id="spells">
+                <table class="table">
+                    <tr>
+                        <th>Nom</th>
+                        <th class="text-center">Niveau</th>
+                        <th class="text-center">Maîtrise</th>
+                    </tr>
+                    <tr ng-repeat="spell in troll.aptitudes | filter:{type:'S'}">
+                        <td>{{spell.name}}</td>
+                        <td class="text-center">{{spell.level}}</td>
+                        <td class="text-center">{{spell.percent}}%</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
     </div>
     <div class="col-md-12 part">
         <div class="part-header" data-toggle="collapse" href="#gear">

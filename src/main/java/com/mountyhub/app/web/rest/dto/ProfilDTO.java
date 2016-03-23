@@ -144,6 +144,16 @@ public class ProfilDTO {
 
     private String protection;
 
+    private List<AptitudeDTO> aptitudes;
+
+    public List<AptitudeDTO> getAptitudes() {
+        return aptitudes;
+    }
+
+    public void setAptitudes(List<AptitudeDTO> aptitudes) {
+        this.aptitudes = aptitudes;
+    }
+
     public String getProtection() {
         return protection;
     }

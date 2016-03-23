@@ -1,19 +1,11 @@
 'use strict';
 
 angular.module('mountyhubApp').controller('CompetenceDialogController',
-    ['$scope', '$stateParams', '$uibModalInstance', '$q', 'entity', 'Competence', 'CompetenceMH', 'Troll',
-        function($scope, $stateParams, $uibModalInstance, $q, entity, Competence, CompetenceMH, Troll) {
+    ['$scope', '$stateParams', '$uibModalInstance', 'entity', 'Competence', 'CompetenceMH', 'Troll',
+        function($scope, $stateParams, $uibModalInstance, entity, Competence, CompetenceMH, Troll) {
 
         $scope.competence = entity;
-        $scope.competencemhs = CompetenceMH.query({filter: 'competence-is-null'});
-        $q.all([$scope.competence.$promise, $scope.competencemhs.$promise]).then(function() {
-            if (!$scope.competence.competenceMH || !$scope.competence.competenceMH.id) {
-                return $q.reject();
-            }
-            return CompetenceMH.get({id : $scope.competence.competenceMH.id}).$promise;
-        }).then(function(competenceMH) {
-            $scope.competencemhs.push(competenceMH);
-        });
+        $scope.competencemhs = CompetenceMH.query();
         $scope.trolls = Troll.query();
         $scope.load = function(id) {
             Competence.get({id : id}, function(result) {

@@ -4,8 +4,10 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Objects;
 
 /**
@@ -23,16 +25,16 @@ public class Competence implements Serializable {
     @NotNull
     @Column(name = "percent", nullable = false)
     private Integer percent;
-
+    
     @NotNull
     @Column(name = "percent_bonus", nullable = false)
     private Integer percentBonus;
-
+    
     @NotNull
     @Column(name = "level", nullable = false)
     private Integer level;
-
-    @OneToOne
+    
+    @ManyToOne
     @JoinColumn(name = "competence_mh_id")
     private CompetenceMH competenceMH;
 
@@ -51,7 +53,7 @@ public class Competence implements Serializable {
     public Integer getPercent() {
         return percent;
     }
-
+    
     public void setPercent(Integer percent) {
         this.percent = percent;
     }
@@ -59,7 +61,7 @@ public class Competence implements Serializable {
     public Integer getPercentBonus() {
         return percentBonus;
     }
-
+    
     public void setPercentBonus(Integer percentBonus) {
         this.percentBonus = percentBonus;
     }
@@ -67,7 +69,7 @@ public class Competence implements Serializable {
     public Integer getLevel() {
         return level;
     }
-
+    
     public void setLevel(Integer level) {
         this.level = level;
     }

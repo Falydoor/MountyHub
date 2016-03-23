@@ -4,10 +4,8 @@
             "relationshipId": 1,
             "relationshipName": "spellMH",
             "otherEntityName": "spellMH",
-            "relationshipType": "one-to-one",
-            "otherEntityField": "id",
-            "ownerSide": true,
-            "otherEntityRelationshipName": "spell"
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
         },
         {
             "relationshipId": 2,

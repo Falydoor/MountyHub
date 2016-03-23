@@ -8,10 +8,7 @@ import com.mountyhub.app.repository.*;
 import com.mountyhub.app.service.util.DateUtil;
 import com.mountyhub.app.service.util.MountyHallScriptUtil;
 import com.mountyhub.app.service.util.MountyHallUtil;
-import com.mountyhub.app.web.rest.dto.FlyDTO;
-import com.mountyhub.app.web.rest.dto.GearDTO;
-import com.mountyhub.app.web.rest.dto.GlobalEffectDTO;
-import com.mountyhub.app.web.rest.dto.ProfilDTO;
+import com.mountyhub.app.web.rest.dto.*;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -416,6 +413,28 @@ public class TrollService {
         Map<FlyType, Long> fliesByType = troll.getFlys().stream().filter(Fly::getHere)
             .collect(Collectors.groupingBy(Fly::getType, Collectors.counting()));
         profil.setFlyEffect(MountyHallUtil.formatGlobalEffect(new GlobalEffectDTO(fliesByType)));
+
+        // Aptitudes
+        profil.setAptitudes(troll.getCompetences().stream()
+            .sorted((c1, c2) -> c1.getCompetenceMH().getName().compareTo(c2.getCompetenceMH().getName()))
+            .map(competence -> {
+                AptitudeDTO dto = new AptitudeDTO();
+                dto.setLevel(competence.getLevel());
+                dto.setName(competence.getCompetenceMH().getName());
+                dto.setPercent(competence.getPercent() + competence.getPercentBonus());
+                dto.setType("C");
+                return dto;
+            }).collect(Collectors.toList()));
+        profil.getAptitudes().addAll(troll.getSpells().stream()
+            .sorted((s1, s2) -> s1.getSpellMH().getName().compareTo(s2.getSpellMH().getName()))
+            .map(spell -> {
+                AptitudeDTO dto = new AptitudeDTO();
+                dto.setLevel(spell.getLevel());
+                dto.setName(spell.getSpellMH().getName());
+                dto.setPercent(spell.getPercent() + spell.getPercentBonus());
+                dto.setType("S");
+                return dto;
+            }).collect(Collectors.toList()));
 
         // Turn, bonus/malus, weight, wounds and total turn
         Duration turn = DateUtil.getDurationFromFloatMinutes(profil.getTurn());

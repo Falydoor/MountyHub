@@ -69,7 +69,7 @@ public class CronService {
             String[] lines = StringUtils.split(response, "\n");
 
             for (String line : lines) {
-                String[] values = StringUtils.split(line, ";");
+                String[] values = StringUtils.splitPreserveAllTokens(line, ";");
                 Long number = Long.valueOf(values[0]);
                 Optional<CompetenceMH> competenceResult = competenceMHRepository.findByNumber(number);
                 CompetenceMH competence = competenceResult.isPresent() ? competenceResult.get() : new CompetenceMH();
@@ -103,7 +103,7 @@ public class CronService {
             String[] lines = StringUtils.split(response, "\n");
 
             for (String line : lines) {
-                String[] values = StringUtils.split(line, ";");
+                String[] values = StringUtils.splitPreserveAllTokens(line, ";");
                 Long number = Long.valueOf(values[0]);
                 Optional<SpellMH> spellResult = spellMHRepository.findByNumber(number);
                 SpellMH spell = spellResult.isPresent() ? spellResult.get() : new SpellMH();

@@ -142,7 +142,7 @@ public class TrollService {
         String[] lines = StringUtils.split(scriptCall.getBody(), "\n");
 
         for (String line : lines) {
-            String[] values = StringUtils.splitByWholeSeparatorPreserveAllTokens(line, ";");
+            String[] values = StringUtils.splitPreserveAllTokens(line, ";");
 
             Map<String, Competence> competences = troll.getCompetences().stream().collect(Collectors.toMap(competence -> competence.getCompetenceMH().getNumber() + "-" + competence.getLevel(), competence -> competence));
             Map<String, Spell> spells = troll.getSpells().stream().collect(Collectors.toMap(spell -> spell.getSpellMH().getNumber() + "-" + spell.getLevel(), spell -> spell));
@@ -196,7 +196,7 @@ public class TrollService {
 
         for (String line : lines) {
             line = StringUtils.replace(line, "\\'", "'");
-            String[] values = StringUtils.splitByWholeSeparatorPreserveAllTokens(line, ";");
+            String[] values = StringUtils.splitPreserveAllTokens(line, ";");
 
             Optional<Fly> flyResult = flyRepository.findByNumber(Long.valueOf(values[0]));
             Fly fly = flyResult.isPresent() ? flyResult.get() : new Fly();
@@ -225,7 +225,7 @@ public class TrollService {
 
         for (String line : lines) {
             line = StringUtils.replace(line, "\\'", "'");
-            String[] values = StringUtils.splitByWholeSeparatorPreserveAllTokens(line, ";");
+            String[] values = StringUtils.splitPreserveAllTokens(line, ";");
 
             Optional<Gear> gearResult = gearRepository.findByNumber(Long.valueOf(values[0]));
             Gear gear = gearResult.isPresent() ? gearResult.get() : new Gear();
@@ -255,7 +255,7 @@ public class TrollService {
             throw new MountyHallScriptException("Réponse du script MountyHall incorrect !");
         }
 
-        String[] values = StringUtils.split(lines[0], ";");
+        String[] values = StringUtils.splitPreserveAllTokens(lines[0], ";");
 
         // numéro; Nom; Race; Niveau; Date d'inscription ; E-mail ; Blason ; Intangible ; Nb mouches ; Nb kills ; Nb morts; Numéro de Guilde; Nniveau de Rang; PNJ ?
         troll.setName(values[1]);
@@ -282,7 +282,7 @@ public class TrollService {
             throw new MountyHallScriptException("Réponse du script MountyHall incorrect !");
         }
 
-        String[] values = StringUtils.split(lines[0], ";");
+        String[] values = StringUtils.splitPreserveAllTokens(lines[0], ";");
         MountyHallScriptUtil.parseState(troll, values);
 
         scriptCall.setSuccessfullyParsed(true);
@@ -303,7 +303,7 @@ public class TrollService {
         }
 
         for (String line : lines) {
-            String[] values = StringUtils.split(line, ";");
+            String[] values = StringUtils.splitPreserveAllTokens(line, ";");
 
             // Bad values size
             if (values.length != 14) {

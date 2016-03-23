@@ -54,7 +54,7 @@ public final class MountyHallUtil {
             String[] values = StringUtils.splitByWholeSeparator(part, " : ");
             String methodName = methodsByNameGlobal.get(values[0]);
             if (methodName != null) {
-                String[] effects = StringUtils.split(values[1], "\\");
+                String[] effects = StringUtils.splitPreserveAllTokens(values[1], "\\");
 
                 effects[0] = StringUtils.replace(effects[0], getSufixByCharacteristic(values[0]), "");
 

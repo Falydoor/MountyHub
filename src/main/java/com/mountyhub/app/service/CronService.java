@@ -93,11 +93,11 @@ public class CronService {
         try {
             String response = IOUtils.toString(new URI("ftp://ftp.mountyhall.com/Public_Sortileges.txt"), "Windows-1252");
             // Race's spells
-            response += "1;Projectile magique;0;4\n";
+            response += "1;Projectile Magique;0;4\n";
             response += "2;Hypnotisme;0;4\n";
             response += "3;Vampirisme;0;4\n";
-            response += "4;Rafale psychique;0;4\n";
-            response += "14;Siphon des âme;0;4\n";
+            response += "4;Rafale Psychique;0;4\n";
+            response += "14;Siphon des Ames;0;4\n";
             // Sublifusion Magesque
             response += "30;Sublifusion Magesque Minor;0;1\n";
             response += "31;Sublifusion Magesque Medius;0;1\n";

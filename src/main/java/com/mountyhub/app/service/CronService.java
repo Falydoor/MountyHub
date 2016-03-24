@@ -98,8 +98,10 @@ public class CronService {
             response += "3;Vampirisme;0;4\n";
             response += "4;Rafale psychique;0;4\n";
             response += "14;Siphon des âme;0;4\n";
-            // Unknown spells
-            response += "31;?;0;4\n";
+            // Sublifusion Magesque
+            response += "30;Sublifusion Magesque Minor;0;1\n";
+            response += "31;Sublifusion Magesque Medius;0;1\n";
+            response += "32;Sublifusion Magesque Maexus;0;1";
             String[] lines = StringUtils.split(response, "\n");
 
             for (String line : lines) {

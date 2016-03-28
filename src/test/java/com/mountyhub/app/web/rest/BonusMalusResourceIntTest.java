@@ -92,8 +92,6 @@ public class BonusMalusResourceIntTest {
 
     private static final Integer DEFAULT_TURN = 1;
     private static final Integer UPDATED_TURN = 2;
-    private static final String DEFAULT_PROTECTION = "AAAAA";
-    private static final String UPDATED_PROTECTION = "BBBBB";
 
     @Inject
     private BonusMalusRepository bonusMalusRepository;
@@ -139,7 +137,6 @@ public class BonusMalusResourceIntTest {
         bonusMalus.setArmor(DEFAULT_ARMOR);
         bonusMalus.setArmorM(DEFAULT_ARMOR_M);
         bonusMalus.setTurn(DEFAULT_TURN);
-        bonusMalus.setProtection(DEFAULT_PROTECTION);
     }
 
     @Test
@@ -176,7 +173,6 @@ public class BonusMalusResourceIntTest {
         assertThat(testBonusMalus.getArmor()).isEqualTo(DEFAULT_ARMOR);
         assertThat(testBonusMalus.getArmorM()).isEqualTo(DEFAULT_ARMOR_M);
         assertThat(testBonusMalus.getTurn()).isEqualTo(DEFAULT_TURN);
-        assertThat(testBonusMalus.getProtection()).isEqualTo(DEFAULT_PROTECTION);
     }
 
     @Test
@@ -505,24 +501,6 @@ public class BonusMalusResourceIntTest {
 
     @Test
     @Transactional
-    public void checkProtectionIsRequired() throws Exception {
-        int databaseSizeBeforeTest = bonusMalusRepository.findAll().size();
-        // set the field null
-        bonusMalus.setProtection(null);
-
-        // Create the BonusMalus, which fails.
-
-        restBonusMalusMockMvc.perform(post("/api/bonusMaluss")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(bonusMalus)))
-                .andExpect(status().isBadRequest());
-
-        List<BonusMalus> bonusMaluss = bonusMalusRepository.findAll();
-        assertThat(bonusMaluss).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     public void getAllBonusMaluss() throws Exception {
         // Initialize the database
         bonusMalusRepository.saveAndFlush(bonusMalus);
@@ -549,8 +527,7 @@ public class BonusMalusResourceIntTest {
                 .andExpect(jsonPath("$.[*].mm").value(hasItem(DEFAULT_MM)))
                 .andExpect(jsonPath("$.[*].armor").value(hasItem(DEFAULT_ARMOR)))
                 .andExpect(jsonPath("$.[*].armorM").value(hasItem(DEFAULT_ARMOR_M)))
-                .andExpect(jsonPath("$.[*].turn").value(hasItem(DEFAULT_TURN)))
-                .andExpect(jsonPath("$.[*].protection").value(hasItem(DEFAULT_PROTECTION.toString())));
+                .andExpect(jsonPath("$.[*].turn").value(hasItem(DEFAULT_TURN)));
     }
 
     @Test
@@ -581,8 +558,7 @@ public class BonusMalusResourceIntTest {
             .andExpect(jsonPath("$.mm").value(DEFAULT_MM))
             .andExpect(jsonPath("$.armor").value(DEFAULT_ARMOR))
             .andExpect(jsonPath("$.armorM").value(DEFAULT_ARMOR_M))
-            .andExpect(jsonPath("$.turn").value(DEFAULT_TURN))
-            .andExpect(jsonPath("$.protection").value(DEFAULT_PROTECTION.toString()));
+            .andExpect(jsonPath("$.turn").value(DEFAULT_TURN));
     }
 
     @Test
@@ -620,7 +596,6 @@ public class BonusMalusResourceIntTest {
         bonusMalus.setArmor(UPDATED_ARMOR);
         bonusMalus.setArmorM(UPDATED_ARMOR_M);
         bonusMalus.setTurn(UPDATED_TURN);
-        bonusMalus.setProtection(UPDATED_PROTECTION);
 
         restBonusMalusMockMvc.perform(put("/api/bonusMaluss")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -649,7 +624,6 @@ public class BonusMalusResourceIntTest {
         assertThat(testBonusMalus.getArmor()).isEqualTo(UPDATED_ARMOR);
         assertThat(testBonusMalus.getArmorM()).isEqualTo(UPDATED_ARMOR_M);
         assertThat(testBonusMalus.getTurn()).isEqualTo(UPDATED_TURN);
-        assertThat(testBonusMalus.getProtection()).isEqualTo(UPDATED_PROTECTION);
     }
 
     @Test

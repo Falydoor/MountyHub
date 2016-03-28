@@ -152,14 +152,6 @@
             "fieldValidateRules": [
                 "required"
             ]
-        },
-        {
-            "fieldId": 19,
-            "fieldName": "protection",
-            "fieldType": "String",
-            "fieldValidateRules": [
-                "required"
-            ]
         }
     ],
     "changelogDate": "20160328150145",

@@ -46,7 +46,6 @@ angular.module('mountyhubApp')
                 armor: null,
                 armorM: null,
                 turn: null,
-                protection: null,
                 id: null
             };
         };

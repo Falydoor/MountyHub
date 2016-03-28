@@ -74,6 +74,9 @@ public class TrollService {
     @Inject
     private SpellRepository spellRepository;
 
+    @Inject
+    private BonusMalusRepository bonusMalusRepository;
+
     public Troll createUpdateTroll(Troll troll) throws IOException, MountyHubException, MountyHallScriptException {
         // Check if the troll isn't already linked to a user for a troll creation
         User currentUser = null;
@@ -118,6 +121,9 @@ public class TrollService {
             // Save aptitude
             ScriptCall aptitudeCall = setTrollAptitudeFromMHScript(troll);
 
+            // Save bonus malus
+            ScriptCall bonusMalusCall = setTrollBonusMalusFromMHScript(troll);
+
             // Save script calls with troll number
             caractCall.setTroll(troll);
             scriptCallRepository.save(caractCall);
@@ -131,6 +137,8 @@ public class TrollService {
             scriptCallRepository.save(flyCall);
             aptitudeCall.setTroll(troll);
             scriptCallRepository.save(aptitudeCall);
+            bonusMalusCall.setTroll(troll);
+            scriptCallRepository.save(bonusMalusCall);
 
             // Link troll to current user
             if (currentUser != null) {
@@ -142,6 +150,31 @@ public class TrollService {
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             throw new MountyHallScriptException("Erreur lors du parsage du script MountyHall !", e);
         }
+    }
+
+    public ScriptCall setTrollBonusMalusFromMHScript(Troll troll) throws MountyHallScriptException, IOException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+        // Delete old bonus malus
+        bonusMalusRepository.delete(troll.getBonusMalus());
+
+        ScriptCall scriptCall = MountyHallScriptUtil.createScriptCall(ScriptName.SP_Bonusmalus);
+        scriptCallService.callScript(scriptCall, troll);
+
+        String[] lines = StringUtils.split(scriptCall.getBody(), "\n");
+
+        for (String line : lines) {
+            line = StringUtils.replace(line, "\\'", "'");
+            String[] values = StringUtils.splitPreserveAllTokens(line, ";");
+
+            BonusMalus bonusMalus = new BonusMalus();
+            MountyHallScriptUtil.parseBonusMalus(bonusMalus, values);
+            bonusMalus.setTroll(troll);
+            bonusMalusRepository.save(bonusMalus);
+        }
+
+        scriptCall.setSuccessfullyParsed(true);
+        scriptCallService.save(scriptCall);
+
+        return scriptCall;
     }
 
     public ScriptCall setTrollAptitudeFromMHScript(Troll troll) throws MountyHallScriptException, IOException {
@@ -499,6 +532,10 @@ public class TrollService {
                     break;
                 case "compAndSpell":
                     setTrollAptitudeFromMHScript(troll);
+                    break;
+                case "bonusMalus":
+                    setTrollBonusMalusFromMHScript(troll);
+                    setTrollCharacteristicFromMHScript(troll);
                     break;
                 default:
                     throw new MountyHubException("Type de refresh non-implémenté !");

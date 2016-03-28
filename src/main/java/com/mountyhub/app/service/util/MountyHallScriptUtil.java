@@ -1,9 +1,6 @@
 package com.mountyhub.app.service.util;
 
-import com.mountyhub.app.domain.Fly;
-import com.mountyhub.app.domain.Gear;
-import com.mountyhub.app.domain.ScriptCall;
-import com.mountyhub.app.domain.Troll;
+import com.mountyhub.app.domain.*;
 import com.mountyhub.app.domain.enumeration.FlyType;
 import com.mountyhub.app.domain.enumeration.GearType;
 import com.mountyhub.app.domain.enumeration.ScriptName;
@@ -51,6 +48,7 @@ public final class MountyHallScriptUtil {
         switch (name) {
             case SP_Caract:
             case SP_Profil2:
+            case SP_Bonusmalus:
                 type = ScriptType.DYNAMIQUE;
                 break;
             case SP_Equipement:
@@ -115,5 +113,14 @@ public final class MountyHallScriptUtil {
         fly.setType(FlyType.valueOf(StringUtils.stripAccents(values[2]).toUpperCase()));
         fly.setOld(Integer.valueOf(values[3]));
         fly.setHere("LA".equals(values[4]));
+    }
+
+    public static void parseBonusMalus(BonusMalus bonusMalus, String[] values) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+        // Nom ; Type ; Effet ; Durée (en tours)
+        bonusMalus.setName(values[0]);
+        bonusMalus.setType(values[1]);
+        bonusMalus.setEffect(values[2]);
+        bonusMalus.setDuration(Integer.valueOf(values[3]));
+        MountyHallUtil.setCharacteristicsFromDescription(bonusMalus, bonusMalus.getEffect());
     }
 }

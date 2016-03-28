@@ -1,0 +1,182 @@
+
+<div>
+    <h2><span>BonusMalus</span> {{bonusMalus.id}}</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Field</th>
+                <th>Value</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <span>Name</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{bonusMalus.name}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Type</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{bonusMalus.type}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Effect</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{bonusMalus.effect}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Duration</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{bonusMalus.duration}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Attack</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{bonusMalus.attack}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>AttackM</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{bonusMalus.attackM}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Dodge</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{bonusMalus.dodge}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>DodgeM</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{bonusMalus.dodgeM}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Damage</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{bonusMalus.damage}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>DamageM</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{bonusMalus.damageM}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Regeneration</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{bonusMalus.regeneration}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>HitPoint</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{bonusMalus.hitPoint}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>View</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{bonusMalus.view}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Rm</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{bonusMalus.rm}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Mm</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{bonusMalus.mm}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Armor</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{bonusMalus.armor}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>ArmorM</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{bonusMalus.armorM}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Turn</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{bonusMalus.turn}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Protection</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{bonusMalus.protection}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>troll</span>
+                </td>
+                <td>
+                    <a class="form-control-static" ui-sref="troll.detail({id:bonusMalus.troll.id})">{{bonusMalus.troll.id}}</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button type="submit"
+            onclick="window.history.back()"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+</div>

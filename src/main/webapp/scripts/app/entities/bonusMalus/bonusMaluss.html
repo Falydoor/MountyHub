@@ -1,0 +1,99 @@
+<div>
+    <h2>BonusMaluss</h2>
+    <jh-alert></jh-alert>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-4 no-padding-left">
+                <button class="btn btn-primary" ui-sref="bonusMalus.new" >
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span 
+                       >Create new BonusMalus
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive">
+        <table class="jh-table table table-striped">
+            <thead>
+                <tr jh-sort="predicate" ascending="reverse" callback="loadAll()">
+                    <th jh-sort-by="id"><span>ID</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="name"><span>Name</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="type"><span>Type</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="effect"><span>Effect</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="duration"><span>Duration</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="attack"><span>Attack</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="attackM"><span>AttackM</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="dodge"><span>Dodge</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="dodgeM"><span>DodgeM</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="damage"><span>Damage</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="damageM"><span>DamageM</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="regeneration"><span>Regeneration</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="hitPoint"><span>HitPoint</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="view"><span>View</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="rm"><span>Rm</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="mm"><span>Mm</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="armor"><span>Armor</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="armorM"><span>ArmorM</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="turn"><span>Turn</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="protection"><span>Protection</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="troll.id"><span>troll</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="bonusMalus in bonusMaluss track by bonusMalus.id">
+                    <td><a ui-sref="bonusMalus.detail({id:bonusMalus.id})">{{bonusMalus.id}}</a></td>
+                    <td>{{bonusMalus.name}}</td>
+                    <td>{{bonusMalus.type}}</td>
+                    <td>{{bonusMalus.effect}}</td>
+                    <td>{{bonusMalus.duration}}</td>
+                    <td>{{bonusMalus.attack}}</td>
+                    <td>{{bonusMalus.attackM}}</td>
+                    <td>{{bonusMalus.dodge}}</td>
+                    <td>{{bonusMalus.dodgeM}}</td>
+                    <td>{{bonusMalus.damage}}</td>
+                    <td>{{bonusMalus.damageM}}</td>
+                    <td>{{bonusMalus.regeneration}}</td>
+                    <td>{{bonusMalus.hitPoint}}</td>
+                    <td>{{bonusMalus.view}}</td>
+                    <td>{{bonusMalus.rm}}</td>
+                    <td>{{bonusMalus.mm}}</td>
+                    <td>{{bonusMalus.armor}}</td>
+                    <td>{{bonusMalus.armorM}}</td>
+                    <td>{{bonusMalus.turn}}</td>
+                    <td>{{bonusMalus.protection}}</td>
+                    <td>
+                        <a ui-sref="troll.detail({id:bonusMalus.troll.id})">{{bonusMalus.troll.id}}</a>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit"
+                                    ui-sref="bonusMalus.detail({id:bonusMalus.id})"
+                                    class="btn btn-info btn-sm"> 
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                                <span class="hidden-xs hidden-sm"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="bonusMalus.edit({id:bonusMalus.id})"
+                                    class="btn btn-primary btn-sm">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                                <span class="hidden-xs hidden-sm"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="bonusMalus.delete({id:bonusMalus.id})"
+                                    class="btn btn-danger btn-sm">                                    
+                                <span class="glyphicon glyphicon-remove-circle"></span>
+                                <span class="hidden-xs hidden-sm"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="text-center">
+        <uib-pagination class="pagination-sm" total-items="totalItems" ng-model="page" ng-change="loadAll()"></uib-pagination>
+    </div>
+</div>

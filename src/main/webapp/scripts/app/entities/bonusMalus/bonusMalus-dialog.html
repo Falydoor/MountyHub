@@ -1,0 +1,320 @@
+
+<form name="editForm" role="form" novalidate ng-submit="save()" show-validation>
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                ng-click="clear()">&times;</button>
+        <h4 class="modal-title" id="myBonusMalusLabel">Create or edit a BonusMalus</h4>
+    </div>
+    <div class="modal-body">
+        <jh-alert-error></jh-alert-error>
+        <div class="form-group">
+            <label for="id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                    ng-model="bonusMalus.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_name">Name</label>
+            <input type="text" class="form-control" name="name" id="field_name"
+                    ng-model="bonusMalus.name"
+                    required />
+            <div ng-show="editForm.name.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.name.$error.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_type">Type</label>
+            <input type="text" class="form-control" name="type" id="field_type"
+                    ng-model="bonusMalus.type"
+                    required />
+            <div ng-show="editForm.type.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.type.$error.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_effect">Effect</label>
+            <input type="text" class="form-control" name="effect" id="field_effect"
+                    ng-model="bonusMalus.effect"
+                    required />
+            <div ng-show="editForm.effect.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.effect.$error.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_duration">Duration</label>
+            <input type="number" class="form-control" name="duration" id="field_duration"
+                    ng-model="bonusMalus.duration"
+                    required />
+            <div ng-show="editForm.duration.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.duration.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.duration.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_attack">Attack</label>
+            <input type="number" class="form-control" name="attack" id="field_attack"
+                    ng-model="bonusMalus.attack"
+                    required />
+            <div ng-show="editForm.attack.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.attack.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.attack.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_attackM">AttackM</label>
+            <input type="number" class="form-control" name="attackM" id="field_attackM"
+                    ng-model="bonusMalus.attackM"
+                    required />
+            <div ng-show="editForm.attackM.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.attackM.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.attackM.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_dodge">Dodge</label>
+            <input type="number" class="form-control" name="dodge" id="field_dodge"
+                    ng-model="bonusMalus.dodge"
+                    required />
+            <div ng-show="editForm.dodge.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.dodge.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.dodge.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_dodgeM">DodgeM</label>
+            <input type="number" class="form-control" name="dodgeM" id="field_dodgeM"
+                    ng-model="bonusMalus.dodgeM"
+                    required />
+            <div ng-show="editForm.dodgeM.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.dodgeM.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.dodgeM.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_damage">Damage</label>
+            <input type="number" class="form-control" name="damage" id="field_damage"
+                    ng-model="bonusMalus.damage"
+                    required />
+            <div ng-show="editForm.damage.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.damage.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.damage.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_damageM">DamageM</label>
+            <input type="number" class="form-control" name="damageM" id="field_damageM"
+                    ng-model="bonusMalus.damageM"
+                    required />
+            <div ng-show="editForm.damageM.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.damageM.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.damageM.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_regeneration">Regeneration</label>
+            <input type="number" class="form-control" name="regeneration" id="field_regeneration"
+                    ng-model="bonusMalus.regeneration"
+                    required />
+            <div ng-show="editForm.regeneration.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.regeneration.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.regeneration.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_hitPoint">HitPoint</label>
+            <input type="number" class="form-control" name="hitPoint" id="field_hitPoint"
+                    ng-model="bonusMalus.hitPoint"
+                    required />
+            <div ng-show="editForm.hitPoint.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.hitPoint.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.hitPoint.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_view">View</label>
+            <input type="number" class="form-control" name="view" id="field_view"
+                    ng-model="bonusMalus.view"
+                    required />
+            <div ng-show="editForm.view.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.view.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.view.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_rm">Rm</label>
+            <input type="number" class="form-control" name="rm" id="field_rm"
+                    ng-model="bonusMalus.rm"
+                    required />
+            <div ng-show="editForm.rm.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.rm.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.rm.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_mm">Mm</label>
+            <input type="number" class="form-control" name="mm" id="field_mm"
+                    ng-model="bonusMalus.mm"
+                    required />
+            <div ng-show="editForm.mm.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.mm.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.mm.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_armor">Armor</label>
+            <input type="number" class="form-control" name="armor" id="field_armor"
+                    ng-model="bonusMalus.armor"
+                    required />
+            <div ng-show="editForm.armor.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.armor.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.armor.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_armorM">ArmorM</label>
+            <input type="number" class="form-control" name="armorM" id="field_armorM"
+                    ng-model="bonusMalus.armorM"
+                    required />
+            <div ng-show="editForm.armorM.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.armorM.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.armorM.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_turn">Turn</label>
+            <input type="number" class="form-control" name="turn" id="field_turn"
+                    ng-model="bonusMalus.turn"
+                    required />
+            <div ng-show="editForm.turn.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.turn.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.turn.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_protection">Protection</label>
+            <input type="text" class="form-control" name="protection" id="field_protection"
+                    ng-model="bonusMalus.protection"
+                    required />
+            <div ng-show="editForm.protection.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.protection.$error.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="field_troll">troll</label>
+            <select class="form-control" id="field_troll" name="troll" ng-model="bonusMalus.troll" ng-options="troll as troll.id for troll in trolls track by troll.id">
+                <option value=""></option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || isSaving" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span>Save</span>
+        </button>
+    </div>
+</form>

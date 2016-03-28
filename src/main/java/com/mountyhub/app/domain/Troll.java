@@ -256,6 +256,18 @@ public class Troll implements Serializable {
     @JsonIgnore
     private Set<Spell> spells = new HashSet<>();
 
+    @OneToMany(mappedBy = "troll")
+    @JsonIgnore
+    private Set<BonusMalus> bonusMalus = new HashSet<>();
+
+    public Set<BonusMalus> getBonusMalus() {
+        return bonusMalus;
+    }
+
+    public void setBonusMalus(Set<BonusMalus> bonusMalus) {
+        this.bonusMalus = bonusMalus;
+    }
+
     public Long getId() {
         return id;
     }

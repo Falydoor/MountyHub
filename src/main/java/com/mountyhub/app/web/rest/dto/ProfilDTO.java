@@ -1,5 +1,6 @@
 package com.mountyhub.app.web.rest.dto;
 
+import com.mountyhub.app.domain.BonusMalus;
 import com.mountyhub.app.domain.UserOption;
 import com.mountyhub.app.domain.enumeration.ScriptName;
 import com.mountyhub.app.domain.enumeration.ScriptType;
@@ -145,6 +146,26 @@ public class ProfilDTO {
     private String protection;
 
     private List<AptitudeDTO> aptitudes;
+
+    private List<BonusMalusDTO> bonusMalus;
+
+    private String bonusMalusEffect;
+
+    public List<BonusMalusDTO> getBonusMalus() {
+        return bonusMalus;
+    }
+
+    public void setBonusMalus(List<BonusMalusDTO> bonusMalus) {
+        this.bonusMalus = bonusMalus;
+    }
+
+    public String getBonusMalusEffect() {
+        return bonusMalusEffect;
+    }
+
+    public void setBonusMalusEffect(String bonusMalusEffect) {
+        this.bonusMalusEffect = bonusMalusEffect;
+    }
 
     public List<AptitudeDTO> getAptitudes() {
         return aptitudes;

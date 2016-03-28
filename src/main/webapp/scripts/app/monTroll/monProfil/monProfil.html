@@ -238,6 +238,32 @@
             </table>
         </div>
     </div>
+    <div class="col-md-6 part">
+        <div class="part-header" data-toggle="collapse" href="#bonusMalus">
+            <h4 class="text-center">Bonus/Malus <span class="glyphicon glyphicon-refresh"
+                                                      aria-hidden="true"
+                                                      ng-click="refreshProfil($event, 'bonusMalus')"
+                                                      uib-tooltip="Mis à jour il y a {{troll.scriptCallLastCall.SP_Bonusmalus}}"></span>
+            </h4>
+            <h6 class="text-center">{{troll.bonusMalusEffect}}</h6>
+        </div>
+        <div class="collapse" id="bonusMalus">
+            <table class="table" style="background-color: white">
+                <tr>
+                    <th>Nom</th>
+                    <th>Type</th>
+                    <th>Effet</th>
+                    <th class="text-center">Durée</th>
+                </tr>
+                <tr ng-repeat="bonusMalus in troll.bonusMalus">
+                    <td>{{bonusMalus.name}}</td>
+                    <td>{{bonusMalus.type}}</td>
+                    <td>{{bonusMalus.effect}}</td>
+                    <td class="text-center">{{bonusMalus.duration}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
     <div class="col-md-12">
         <h4 class="text-center">Divers</h4>
         <label>

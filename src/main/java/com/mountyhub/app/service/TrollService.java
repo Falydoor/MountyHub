@@ -459,6 +459,17 @@ public class TrollService {
             .sorted((s1, s2) -> s1.getSpellMH().getName().compareTo(s2.getSpellMH().getName()))
             .map(AptitudeDTO::new).collect(Collectors.toList()));
 
+        // Bonus malus
+        List<BonusMalusDTO> bonusMaluses = troll.getBonusMalus().stream()
+            .sorted((bm1, bm2) -> bm1.getDuration().compareTo(bm2.getDuration()))
+            .map(bonusMalus -> {
+                BonusMalusDTO dto = new BonusMalusDTO();
+                BeanUtils.copyProperties(bonusMalus, dto);
+                return dto;
+            }).collect(Collectors.toList());
+        profil.setBonusMalus(bonusMaluses);
+        profil.setBonusMalusEffect(MountyHallUtil.formatGlobalEffect(bonusMalusRepository.getGlobalEffect(troll.getId())));
+
         // Turn, bonus/malus, weight, wounds and total turn
         Duration turn = DateUtil.getDurationFromFloatMinutes(profil.getTurn());
         profil.setTurnFormatted(DateUtil.formatDuration(turn));

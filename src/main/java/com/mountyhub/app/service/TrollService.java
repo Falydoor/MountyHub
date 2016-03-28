@@ -1,7 +1,10 @@
 package com.mountyhub.app.service;
 
 import com.mountyhub.app.domain.*;
-import com.mountyhub.app.domain.enumeration.*;
+import com.mountyhub.app.domain.enumeration.FlyType;
+import com.mountyhub.app.domain.enumeration.ScriptName;
+import com.mountyhub.app.domain.enumeration.ScriptType;
+import com.mountyhub.app.domain.enumeration.TrollRace;
 import com.mountyhub.app.exception.MountyHallScriptException;
 import com.mountyhub.app.exception.MountyHubException;
 import com.mountyhub.app.repository.*;
@@ -107,13 +110,13 @@ public class TrollService {
             log.debug("Created Information for Troll: {}", troll);
 
             // Save gear
-            setTrollGearFromMHScript(troll);
+            ScriptCall gearCall = setTrollGearFromMHScript(troll);
 
             // Save fly
-            setTrollFlyFromMHScript(troll);
+            ScriptCall flyCall = setTrollFlyFromMHScript(troll);
 
-            // Save comp/spell
-            setTrollCompSpellFromMHScript(troll);
+            // Save aptitude
+            ScriptCall aptitudeCall = setTrollAptitudeFromMHScript(troll);
 
             // Save script calls with troll number
             caractCall.setTroll(troll);
@@ -122,6 +125,12 @@ public class TrollService {
             scriptCallRepository.save(stateCall);
             profilCall.setTroll(troll);
             scriptCallRepository.save(profilCall);
+            gearCall.setTroll(troll);
+            scriptCallRepository.save(gearCall);
+            flyCall.setTroll(troll);
+            scriptCallRepository.save(flyCall);
+            aptitudeCall.setTroll(troll);
+            scriptCallRepository.save(aptitudeCall);
 
             // Link troll to current user
             if (currentUser != null) {
@@ -135,7 +144,7 @@ public class TrollService {
         }
     }
 
-    public void setTrollCompSpellFromMHScript(Troll troll) throws MountyHallScriptException, IOException {
+    public ScriptCall setTrollAptitudeFromMHScript(Troll troll) throws MountyHallScriptException, IOException {
         ScriptCall scriptCall = MountyHallScriptUtil.createScriptCall(ScriptName.SP_Aptitudes2);
         scriptCallService.callScript(scriptCall, troll);
 
@@ -184,9 +193,11 @@ public class TrollService {
             scriptCall.setSuccessfullyParsed(true);
             scriptCallService.save(scriptCall);
         }
+
+        return scriptCall;
     }
 
-    public void setTrollFlyFromMHScript(Troll troll) throws MountyHallScriptException, IOException {
+    public ScriptCall setTrollFlyFromMHScript(Troll troll) throws MountyHallScriptException, IOException {
         ScriptCall scriptCall = MountyHallScriptUtil.createScriptCall(ScriptName.SP_Mouche);
         scriptCallService.callScript(scriptCall, troll);
 
@@ -213,9 +224,11 @@ public class TrollService {
         troll.getFlys().stream()
             .filter(fly -> !exist.contains(fly.getNumber()))
             .forEach(fly -> flyRepository.deleteByNumber(fly.getNumber()));
+
+        return scriptCall;
     }
 
-    public void setTrollGearFromMHScript(Troll troll) throws IOException, MountyHallScriptException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+    public ScriptCall setTrollGearFromMHScript(Troll troll) throws IOException, MountyHallScriptException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         ScriptCall scriptCall = MountyHallScriptUtil.createScriptCall(ScriptName.SP_Equipement);
         scriptCallService.callScript(scriptCall, troll);
 
@@ -242,6 +255,8 @@ public class TrollService {
         troll.getGears().stream()
             .filter(gear -> !wore.contains(gear.getNumber()))
             .forEach(gear -> gearRepository.deleteByNumber(gear.getNumber()));
+
+        return scriptCall;
     }
 
     public ScriptCall setTrollProfilFromMHScript(Troll troll) throws MountyHallScriptException, IOException {
@@ -483,7 +498,7 @@ public class TrollService {
                     setTrollCharacteristicFromMHScript(troll);
                     break;
                 case "compAndSpell":
-                    setTrollCompSpellFromMHScript(troll);
+                    setTrollAptitudeFromMHScript(troll);
                     break;
                 default:
                     throw new MountyHubException("Type de refresh non-implémenté !");

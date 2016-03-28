@@ -39,7 +39,7 @@ public class ScriptCallService {
         // Call the script and save it
         String response = IOUtils.toString(new URL(url), "Windows-1252");
         scriptCall.setBody(response);
-        if (troll.getId() != null) {
+        if (troll.getId() != null && !troll.getScriptCalls().isEmpty()) {
             scriptCall.setTroll(troll);
         }
         scriptCall.setSuccessfullyCalled(!StringUtils.startsWith(response, "Erreur"));

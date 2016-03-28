@@ -24,20 +24,25 @@
             <column name="name" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
-            
+
             <column name="value" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
-            
+
             <column name="user_id" type="bigint"/>
             <!-- jhipster-needle-liquibase-add-column - Jhipster will add columns here, do not remove-->
         </createTable>
-        
+
         <addForeignKeyConstraint baseColumnNames="user_id"
                                  baseTableName="user_option"
                                  constraintName="fk_useroption_user_id"
                                  referencedColumnNames="id"
                                  referencedTableName="jhi_user"/>
+
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/user_options.csv"
+                  separator=";"
+                  tableName="user_option"/>
 
     </changeSet>
 </databaseChangeLog>

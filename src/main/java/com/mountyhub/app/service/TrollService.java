@@ -382,18 +382,13 @@ public class TrollService {
         profil.setBirthDateFormatted(DateUtil.formatZonedDate(troll.getBirthDate(), zoneId));
         profil.setDla(DateUtil.formatZonedDate(troll.getDla(), zoneId));
         profil.setUserOptions(user.getUserOptions().stream().collect(Collectors.toMap(userOption -> userOption.getName().toString(), userOption1 -> userOption1)));
-        UserOption userOption = new UserOption();
-        userOption.setName(UserOptionName.ZONEID);
-        userOption.setUser(user);
-        userOption.setValue("GMT+01:00");
-        profil.getUserOptions().putIfAbsent(UserOptionName.ZONEID.toString(), userOption);
 
         // Gears
         List<String> protections = new ArrayList<>();
         List<GearDTO> gears = troll.getGears().stream().map(gear -> {
             GearDTO dto = new GearDTO();
             BeanUtils.copyProperties(gear, dto);
-            if (gear.getWore() && StringUtils.isNoneBlank(gear.getProtection())) {
+            if (gear.getWore() && StringUtils.isNotBlank(gear.getProtection())) {
                 protections.add(gear.getProtection());
             }
             return dto;

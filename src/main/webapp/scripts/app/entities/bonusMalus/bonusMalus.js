@@ -55,6 +55,7 @@ angular.module('mountyhubApp')
                                     name: null,
                                     type: null,
                                     effect: null,
+                                    realEffect: null,
                                     duration: null,
                                     attack: null,
                                     attackM: null,

@@ -50,6 +50,18 @@
             </div>
         </div>
         <div class="form-group">
+            <label class="control-label" for="field_realEffect">RealEffect</label>
+            <input type="text" class="form-control" name="realEffect" id="field_realEffect"
+                    ng-model="bonusMalus.realEffect"
+                    required />
+            <div ng-show="editForm.realEffect.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.realEffect.$error.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
             <label class="control-label" for="field_duration">Duration</label>
             <input type="number" class="form-control" name="duration" id="field_duration"
                     ng-model="bonusMalus.duration"

@@ -67,7 +67,7 @@ class BonusMalusGatlingTest extends Simulation {
             .exec(http("Create new bonusMalus")
             .post("/api/bonusMaluss")
             .headers(headers_http_authenticated)
-            .body(StringBody("""{"id":null, "name":"SAMPLE_TEXT", "type":"SAMPLE_TEXT", "effect":"SAMPLE_TEXT", "duration":"0", "attack":"0", "attackM":"0", "dodge":"0", "dodgeM":"0", "damage":"0", "damageM":"0", "regeneration":"0", "hitPoint":"0", "view":"0", "rm":"0", "mm":"0", "armor":"0", "armorM":"0", "turn":"0"}""")).asJSON
+            .body(StringBody("""{"id":null, "name":"SAMPLE_TEXT", "type":"SAMPLE_TEXT", "effect":"SAMPLE_TEXT", "realEffect":"SAMPLE_TEXT", "duration":"0", "attack":"0", "attackM":"0", "dodge":"0", "dodgeM":"0", "damage":"0", "damageM":"0", "regeneration":"0", "hitPoint":"0", "view":"0", "rm":"0", "mm":"0", "armor":"0", "armorM":"0", "turn":"0"}""")).asJSON
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_bonusMalus_url")))
             .pause(10)

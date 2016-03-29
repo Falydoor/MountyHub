@@ -47,6 +47,8 @@ public class BonusMalusResourceIntTest {
     private static final String UPDATED_TYPE = "BBBBB";
     private static final String DEFAULT_EFFECT = "AAAAA";
     private static final String UPDATED_EFFECT = "BBBBB";
+    private static final String DEFAULT_REAL_EFFECT = "AAAAA";
+    private static final String UPDATED_REAL_EFFECT = "BBBBB";
 
     private static final Integer DEFAULT_DURATION = 1;
     private static final Integer UPDATED_DURATION = 2;
@@ -122,6 +124,7 @@ public class BonusMalusResourceIntTest {
         bonusMalus.setName(DEFAULT_NAME);
         bonusMalus.setType(DEFAULT_TYPE);
         bonusMalus.setEffect(DEFAULT_EFFECT);
+        bonusMalus.setRealEffect(DEFAULT_REAL_EFFECT);
         bonusMalus.setDuration(DEFAULT_DURATION);
         bonusMalus.setAttack(DEFAULT_ATTACK);
         bonusMalus.setAttackM(DEFAULT_ATTACK_M);
@@ -158,6 +161,7 @@ public class BonusMalusResourceIntTest {
         assertThat(testBonusMalus.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testBonusMalus.getType()).isEqualTo(DEFAULT_TYPE);
         assertThat(testBonusMalus.getEffect()).isEqualTo(DEFAULT_EFFECT);
+        assertThat(testBonusMalus.getRealEffect()).isEqualTo(DEFAULT_REAL_EFFECT);
         assertThat(testBonusMalus.getDuration()).isEqualTo(DEFAULT_DURATION);
         assertThat(testBonusMalus.getAttack()).isEqualTo(DEFAULT_ATTACK);
         assertThat(testBonusMalus.getAttackM()).isEqualTo(DEFAULT_ATTACK_M);
@@ -217,6 +221,24 @@ public class BonusMalusResourceIntTest {
         int databaseSizeBeforeTest = bonusMalusRepository.findAll().size();
         // set the field null
         bonusMalus.setEffect(null);
+
+        // Create the BonusMalus, which fails.
+
+        restBonusMalusMockMvc.perform(post("/api/bonusMaluss")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(bonusMalus)))
+                .andExpect(status().isBadRequest());
+
+        List<BonusMalus> bonusMaluss = bonusMalusRepository.findAll();
+        assertThat(bonusMaluss).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkRealEffectIsRequired() throws Exception {
+        int databaseSizeBeforeTest = bonusMalusRepository.findAll().size();
+        // set the field null
+        bonusMalus.setRealEffect(null);
 
         // Create the BonusMalus, which fails.
 
@@ -513,6 +535,7 @@ public class BonusMalusResourceIntTest {
                 .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
                 .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())))
                 .andExpect(jsonPath("$.[*].effect").value(hasItem(DEFAULT_EFFECT.toString())))
+                .andExpect(jsonPath("$.[*].realEffect").value(hasItem(DEFAULT_REAL_EFFECT.toString())))
                 .andExpect(jsonPath("$.[*].duration").value(hasItem(DEFAULT_DURATION)))
                 .andExpect(jsonPath("$.[*].attack").value(hasItem(DEFAULT_ATTACK)))
                 .andExpect(jsonPath("$.[*].attackM").value(hasItem(DEFAULT_ATTACK_M)))
@@ -544,6 +567,7 @@ public class BonusMalusResourceIntTest {
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
             .andExpect(jsonPath("$.type").value(DEFAULT_TYPE.toString()))
             .andExpect(jsonPath("$.effect").value(DEFAULT_EFFECT.toString()))
+            .andExpect(jsonPath("$.realEffect").value(DEFAULT_REAL_EFFECT.toString()))
             .andExpect(jsonPath("$.duration").value(DEFAULT_DURATION))
             .andExpect(jsonPath("$.attack").value(DEFAULT_ATTACK))
             .andExpect(jsonPath("$.attackM").value(DEFAULT_ATTACK_M))
@@ -581,6 +605,7 @@ public class BonusMalusResourceIntTest {
         bonusMalus.setName(UPDATED_NAME);
         bonusMalus.setType(UPDATED_TYPE);
         bonusMalus.setEffect(UPDATED_EFFECT);
+        bonusMalus.setRealEffect(UPDATED_REAL_EFFECT);
         bonusMalus.setDuration(UPDATED_DURATION);
         bonusMalus.setAttack(UPDATED_ATTACK);
         bonusMalus.setAttackM(UPDATED_ATTACK_M);
@@ -609,6 +634,7 @@ public class BonusMalusResourceIntTest {
         assertThat(testBonusMalus.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testBonusMalus.getType()).isEqualTo(UPDATED_TYPE);
         assertThat(testBonusMalus.getEffect()).isEqualTo(UPDATED_EFFECT);
+        assertThat(testBonusMalus.getRealEffect()).isEqualTo(UPDATED_REAL_EFFECT);
         assertThat(testBonusMalus.getDuration()).isEqualTo(UPDATED_DURATION);
         assertThat(testBonusMalus.getAttack()).isEqualTo(UPDATED_ATTACK);
         assertThat(testBonusMalus.getAttackM()).isEqualTo(UPDATED_ATTACK_M);

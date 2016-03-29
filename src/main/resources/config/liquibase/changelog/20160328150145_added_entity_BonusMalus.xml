@@ -33,6 +33,10 @@
                 <constraints nullable="false" />
             </column>
             
+            <column name="real_effect" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+            
             <column name="duration" type="integer">
                 <constraints nullable="false" />
             </column>

@@ -140,4 +140,28 @@ public final class MountyHallUtil {
         }
         return "";
     }
+    
+    public static Integer applyDecumul(Integer value, Integer time) {
+        Double percent = 0.10D;
+        switch (time) {
+            case 1:
+                percent = 1D;
+                break;
+            case 2:
+                percent = 0.67D;
+                break;
+            case 3:
+                percent = 0.40D;
+                break;
+            case 4:
+                percent = 0.25D;
+                break;
+            case 5:
+                percent = 0.15D;
+                break;
+            default:
+                break;
+        }
+        return Double.valueOf(Math.floor(value * percent)).intValue();
+    }
 }

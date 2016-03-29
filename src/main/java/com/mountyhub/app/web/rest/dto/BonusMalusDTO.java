@@ -12,6 +12,16 @@ public class BonusMalusDTO {
 
     private Integer duration;
 
+    private String realEffect;
+
+    public String getRealEffect() {
+        return realEffect;
+    }
+
+    public void setRealEffect(String realEffect) {
+        this.realEffect = realEffect;
+    }
+
     public String getName() {
         return name;
     }

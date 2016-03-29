@@ -252,13 +252,15 @@
                 <tr>
                     <th>Nom</th>
                     <th>Type</th>
-                    <th>Effet</th>
+                    <th>Effet théorique</th>
+                    <th>Effet réel</th>
                     <th class="text-center">Durée</th>
                 </tr>
                 <tr ng-repeat="bonusMalus in troll.bonusMalus">
                     <td>{{bonusMalus.name}}</td>
                     <td>{{bonusMalus.type}}</td>
                     <td>{{bonusMalus.effect}}</td>
+                    <td>{{bonusMalus.realEffect}}</td>
                     <td class="text-center">{{bonusMalus.duration}}</td>
                 </tr>
             </table>

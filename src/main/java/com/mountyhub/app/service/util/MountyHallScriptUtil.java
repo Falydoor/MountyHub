@@ -121,6 +121,5 @@ public final class MountyHallScriptUtil {
         bonusMalus.setType(values[1]);
         bonusMalus.setEffect(values[2]);
         bonusMalus.setDuration(Integer.valueOf(values[3]));
-        MountyHallUtil.setCharacteristicsFromDescription(bonusMalus, bonusMalus.getEffect());
     }
 }

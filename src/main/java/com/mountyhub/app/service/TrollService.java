@@ -26,10 +26,9 @@ import java.lang.reflect.Method;
 import java.time.Duration;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
@@ -161,6 +160,7 @@ public class TrollService {
 
         String[] lines = StringUtils.split(scriptCall.getBody(), "\n");
 
+        List<BonusMalus> bonusMaluses = new ArrayList<>();
         for (String line : lines) {
             line = StringUtils.replace(line, "\\'", "'");
             String[] values = StringUtils.splitPreserveAllTokens(line, ";");
@@ -168,8 +168,29 @@ public class TrollService {
             BonusMalus bonusMalus = new BonusMalus();
             MountyHallScriptUtil.parseBonusMalus(bonusMalus, values);
             bonusMalus.setTroll(troll);
-            bonusMalusRepository.save(bonusMalus);
+            bonusMaluses.add(bonusMalus);
         }
+
+        Map<String, Integer> bonusMalusCountType = new HashMap<>();
+
+        bonusMaluses.stream()
+            .sorted((bm1, bm2) -> bm1.getDuration().compareTo(bm2.getDuration()))
+            .forEach(bonusMalus -> {
+                bonusMalusCountType.put(bonusMalus.getType(), bonusMalusCountType.getOrDefault(bonusMalus.getType(), 0) + 1);
+                Pattern p = Pattern.compile("(\\d+)");
+                Matcher m = p.matcher(bonusMalus.getEffect());
+                StringBuffer s = new StringBuffer();
+                while (m.find()) {
+                    m.appendReplacement(s, String.valueOf(MountyHallUtil.applyDecumul(Integer.parseInt(m.group(1)), bonusMalusCountType.get(bonusMalus.getType()))));
+                }
+                bonusMalus.setRealEffect(s.toString());
+                try {
+                    MountyHallUtil.setCharacteristicsFromDescription(bonusMalus, bonusMalus.getRealEffect());
+                } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+                    log.error("Error setting bonus malus from real effect : " + e.getMessage());
+                }
+            });
+        bonusMalusRepository.save(bonusMaluses);
 
         scriptCall.setSuccessfullyParsed(true);
         scriptCallService.save(scriptCall);

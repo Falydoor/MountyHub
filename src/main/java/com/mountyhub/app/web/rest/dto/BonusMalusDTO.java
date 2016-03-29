@@ -1,5 +1,8 @@
 package com.mountyhub.app.web.rest.dto;
 
+import com.mountyhub.app.domain.BonusMalus;
+import org.springframework.beans.BeanUtils;
+
 /**
  * Created by Theo on 3/28/16.
  */
@@ -13,6 +16,10 @@ public class BonusMalusDTO {
     private Integer duration;
 
     private String realEffect;
+
+    public BonusMalusDTO(BonusMalus bonusMalus) {
+        BeanUtils.copyProperties(bonusMalus, this);
+    }
 
     public String getRealEffect() {
         return realEffect;

@@ -4,7 +4,6 @@ import com.mountyhub.app.domain.*;
 import com.mountyhub.app.domain.enumeration.FlyType;
 import com.mountyhub.app.domain.enumeration.ScriptName;
 import com.mountyhub.app.domain.enumeration.ScriptType;
-import com.mountyhub.app.domain.enumeration.TrollRace;
 import com.mountyhub.app.exception.MountyHallScriptException;
 import com.mountyhub.app.exception.MountyHubException;
 import com.mountyhub.app.repository.*;
@@ -22,7 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.inject.Inject;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.time.Duration;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -171,25 +169,26 @@ public class TrollService {
             bonusMaluses.add(bonusMalus);
         }
 
+        // Set real effect by applying decumul on multiple bonus malus type
         Map<String, Integer> bonusMalusCountType = new HashMap<>();
-
         bonusMaluses.stream()
             .sorted((bm1, bm2) -> bm1.getDuration().compareTo(bm2.getDuration()))
             .forEach(bonusMalus -> {
                 bonusMalusCountType.put(bonusMalus.getType(), bonusMalusCountType.getOrDefault(bonusMalus.getType(), 0) + 1);
-                Pattern p = Pattern.compile("(\\d+)");
-                Matcher m = p.matcher(bonusMalus.getEffect());
-                StringBuffer s = new StringBuffer();
-                while (m.find()) {
-                    m.appendReplacement(s, String.valueOf(MountyHallUtil.applyDecumul(Integer.parseInt(m.group(1)), bonusMalusCountType.get(bonusMalus.getType()))));
+                Pattern numericPattern = Pattern.compile("(\\d+)");
+                Matcher numericMatcher = numericPattern.matcher(bonusMalus.getEffect());
+                StringBuffer realEffect = new StringBuffer();
+                while (numericMatcher.find()) {
+                    numericMatcher.appendReplacement(realEffect, MountyHallUtil.applyDecumul(Integer.parseInt(numericMatcher.group(1)), bonusMalusCountType.get(bonusMalus.getType())).toString());
                 }
-                bonusMalus.setRealEffect(s.toString());
+                bonusMalus.setRealEffect(realEffect.toString());
                 try {
                     MountyHallUtil.setCharacteristicsFromDescription(bonusMalus, bonusMalus.getRealEffect());
                 } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
                     log.error("Error setting bonus malus from real effect : " + e.getMessage());
                 }
             });
+
         bonusMalusRepository.save(bonusMaluses);
 
         scriptCall.setSuccessfullyParsed(true);
@@ -325,14 +324,7 @@ public class TrollService {
         }
 
         String[] values = StringUtils.splitPreserveAllTokens(lines[0], ";");
-
-        // numéro; Nom; Race; Niveau; Date d'inscription ; E-mail ; Blason ; Intangible ; Nb mouches ; Nb kills ; Nb morts; Numéro de Guilde; Nniveau de Rang; PNJ ?
-        troll.setName(values[1]);
-        troll.setRace(TrollRace.valueOf(values[2]));
-        troll.setLevel(Integer.valueOf(values[3]));
-        troll.setBirthDate(DateUtil.parseDateFromMHScript(values[4]));
-        troll.setKill(Integer.valueOf(values[9]));
-        troll.setDeath(Integer.valueOf(values[10]));
+        MountyHallScriptUtil.parseProfil(troll, values);
 
         scriptCall.setSuccessfullyParsed(true);
         scriptCallService.save(scriptCall);
@@ -379,52 +371,7 @@ public class TrollService {
                 throw new MountyHallScriptException("Réponse du script MountyHall incorrect !");
             }
 
-            // Attaque; Esquive; Dégats; Régénération; PVMax; PVActuels; Portée deVue; RM; MM; Armure; Duree du Tour; Poids; Concentration
-            Method method;
-
-            String sufix;
-            switch (values[0]) {
-                case "BMM":
-                    sufix = "M";
-                    break;
-                case "BMP":
-                    sufix = "P";
-                    break;
-                default:
-                    sufix = "";
-            }
-
-            // Set characteristics of the troll
-            for (int i = 0; i < MountyHallUtil.methodsByName.length; ++i) {
-                // CurrentHitPoint is skipped
-                if (i == 5) {
-                    continue;
-                }
-                // Focus is skipped for BMP/BMM
-                if (StringUtils.isNotEmpty(sufix) && i == 12) {
-                    continue;
-                }
-                // Weight is skipped for BMM
-                if ("BMM".equals(values[0]) && i == 11) {
-                    continue;
-                }
-                // Turn is skipped for BMP
-                if ("BMP".equals(values[0]) && i == 10) {
-                    continue;
-                }
-                String methodName = "set" + MountyHallUtil.methodsByName[i] + sufix;
-                // Turn replace weight for BMM
-                if ("BMM".equals(values[0]) && i == 10) {
-                    methodName = "setWeight" + sufix;
-                }
-                if (!"Turn".equals(MountyHallUtil.methodsByName[i]) && !"Weight".equals(MountyHallUtil.methodsByName[i])) {
-                    method = troll.getClass().getMethod(methodName, Integer.class);
-                    method.invoke(troll, Integer.parseInt(values[i + 1]));
-                } else {
-                    method = troll.getClass().getMethod(methodName, Float.class);
-                    method.invoke(troll, Float.parseFloat(values[i + 1]));
-                }
-            }
+            MountyHallScriptUtil.parseCharacteristic(troll, values);
         }
 
         scriptCall.setSuccessfullyParsed(true);
@@ -483,11 +430,7 @@ public class TrollService {
         // Bonus malus
         List<BonusMalusDTO> bonusMaluses = troll.getBonusMalus().stream()
             .sorted((bm1, bm2) -> bm1.getDuration().compareTo(bm2.getDuration()))
-            .map(bonusMalus -> {
-                BonusMalusDTO dto = new BonusMalusDTO();
-                BeanUtils.copyProperties(bonusMalus, dto);
-                return dto;
-            }).collect(Collectors.toList());
+            .map(BonusMalusDTO::new).collect(Collectors.toList());
         profil.setBonusMalus(bonusMaluses);
         profil.setBonusMalusEffect(MountyHallUtil.formatGlobalEffect(bonusMalusRepository.getGlobalEffect(troll.getId())));
 

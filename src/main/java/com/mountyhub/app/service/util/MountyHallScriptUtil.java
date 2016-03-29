@@ -1,15 +1,13 @@
 package com.mountyhub.app.service.util;
 
 import com.mountyhub.app.domain.*;
-import com.mountyhub.app.domain.enumeration.FlyType;
-import com.mountyhub.app.domain.enumeration.GearType;
-import com.mountyhub.app.domain.enumeration.ScriptName;
-import com.mountyhub.app.domain.enumeration.ScriptType;
+import com.mountyhub.app.domain.enumeration.*;
 import com.mountyhub.app.exception.MountyHallScriptException;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.nio.charset.Charset;
 import java.time.ZonedDateTime;
 
@@ -121,5 +119,64 @@ public final class MountyHallScriptUtil {
         bonusMalus.setType(values[1]);
         bonusMalus.setEffect(values[2]);
         bonusMalus.setDuration(Integer.valueOf(values[3]));
+    }
+
+    public static void parseProfil(Troll troll, String[] values) {
+        // numéro; Nom; Race; Niveau; Date d'inscription ; E-mail ; Blason ; Intangible ; Nb mouches ; Nb kills ; Nb morts; Numéro de Guilde; Nniveau de Rang; PNJ ?
+        troll.setName(values[1]);
+        troll.setRace(TrollRace.valueOf(values[2]));
+        troll.setLevel(Integer.valueOf(values[3]));
+        troll.setBirthDate(DateUtil.parseDateFromMHScript(values[4]));
+        troll.setKill(Integer.valueOf(values[9]));
+        troll.setDeath(Integer.valueOf(values[10]));
+    }
+
+    public static void parseCharacteristic(Troll troll, String[] values) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        // Attaque; Esquive; Dégats; Régénération; PVMax; PVActuels; Portée deVue; RM; MM; Armure; Duree du Tour; Poids; Concentration
+        Method method;
+
+        String sufix;
+        switch (values[0]) {
+            case "BMM":
+                sufix = "M";
+                break;
+            case "BMP":
+                sufix = "P";
+                break;
+            default:
+                sufix = "";
+        }
+
+        // Set characteristics of the troll
+        for (int i = 0; i < MountyHallUtil.methodsByName.length; ++i) {
+            // CurrentHitPoint is skipped
+            if (i == 5) {
+                continue;
+            }
+            // Focus is skipped for BMP/BMM
+            if (StringUtils.isNotEmpty(sufix) && i == 12) {
+                continue;
+            }
+            // Weight is skipped for BMM
+            if ("BMM".equals(values[0]) && i == 11) {
+                continue;
+            }
+            // Turn is skipped for BMP
+            if ("BMP".equals(values[0]) && i == 10) {
+                continue;
+            }
+            String methodName = "set" + MountyHallUtil.methodsByName[i] + sufix;
+            // Turn replace weight for BMM
+            if ("BMM".equals(values[0]) && i == 10) {
+                methodName = "setWeight" + sufix;
+            }
+            if (!"Turn".equals(MountyHallUtil.methodsByName[i]) && !"Weight".equals(MountyHallUtil.methodsByName[i])) {
+                method = troll.getClass().getMethod(methodName, Integer.class);
+                method.invoke(troll, Integer.parseInt(values[i + 1]));
+            } else {
+                method = troll.getClass().getMethod(methodName, Float.class);
+                method.invoke(troll, Float.parseFloat(values[i + 1]));
+            }
+        }
     }
 }

@@ -57,14 +57,11 @@
                                                ng-click="refreshProfil($event, 'state')"
                                                uib-tooltip="Mis à jour il y a {{troll.scriptCallLastCall.SP_Profil2}}"></span>
             </h4>
-            <div class="progress" style="margin-bottom: 5px;">
-                <div
-                    class="progress-bar progress-bar-{{troll.percentHitPoint > 66 ? 'success' : troll.percentHitPoint > 33 ? 'warning' : 'danger'}}"
-                    role="progressbar"
-                    style="width: {{troll.percentHitPoint}}%;">
-                    <span>{{troll.currentHitPoint}} / {{troll.totalHitPoint}} PV</span>
-                </div>
-            </div>
+            <uib-progressbar value="troll.currentHitPoint"
+                             max="troll.totalHitPoint"
+                             type="{{troll.currentHitPoint > troll.totalHitPoint * 0.66 ? 'success' : troll.currentHitPoint > troll.totalHitPoint * 0.33 ? 'warning' : 'danger'}}">
+                {{troll.currentHitPoint}} / {{troll.totalHitPoint}} PV
+            </uib-progressbar>
             <p class="text-center" style="margin-bottom: 5px;">
                 <span class="label label-danger" ng-if="troll.hidden">Camouflé</span>
                 <span class="label label-danger" ng-if="troll.invisible">Invisible</span>

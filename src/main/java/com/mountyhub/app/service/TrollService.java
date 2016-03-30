@@ -393,7 +393,6 @@ public class TrollService {
 
         // Additionnal fields
         profil.setTotalHitPoint(profil.getHitPoint() + profil.getHitPointP() + profil.getHitPointM());
-        profil.setPercentHitPoint(100 * profil.getCurrentHitPoint() / profil.getTotalHitPoint());
         ZoneId zoneId = DateUtil.getZoneIdFromUserOption(user.getUserOptions());
         profil.setBirthDateFormatted(DateUtil.formatZonedDate(troll.getBirthDate(), zoneId));
         profil.setDla(DateUtil.formatZonedDate(troll.getDla(), zoneId));

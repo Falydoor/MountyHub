@@ -28,6 +28,7 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Service class for managing trolls.
@@ -415,12 +416,9 @@ public class TrollService {
         profil.setFlyEffect(MountyHallUtil.formatGlobalEffect(new GlobalEffectDTO(fliesByType)));
 
         // Aptitudes
-        profil.setAptitudes(troll.getCompetences().stream()
-            .sorted((c1, c2) -> c1.getCompetenceMH().getName().compareTo(c2.getCompetenceMH().getName()))
-            .map(AptitudeDTO::new).collect(Collectors.toList()));
-        profil.getAptitudes().addAll(troll.getSpells().stream()
-            .sorted((s1, s2) -> s1.getSpellMH().getName().compareTo(s2.getSpellMH().getName()))
-            .map(AptitudeDTO::new).collect(Collectors.toList()));
+        profil.setAptitudes(Stream.concat(troll.getCompetences().stream().map(AptitudeDTO::new), troll.getSpells().stream().map(AptitudeDTO::new))
+            .sorted((a1, a2) -> a1.getName().compareTo(a2.getName()))
+            .collect(Collectors.toList()));
 
         // Bonus malus
         List<BonusMalusDTO> bonusMaluses = troll.getBonusMalus().stream()

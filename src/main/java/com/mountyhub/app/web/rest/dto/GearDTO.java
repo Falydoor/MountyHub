@@ -1,12 +1,14 @@
 package com.mountyhub.app.web.rest.dto;
 
+import com.mountyhub.app.domain.Gear;
 import com.mountyhub.app.domain.enumeration.GearType;
+import org.springframework.beans.BeanUtils;
 
 /**
  * Created by Theo on 3/4/16.
  */
 public class GearDTO {
-    private GearType type;
+    private String type;
 
     private String name;
 
@@ -18,6 +20,11 @@ public class GearDTO {
 
     private Boolean wore;
 
+    public GearDTO(Gear gear) {
+        BeanUtils.copyProperties(gear, this);
+        this.type = gear.getType().toString();
+    }
+
     public Boolean getWore() {
         return wore;
     }
@@ -26,7 +33,7 @@ public class GearDTO {
         this.wore = wore;
     }
 
-    public GearType getType() {
+    public String getType() {
         return type;
     }
 
@@ -38,7 +45,7 @@ public class GearDTO {
         this.template = template;
     }
 
-    public void setType(GearType type) {
+    public void setType(String type) {
         this.type = type;
     }
 

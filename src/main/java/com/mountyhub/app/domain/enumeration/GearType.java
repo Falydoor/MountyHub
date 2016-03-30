@@ -1,5 +1,7 @@
 package com.mountyhub.app.domain.enumeration;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * The GearType enumeration.
  */
@@ -18,6 +20,18 @@ public enum GearType {
                 default:
                     return INCONNU;
             }
+        }
+    }
+
+    @Override
+    public String toString() {
+        switch (this) {
+            case ARME_1_MAIN:
+                return "Arme (1 main)";
+            case ARME_2_MAINS:
+                return "Arme (2 mains)";
+            default:
+                return StringUtils.capitalize(this.name());
         }
     }
 }

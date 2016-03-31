@@ -1,6 +1,9 @@
 package com.mountyhub.app.service.util;
 
 import com.google.common.collect.ImmutableMap;
+import com.mountyhub.app.domain.Competence;
+import com.mountyhub.app.domain.Spell;
+import com.mountyhub.app.domain.Troll;
 import com.mountyhub.app.domain.enumeration.FlyType;
 import com.mountyhub.app.web.rest.dto.GlobalEffectDTO;
 import org.apache.commons.lang3.StringUtils;
@@ -87,14 +90,14 @@ public final class MountyHallUtil {
                 value = (Long) method.invoke(globalEffectDTO);
                 if (nameNoMagic.contains(entry.getKey())) {
                     if (value != 0) {
-                        effects.add(formatValue(value, valueM, entry.getKey()));
+                        effects.add(formatValueWithName(value, valueM, entry.getKey()));
                     }
                     return;
                 }
                 Method methodM = globalEffectDTO.getClass().getMethod(methodName + "M");
                 valueM = (Long) methodM.invoke(globalEffectDTO);
                 if (value != 0 || valueM != 0) {
-                    effects.add(formatValue(value, valueM, entry.getKey()));
+                    effects.add(formatValueWithName(value, valueM, entry.getKey()));
                 }
             } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
                 log.error("Unable to retrieve value", e);
@@ -103,9 +106,17 @@ public final class MountyHallUtil {
         return StringUtils.join(effects, " | ");
     }
 
-    private static String formatValue(Long value, Long valueM, String name) {
+    private static String formatValueWithName(Long value, Long valueM, String name) {
+        return name + " : " + formatValue(value) + (valueM != 0 ? "/" + formatValue(valueM) : "") + getSufixByCharacteristic(name);
+    }
+
+    private static String formatValue(Long v) {
+        return formatValue(v.intValue());
+    }
+
+    private static String formatValue(Integer v) {
         DecimalFormat decimalFormat = new DecimalFormat("+#;-#");
-        return name + " : " + decimalFormat.format(value) + (valueM != 0 ? "/" + decimalFormat.format(valueM) : "") + getSufixByCharacteristic(name);
+        return decimalFormat.format(v);
     }
 
     public static String flyTypeToEffect(FlyType type) {
@@ -140,7 +151,7 @@ public final class MountyHallUtil {
         }
         return "";
     }
-    
+
     public static Integer applyDecumul(Integer value, Integer time) {
         Double percent = 0.10D;
         switch (time) {
@@ -163,5 +174,38 @@ public final class MountyHallUtil {
                 break;
         }
         return Double.valueOf(Math.floor(value * percent)).intValue();
+    }
+
+    public static String getCompetenceTooltip(Competence competence) {
+        switch (competence.getCompetenceMH().getNumber().intValue()) {
+            default:
+                return "Tooltip à faire";
+        }
+    }
+
+    public static String getSpellTooltip(Spell spell) {
+        Troll troll = spell.getTroll();
+        StringBuilder tooltip = new StringBuilder();
+        switch (spell.getSpellMH().getNumber().intValue()) {
+            case 3:
+                tooltip.append("Attaque : ").append(formatAttack(troll.getDamage() / 3 * 2, troll.getAttackM()));
+                tooltip.append("\n");
+                tooltip.append("Dégats : ").append(formatDamageWithCritical(troll.getDamage(), troll.getDamageM()));
+                return tooltip.toString();
+            default:
+                return "Tooltip à faire";
+        }
+    }
+
+    private static String formatAttack(Integer a, Integer b) {
+        return a + "D6" + formatValue(b) + " (" + (a * 3.5 + b) + ")";
+    }
+
+    private static String formatDamageWithCritical(Integer d, Integer b) {
+        return formatDamage(d, b) + " / " + formatDamage(Double.valueOf(Math.floor(d * 1.5)).intValue(), b);
+    }
+
+    private static String formatDamage(Integer d, Integer b) {
+        return (d + b) + "-" + (d * 3 + b) + " (" + (d * 2 + b) + ")";
     }
 }

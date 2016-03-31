@@ -2,6 +2,9 @@ package com.mountyhub.app.web.rest.dto;
 
 import com.mountyhub.app.domain.Competence;
 import com.mountyhub.app.domain.Spell;
+import com.mountyhub.app.service.util.MountyHallUtil;
+
+import java.util.List;
 
 /**
  * Created by Theo on 3/23/16.
@@ -11,19 +14,30 @@ public class AptitudeDTO {
     private Integer level;
     private Integer percent;
     private String type;
-    
+    private String tooltip;
+
     public AptitudeDTO(Competence competence) {
-        this.setLevel(competence.getLevel());
-        this.setName(competence.getCompetenceMH().getName());
-        this.setPercent(competence.getPercent() + competence.getPercentBonus());
-        this.setType("C");
+        setLevel(competence.getLevel());
+        setName(competence.getCompetenceMH().getName());
+        setPercent(competence.getPercent() + competence.getPercentBonus());
+        setType("C");
+        setTooltip(MountyHallUtil.getCompetenceTooltip(competence));
     }
 
     public AptitudeDTO(Spell spell) {
-        this.setLevel(spell.getLevel());
-        this.setName(spell.getSpellMH().getName());
-        this.setPercent(spell.getPercent() + spell.getPercentBonus());
-        this.setType("S");
+        setLevel(spell.getLevel());
+        setName(spell.getSpellMH().getName());
+        setPercent(spell.getPercent() + spell.getPercentBonus());
+        setType("S");
+        setTooltip(MountyHallUtil.getSpellTooltip(spell));
+    }
+
+    public String getTooltip() {
+        return tooltip;
+    }
+
+    public void setTooltip(String tooltip) {
+        this.tooltip = tooltip;
     }
 
     public String getType() {

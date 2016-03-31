@@ -142,7 +142,8 @@
                         <th class="text-center">Niveau</th>
                         <th class="text-center">Maîtrise</th>
                     </tr>
-                    <tr ng-repeat="competence in troll.aptitudes | filter:{type:'C'} as competences">
+                    <tr ng-repeat="competence in troll.aptitudes | filter:{type:'C'} as competences"
+                        uib-tooltip="{{competence.tooltip}}">
                         <td>{{competence.name}}</td>
                         <td class="text-center">{{competence.level}}</td>
                         <td class="text-center">{{competence.percent}}%</td>
@@ -165,7 +166,8 @@
                         <th class="text-center">Niveau</th>
                         <th class="text-center">Maîtrise</th>
                     </tr>
-                    <tr ng-repeat="spell in troll.aptitudes | filter:{type:'S'} as spells">
+                    <tr ng-repeat="spell in troll.aptitudes | filter:{type:'S'} as spells"
+                        uib-tooltip="{{spell.tooltip}}">
                         <td>{{spell.name}}</td>
                         <td class="text-center">{{spell.level}}</td>
                         <td class="text-center">{{spell.percent}}%</td>

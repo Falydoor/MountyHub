@@ -187,8 +187,19 @@ public final class MountyHallUtil {
         Troll troll = spell.getTroll();
         StringBuilder tooltip = new StringBuilder();
         switch (spell.getSpellMH().getNumber().intValue()) {
+            case 1:
+                Integer range = rangeProjo(troll.getView(), 4, 1);
+                tooltip.append("Portée : ").append(range);
+                tooltip.append("\n");
+                tooltip.append(formatAttack(troll.getView(), troll.getAttackM()));
+                for (int i = 0; i <= range; ++i) {
+                    tooltip.append("\n");
+                    tooltip.append("Dégats à ").append(i).append(" case").append(i > 0 ? "s" : "").append(" : ");
+                    tooltip.append(formatDamageWithCritical(troll.getView() / 2 + range - i, troll.getDamageM()));
+                }
+                return tooltip.toString();
             case 3:
-                tooltip.append("Attaque : ").append(formatAttack(troll.getDamage() / 3 * 2, troll.getAttackM()));
+                tooltip.append(formatAttack(troll.getDamage() / 3 * 2, troll.getAttackM()));
                 tooltip.append("\n");
                 tooltip.append("Dégats : ").append(formatDamageWithCritical(troll.getDamage(), troll.getDamageM()));
                 return tooltip.toString();
@@ -197,15 +208,19 @@ public final class MountyHallUtil {
         }
     }
 
-    private static String formatAttack(Integer a, Integer b) {
-        return a + "D6" + formatValue(b) + " (" + (a * 3.5 + b) + ")";
+    private static String formatAttack(Integer attack, Integer bonus) {
+        return "Attaque : " + attack + "D6" + formatValue(bonus) + " (" + (attack * 3.5 + bonus) + ")";
     }
 
-    private static String formatDamageWithCritical(Integer d, Integer b) {
-        return formatDamage(d, b) + " / " + formatDamage(Double.valueOf(Math.floor(d * 1.5)).intValue(), b);
+    private static String formatDamageWithCritical(Integer damage, Integer bonus) {
+        return formatDamage(damage, bonus) + " / " + formatDamage(Double.valueOf(Math.floor(damage * 1.5)).intValue(), bonus);
     }
 
-    private static String formatDamage(Integer d, Integer b) {
-        return (d + b) + "-" + (d * 3 + b) + " (" + (d * 2 + b) + ")";
+    private static String formatDamage(Integer damage, Integer bonus) {
+        return (damage + bonus) + "-" + (damage * 3 + bonus) + " (" + (damage * 2 + bonus) + ")";
+    }
+
+    private static Integer rangeProjo(Integer view, Integer viewMax, Integer range) {
+        return view <= viewMax ? range : rangeProjo(view, viewMax + range + 4, range + 1);
     }
 }

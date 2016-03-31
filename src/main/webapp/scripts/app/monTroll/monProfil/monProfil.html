@@ -127,12 +127,12 @@
         </div>
     </div>
     <div class="row" style="margin: 0">
-        <div class="col-md-5 part">
+        <div class="col-md-6 part">
             <div class="part-header" data-toggle="collapse" href="#comps">
-                <h4 class="text-center">Compétences <span class="glyphicon glyphicon-refresh"
-                                                          aria-hidden="true"
-                                                          ng-click="refreshProfil($event, 'compAndSpell')"
-                                                          uib-tooltip="Mis à jour il y a {{troll.scriptCallLastCall.SP_Aptitudes2}}"></span>
+                <h4 class="text-center">{{competences.length}} Compétences <span class="glyphicon glyphicon-refresh"
+                                                                                 aria-hidden="true"
+                                                                                 ng-click="refreshProfil($event, 'compAndSpell')"
+                                                                                 uib-tooltip="Mis à jour il y a {{troll.scriptCallLastCall.SP_Aptitudes2}}"></span>
                 </h4>
             </div>
             <div class="collapse" id="comps">
@@ -142,7 +142,7 @@
                         <th class="text-center">Niveau</th>
                         <th class="text-center">Maîtrise</th>
                     </tr>
-                    <tr ng-repeat="competence in troll.aptitudes | filter:{type:'C'}">
+                    <tr ng-repeat="competence in troll.aptitudes | filter:{type:'C'} as competences">
                         <td>{{competence.name}}</td>
                         <td class="text-center">{{competence.level}}</td>
                         <td class="text-center">{{competence.percent}}%</td>
@@ -150,12 +150,12 @@
                 </table>
             </div>
         </div>
-        <div class="col-md-5 part pull-right">
+        <div class="col-md-6 part pull-right">
             <div class="part-header" data-toggle="collapse" href="#spells">
-                <h4 class="text-center">Sortilèges <span class="glyphicon glyphicon-refresh"
-                                                         aria-hidden="true"
-                                                         ng-click="refreshProfil($event, 'compAndSpell')"
-                                                         uib-tooltip="Mis à jour il y a {{troll.scriptCallLastCall.SP_Aptitudes2}}"></span>
+                <h4 class="text-center">{{spells.length}} Sortilèges <span class="glyphicon glyphicon-refresh"
+                                                                           aria-hidden="true"
+                                                                           ng-click="refreshProfil($event, 'compAndSpell')"
+                                                                           uib-tooltip="Mis à jour il y a {{troll.scriptCallLastCall.SP_Aptitudes2}}"></span>
                 </h4>
             </div>
             <div class="collapse" id="spells">
@@ -165,7 +165,7 @@
                         <th class="text-center">Niveau</th>
                         <th class="text-center">Maîtrise</th>
                     </tr>
-                    <tr ng-repeat="spell in troll.aptitudes | filter:{type:'S'}">
+                    <tr ng-repeat="spell in troll.aptitudes | filter:{type:'S'} as spells">
                         <td>{{spell.name}}</td>
                         <td class="text-center">{{spell.level}}</td>
                         <td class="text-center">{{spell.percent}}%</td>
@@ -176,9 +176,10 @@
     </div>
     <div class="col-md-12 part">
         <div class="part-header" data-toggle="collapse" href="#gear">
-            <h4 class="text-center">Equipement <span class="glyphicon glyphicon-refresh" aria-hidden="true"
-                                                     ng-click="refreshProfil($event, 'gear')"
-                                                     uib-tooltip="Mis à jour il y a {{troll.scriptCallLastCall.SP_Equipement}}"></span>
+            <h4 class="text-center">{{troll.gears.length}} Objets <span class="glyphicon glyphicon-refresh"
+                                                                        aria-hidden="true"
+                                                                        ng-click="refreshProfil($event, 'gear')"
+                                                                        uib-tooltip="Mis à jour il y a {{troll.scriptCallLastCall.SP_Equipement}}"></span>
             </h4>
             <h6 class="text-center">{{troll.gearEffect}}</h6>
         </div>
@@ -237,10 +238,10 @@
     </div>
     <div class="col-md-6 part">
         <div class="part-header" data-toggle="collapse" href="#bonusMalus">
-            <h4 class="text-center">Bonus/Malus <span class="glyphicon glyphicon-refresh"
-                                                      aria-hidden="true"
-                                                      ng-click="refreshProfil($event, 'bonusMalus')"
-                                                      uib-tooltip="Mis à jour il y a {{troll.scriptCallLastCall.SP_Bonusmalus}}"></span>
+            <h4 class="text-center">{{troll.bonusMalus.length}} Bonus/Malus <span class="glyphicon glyphicon-refresh"
+                                                                                  aria-hidden="true"
+                                                                                  ng-click="refreshProfil($event, 'bonusMalus')"
+                                                                                  uib-tooltip="Mis à jour il y a {{troll.scriptCallLastCall.SP_Bonusmalus}}"></span>
             </h4>
             <h6 class="text-center">{{troll.bonusMalusEffect}}</h6>
         </div>

@@ -24,20 +24,20 @@ public class GlobalEffectDTO {
     private Long turn;
 
     public GlobalEffectDTO(Long attack, Long attackM, Long dodge, Long dodgeM, Long damage, Long damageM, Long regeneration, Long hitPoint, Long view, Long rm, Long mm, Long armor, Long armorM, Long turn) {
-        this.attack = attack;
-        this.attackM = attackM;
-        this.dodge = dodge;
-        this.dodgeM = dodgeM;
-        this.damage = damage;
-        this.damageM = damageM;
-        this.regeneration = regeneration;
-        this.hitPoint = hitPoint;
-        this.view = view;
-        this.rm = rm;
-        this.mm = mm;
-        this.armor = armor;
-        this.armorM = armorM;
-        this.turn = turn;
+        this.attack = attack != null ? attack : 0L;
+        this.attackM = attackM != null ? attackM : 0L;
+        this.dodge = dodge != null ? dodge : 0L;
+        this.dodgeM = dodgeM != null ? dodgeM : 0L;
+        this.damage = damage != null ? damage : 0L;
+        this.damageM = damageM != null ? damageM : 0L;
+        this.regeneration = regeneration != null ? regeneration : 0L;
+        this.hitPoint = hitPoint != null ? hitPoint : 0L;
+        this.view = view != null ? view : 0L;
+        this.rm = rm != null ? rm : 0L;
+        this.mm = mm != null ? mm : 0L;
+        this.armor = armor != null ? armor : 0L;
+        this.armorM = armorM != null ? armorM : 0L;
+        this.turn = turn != null ? turn : 0L;
     }
 
     public GlobalEffectDTO(Map<FlyType, Long> fliesByType) {

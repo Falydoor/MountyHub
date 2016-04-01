@@ -2,37 +2,35 @@
 
 describe('Controller Tests', function() {
 
-    describe('BonusMalus Detail Controller', function() {
+    describe('BonusMalusType Detail Controller', function() {
         var $scope, $rootScope;
-        var MockEntity, MockBonusMalus, MockTroll, MockBonusMalusType;
+        var MockEntity, MockBonusMalusType, MockBonusMalus;
         var createController;
 
         beforeEach(inject(function($injector) {
             $rootScope = $injector.get('$rootScope');
             $scope = $rootScope.$new();
             MockEntity = jasmine.createSpy('MockEntity');
-            MockBonusMalus = jasmine.createSpy('MockBonusMalus');
-            MockTroll = jasmine.createSpy('MockTroll');
             MockBonusMalusType = jasmine.createSpy('MockBonusMalusType');
+            MockBonusMalus = jasmine.createSpy('MockBonusMalus');
             
 
             var locals = {
                 '$scope': $scope,
                 '$rootScope': $rootScope,
                 'entity': MockEntity ,
-                'BonusMalus': MockBonusMalus,
-                'Troll': MockTroll,
-                'BonusMalusType': MockBonusMalusType
+                'BonusMalusType': MockBonusMalusType,
+                'BonusMalus': MockBonusMalus
             };
             createController = function() {
-                $injector.get('$controller')("BonusMalusDetailController", locals);
+                $injector.get('$controller')("BonusMalusTypeDetailController", locals);
             };
         }));
 
 
         describe('Root Scope Listening', function() {
             it('Unregisters root scope listener upon scope destruction', function() {
-                var eventType = 'mountyhubApp:bonusMalusUpdate';
+                var eventType = 'mountyhubApp:bonusMalusTypeUpdate';
 
                 createController();
                 expect($rootScope.$$listenerCount[eventType]).toEqual(1);

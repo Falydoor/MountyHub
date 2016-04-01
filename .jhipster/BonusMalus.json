@@ -6,6 +6,13 @@
             "otherEntityName": "troll",
             "relationshipType": "many-to-one",
             "otherEntityField": "id"
+        },
+        {
+            "relationshipId": 2,
+            "relationshipName": "type",
+            "otherEntityName": "bonusMalusType",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
         }
     ],
     "fields": [
@@ -19,14 +26,6 @@
         },
         {
             "fieldId": 2,
-            "fieldName": "type",
-            "fieldType": "String",
-            "fieldValidateRules": [
-                "required"
-            ]
-        },
-        {
-            "fieldId": 3,
             "fieldName": "effect",
             "fieldType": "String",
             "fieldValidateRules": [
@@ -34,7 +33,7 @@
             ]
         },
         {
-            "fieldId": 4,
+            "fieldId": 3,
             "fieldName": "realEffect",
             "fieldType": "String",
             "fieldValidateRules": [
@@ -42,7 +41,7 @@
             ]
         },
         {
-            "fieldId": 5,
+            "fieldId": 4,
             "fieldName": "duration",
             "fieldType": "Integer",
             "fieldValidateRules": [
@@ -50,7 +49,7 @@
             ]
         },
         {
-            "fieldId": 6,
+            "fieldId": 5,
             "fieldName": "attack",
             "fieldType": "Integer",
             "fieldValidateRules": [
@@ -58,7 +57,7 @@
             ]
         },
         {
-            "fieldId": 7,
+            "fieldId": 6,
             "fieldName": "attackM",
             "fieldType": "Integer",
             "fieldValidateRules": [
@@ -66,7 +65,7 @@
             ]
         },
         {
-            "fieldId": 8,
+            "fieldId": 7,
             "fieldName": "dodge",
             "fieldType": "Integer",
             "fieldValidateRules": [
@@ -74,7 +73,7 @@
             ]
         },
         {
-            "fieldId": 9,
+            "fieldId": 8,
             "fieldName": "dodgeM",
             "fieldType": "Integer",
             "fieldValidateRules": [
@@ -82,7 +81,7 @@
             ]
         },
         {
-            "fieldId": 10,
+            "fieldId": 9,
             "fieldName": "damage",
             "fieldType": "Integer",
             "fieldValidateRules": [
@@ -90,7 +89,7 @@
             ]
         },
         {
-            "fieldId": 11,
+            "fieldId": 10,
             "fieldName": "damageM",
             "fieldType": "Integer",
             "fieldValidateRules": [
@@ -98,7 +97,7 @@
             ]
         },
         {
-            "fieldId": 12,
+            "fieldId": 11,
             "fieldName": "regeneration",
             "fieldType": "Integer",
             "fieldValidateRules": [
@@ -106,7 +105,7 @@
             ]
         },
         {
-            "fieldId": 13,
+            "fieldId": 12,
             "fieldName": "hitPoint",
             "fieldType": "Integer",
             "fieldValidateRules": [
@@ -114,7 +113,7 @@
             ]
         },
         {
-            "fieldId": 14,
+            "fieldId": 13,
             "fieldName": "view",
             "fieldType": "Integer",
             "fieldValidateRules": [
@@ -122,7 +121,7 @@
             ]
         },
         {
-            "fieldId": 15,
+            "fieldId": 14,
             "fieldName": "rm",
             "fieldType": "Integer",
             "fieldValidateRules": [
@@ -130,7 +129,7 @@
             ]
         },
         {
-            "fieldId": 16,
+            "fieldId": 15,
             "fieldName": "mm",
             "fieldType": "Integer",
             "fieldValidateRules": [
@@ -138,7 +137,7 @@
             ]
         },
         {
-            "fieldId": 17,
+            "fieldId": 16,
             "fieldName": "armor",
             "fieldType": "Integer",
             "fieldValidateRules": [
@@ -146,7 +145,7 @@
             ]
         },
         {
-            "fieldId": 18,
+            "fieldId": 17,
             "fieldName": "armorM",
             "fieldType": "Integer",
             "fieldValidateRules": [
@@ -154,7 +153,7 @@
             ]
         },
         {
-            "fieldId": 19,
+            "fieldId": 18,
             "fieldName": "turn",
             "fieldType": "Integer",
             "fieldValidateRules": [

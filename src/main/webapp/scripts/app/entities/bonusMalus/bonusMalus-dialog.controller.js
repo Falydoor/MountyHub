@@ -1,11 +1,12 @@
 'use strict';
 
 angular.module('mountyhubApp').controller('BonusMalusDialogController',
-    ['$scope', '$stateParams', '$uibModalInstance', 'entity', 'BonusMalus', 'Troll',
-        function($scope, $stateParams, $uibModalInstance, entity, BonusMalus, Troll) {
+    ['$scope', '$stateParams', '$uibModalInstance', 'entity', 'BonusMalus', 'Troll', 'BonusMalusType',
+        function($scope, $stateParams, $uibModalInstance, entity, BonusMalus, Troll, BonusMalusType) {
 
         $scope.bonusMalus = entity;
         $scope.trolls = Troll.query();
+        $scope.bonusmalustypes = BonusMalusType.query();
         $scope.load = function(id) {
             BonusMalus.get({id : id}, function(result) {
                 $scope.bonusMalus = result;

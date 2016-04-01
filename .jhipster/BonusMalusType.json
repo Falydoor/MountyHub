@@ -1,0 +1,34 @@
+{
+    "relationships": [
+        {
+            "relationshipId": 1,
+            "relationshipName": "bonusMalus",
+            "otherEntityName": "bonusMalus",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "type"
+        }
+    ],
+    "fields": [
+        {
+            "fieldId": 1,
+            "fieldName": "name",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldId": 2,
+            "fieldName": "type",
+            "fieldType": "EffectType",
+            "fieldValues": "PHYSIQUE,MAGIQUE",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "changelogDate": "20160401132410",
+    "dto": "no",
+    "service": "no",
+    "pagination": "pagination"
+}

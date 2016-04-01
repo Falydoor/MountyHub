@@ -53,7 +53,6 @@ angular.module('mountyhubApp')
                             entity: function () {
                                 return {
                                     name: null,
-                                    type: null,
                                     effect: null,
                                     realEffect: null,
                                     duration: null,

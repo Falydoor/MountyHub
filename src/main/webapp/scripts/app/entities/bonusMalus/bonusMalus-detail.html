@@ -20,14 +20,6 @@
             </tr>
             <tr>
                 <td>
-                    <span>Type</span>
-                </td>
-                <td>
-                    <span class="form-control-static">{{bonusMalus.type}}</span>
-                </td>
-            </tr>
-            <tr>
-                <td>
                     <span>Effect</span>
                 </td>
                 <td>
@@ -168,6 +160,14 @@
                 </td>
                 <td>
                     <a class="form-control-static" ui-sref="troll.detail({id:bonusMalus.troll.id})">{{bonusMalus.troll.id}}</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>type</span>
+                </td>
+                <td>
+                    <a class="form-control-static" ui-sref="bonusMalusType.detail({id:bonusMalus.type.id})">{{bonusMalus.type.id}}</a>
                 </td>
             </tr>
             </tbody>

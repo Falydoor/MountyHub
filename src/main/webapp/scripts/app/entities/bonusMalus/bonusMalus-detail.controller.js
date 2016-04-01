@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('mountyhubApp')
-    .controller('BonusMalusDetailController', function ($scope, $rootScope, $stateParams, entity, BonusMalus, Troll) {
+    .controller('BonusMalusDetailController', function ($scope, $rootScope, $stateParams, entity, BonusMalus, Troll, BonusMalusType) {
         $scope.bonusMalus = entity;
         $scope.load = function (id) {
             BonusMalus.get({id: id}, function(result) {

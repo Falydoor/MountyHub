@@ -7,9 +7,9 @@ import org.slf4j.LoggerFactory
 import scala.concurrent.duration._
 
 /**
- * Performance test for the BonusMalus entity.
+ * Performance test for the BonusMalusType entity.
  */
-class BonusMalusGatlingTest extends Simulation {
+class BonusMalusTypeGatlingTest extends Simulation {
 
     val context: LoggerContext = LoggerFactory.getILoggerFactory.asInstanceOf[LoggerContext]
     // Log all HTTP requests
@@ -37,7 +37,7 @@ class BonusMalusGatlingTest extends Simulation {
         "X-CSRF-TOKEN" -> "${csrf_token}"
     )
 
-    val scn = scenario("Test the BonusMalus entity")
+    val scn = scenario("Test the BonusMalusType entity")
         .exec(http("First unauthenticated request")
         .get("/api/account")
         .headers(headers_http)
@@ -59,26 +59,26 @@ class BonusMalusGatlingTest extends Simulation {
         .check(headerRegex("Set-Cookie", "CSRF-TOKEN=(.*); [P,p]ath=/").saveAs("csrf_token")))
         .pause(10)
         .repeat(2) {
-            exec(http("Get all bonusMaluss")
-            .get("/api/bonusMaluss")
+            exec(http("Get all bonusMalusTypes")
+            .get("/api/bonusMalusTypes")
             .headers(headers_http_authenticated)
             .check(status.is(200)))
             .pause(10 seconds, 20 seconds)
-            .exec(http("Create new bonusMalus")
-            .post("/api/bonusMaluss")
+            .exec(http("Create new bonusMalusType")
+            .post("/api/bonusMalusTypes")
             .headers(headers_http_authenticated)
-            .body(StringBody("""{"id":null, "name":"SAMPLE_TEXT", "effect":"SAMPLE_TEXT", "realEffect":"SAMPLE_TEXT", "duration":"0", "attack":"0", "attackM":"0", "dodge":"0", "dodgeM":"0", "damage":"0", "damageM":"0", "regeneration":"0", "hitPoint":"0", "view":"0", "rm":"0", "mm":"0", "armor":"0", "armorM":"0", "turn":"0"}""")).asJSON
+            .body(StringBody("""{"id":null, "name":"SAMPLE_TEXT", "type":null}""")).asJSON
             .check(status.is(201))
-            .check(headerRegex("Location", "(.*)").saveAs("new_bonusMalus_url")))
+            .check(headerRegex("Location", "(.*)").saveAs("new_bonusMalusType_url")))
             .pause(10)
             .repeat(5) {
-                exec(http("Get created bonusMalus")
-                .get("${new_bonusMalus_url}")
+                exec(http("Get created bonusMalusType")
+                .get("${new_bonusMalusType_url}")
                 .headers(headers_http_authenticated))
                 .pause(10)
             }
-            .exec(http("Delete created bonusMalus")
-            .delete("${new_bonusMalus_url}")
+            .exec(http("Delete created bonusMalusType")
+            .delete("${new_bonusMalusType_url}")
             .headers(headers_http_authenticated))
             .pause(10)
         }

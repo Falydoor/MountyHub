@@ -29,7 +29,6 @@ angular.module('mountyhubApp')
         $scope.clear = function () {
             $scope.bonusMalus = {
                 name: null,
-                type: null,
                 effect: null,
                 realEffect: null,
                 duration: null,

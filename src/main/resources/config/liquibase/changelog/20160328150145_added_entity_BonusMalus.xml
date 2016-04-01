@@ -25,10 +25,6 @@
                 <constraints nullable="false" />
             </column>
             
-            <column name="type" type="varchar(255)">
-                <constraints nullable="false" />
-            </column>
-            
             <column name="effect" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
@@ -98,6 +94,7 @@
             </column>
             
             <column name="troll_id" type="bigint"/>
+            <column name="type_id" type="bigint"/>
             <!-- jhipster-needle-liquibase-add-column - Jhipster will add columns here, do not remove-->
         </createTable>
         
@@ -106,6 +103,12 @@
                                  constraintName="fk_bonusmalus_troll_id"
                                  referencedColumnNames="id"
                                  referencedTableName="troll"/>
+
+        <addForeignKeyConstraint baseColumnNames="type_id"
+                                 baseTableName="bonus_malus"
+                                 constraintName="fk_bonusmalus_type_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="bonus_malus_type"/>
 
     </changeSet>
 </databaseChangeLog>

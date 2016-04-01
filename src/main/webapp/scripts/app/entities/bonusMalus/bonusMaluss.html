@@ -20,7 +20,6 @@
                 <tr jh-sort="predicate" ascending="reverse" callback="loadAll()">
                     <th jh-sort-by="id"><span>ID</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="name"><span>Name</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="type"><span>Type</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="effect"><span>Effect</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="realEffect"><span>RealEffect</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="duration"><span>Duration</span> <span class="glyphicon glyphicon-sort"></span></th>
@@ -39,6 +38,7 @@
                     <th jh-sort-by="armorM"><span>ArmorM</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="turn"><span>Turn</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="troll.id"><span>troll</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="type.id"><span>type</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th></th>
                 </tr>
             </thead>
@@ -46,7 +46,6 @@
                 <tr ng-repeat="bonusMalus in bonusMaluss track by bonusMalus.id">
                     <td><a ui-sref="bonusMalus.detail({id:bonusMalus.id})">{{bonusMalus.id}}</a></td>
                     <td>{{bonusMalus.name}}</td>
-                    <td>{{bonusMalus.type}}</td>
                     <td>{{bonusMalus.effect}}</td>
                     <td>{{bonusMalus.realEffect}}</td>
                     <td>{{bonusMalus.duration}}</td>
@@ -66,6 +65,9 @@
                     <td>{{bonusMalus.turn}}</td>
                     <td>
                         <a ui-sref="troll.detail({id:bonusMalus.troll.id})">{{bonusMalus.troll.id}}</a>
+                    </td>
+                    <td>
+                        <a ui-sref="bonusMalusType.detail({id:bonusMalus.type.id})">{{bonusMalus.type.id}}</a>
                     </td>
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">

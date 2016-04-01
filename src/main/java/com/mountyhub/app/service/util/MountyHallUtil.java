@@ -53,8 +53,8 @@ public final class MountyHallUtil {
 
     public static void setCharacteristicsFromDescription(Object object, String description) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         // ATT : +1\+1 | ESQ : -1 | DEG : +1\+2 | Vue : -1 | TOUR : -30 min | Armure : +3 | RM : +76 %
-        for (String part : StringUtils.splitByWholeSeparator(description, " | ")) {
-            String[] values = StringUtils.splitByWholeSeparator(part, " : ");
+        for (String wholeEffect : StringUtils.splitByWholeSeparator(description, " | ")) {
+            String[] values = StringUtils.splitByWholeSeparator(wholeEffect, " : ");
             String methodName = methodsByNameGlobal.get(values[0]);
             if (methodName != null) {
                 String[] effects = StringUtils.splitPreserveAllTokens(values[1], "\\");
@@ -65,7 +65,7 @@ public final class MountyHallUtil {
                 if (!"setProtection".equals(methodName)) {
                     Method method = object.getClass().getMethod(methodName, Integer.class);
                     method.invoke(object, Integer.parseInt(effects[0]));
-                    if (effects.length == 2) {
+                    if (effects.length == 2 && effectCanBeMagic(wholeEffect)) {
                         method = object.getClass().getMethod(methodName + "M", Integer.class);
                         method.invoke(object, Integer.parseInt(effects[1]));
                     }
@@ -77,6 +77,10 @@ public final class MountyHallUtil {
                 log.debug("Unable to find " + values[0] + " in methodsByNameGlobal");
             }
         }
+    }
+
+    public static Boolean effectCanBeMagic(String effect) {
+        return StringUtils.startsWithAny(effect, "ATT", "ESQ", "DEG", "Armure");
     }
 
     public static String formatGlobalEffect(GlobalEffectDTO globalEffectDTO) {

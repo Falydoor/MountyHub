@@ -188,8 +188,22 @@ public class TrollService {
             .sorted((bm1, bm2) -> bm1.getDuration().compareTo(bm2.getDuration()))
             .forEach(bonusMalus -> {
                 bonusMalusCountType.put(bonusMalus.getType(), bonusMalusCountType.getOrDefault(bonusMalus.getType(), 0) + 1);
+                String effect = bonusMalus.getEffect();
+                // Make the bonus malus magic if it's a magic type
+                if (bonusMalus.getType().getType() == EffectType.MAGIQUE) {
+                    Pattern physicPattern = Pattern.compile("(\\w+ : [\\-|\\+]\\d+)");
+                    Matcher physicMatcher = physicPattern.matcher(bonusMalus.getEffect());
+                    StringBuffer magicEffect = new StringBuffer();
+                    while (physicMatcher.find()) {
+                        String wholeEffect = physicMatcher.group(1);
+                        String replacement = MountyHallUtil.effectCanBeMagic(wholeEffect) ? wholeEffect.replace(": ", ": +0\\\\") : wholeEffect;
+                        physicMatcher.appendReplacement(magicEffect, replacement);
+                    }
+                    effect = magicEffect.toString();
+                }
+                // Apply decumul on the whole effect string
                 Pattern numericPattern = Pattern.compile("(\\d+)");
-                Matcher numericMatcher = numericPattern.matcher(bonusMalus.getEffect());
+                Matcher numericMatcher = numericPattern.matcher(effect);
                 StringBuffer realEffect = new StringBuffer();
                 while (numericMatcher.find()) {
                     numericMatcher.appendReplacement(realEffect, MountyHallUtil.applyDecumul(Integer.parseInt(numericMatcher.group(1)), bonusMalusCountType.get(bonusMalus.getType())).toString());

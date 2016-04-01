@@ -202,6 +202,10 @@ public final class MountyHallUtil {
                     tooltip.append(formatDamageWithCritical(troll.getView() / 2 + range - i, troll.getDamageM()));
                 }
                 return tooltip.toString();
+            case 2:
+                tooltip.append("Non-résisté : -").append(Math.floor(troll.getDodge() * 1.5)).append("D d'esquive");
+                tooltip.append("\n");
+                tooltip.append("Résisté : -").append(Math.floor(troll.getDodge() * 0.33)).append("D d'esquive");
             case 3:
                 tooltip.append(formatAttack(troll.getDamage() / 3 * 2, troll.getAttackM()));
                 tooltip.append("\n");

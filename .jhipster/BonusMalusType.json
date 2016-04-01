@@ -21,7 +21,7 @@
             "fieldId": 2,
             "fieldName": "type",
             "fieldType": "EffectType",
-            "fieldValues": "PHYSIQUE,MAGIQUE",
+            "fieldValues": "PHYSIQUE,MAGIQUE,INCONNU",
             "fieldValidateRules": [
                 "required"
             ]

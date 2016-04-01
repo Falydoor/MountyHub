@@ -15,7 +15,7 @@
     <include file="classpath:config/liquibase/changelog/20160318152930_added_entity_SpellMH.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20160318155411_added_entity_Competence.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20160318190724_added_entity_Spell.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/20160328150145_added_entity_BonusMalus.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20160401132410_added_entity_BonusMalusType.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20160328150145_added_entity_BonusMalus.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
 </databaseChangeLog>

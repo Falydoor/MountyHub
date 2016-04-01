@@ -19,6 +19,7 @@ public class BonusMalusDTO {
 
     public BonusMalusDTO(BonusMalus bonusMalus) {
         BeanUtils.copyProperties(bonusMalus, this);
+        setType(bonusMalus.getType().getType().toString());
     }
 
     public String getRealEffect() {

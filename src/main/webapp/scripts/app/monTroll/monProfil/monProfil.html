@@ -258,7 +258,7 @@
                 </tr>
                 <tr ng-repeat="bonusMalus in troll.bonusMalus">
                     <td>{{bonusMalus.name}}</td>
-                    <td>{{bonusMalus.type}}</td>
+                    <td>{{bonusMalus.type | capitalize}}</td>
                     <td>{{bonusMalus.effect}}</td>
                     <td>{{bonusMalus.realEffect}}</td>
                     <td class="text-center">{{bonusMalus.duration}}</td>

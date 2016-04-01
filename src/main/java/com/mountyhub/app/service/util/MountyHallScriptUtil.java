@@ -116,7 +116,6 @@ public final class MountyHallScriptUtil {
     public static void parseBonusMalus(BonusMalus bonusMalus, String[] values) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         // Nom ; Type ; Effet ; Durée (en tours)
         bonusMalus.setName(values[0]);
-        bonusMalus.setType(values[1]);
         bonusMalus.setEffect(values[2]);
         bonusMalus.setDuration(Integer.valueOf(values[3]));
     }

@@ -1,6 +1,7 @@
 package com.mountyhub.app.service;
 
 import com.mountyhub.app.domain.*;
+import com.mountyhub.app.domain.enumeration.EffectType;
 import com.mountyhub.app.domain.enumeration.FlyType;
 import com.mountyhub.app.domain.enumeration.ScriptName;
 import com.mountyhub.app.domain.enumeration.ScriptType;
@@ -74,6 +75,9 @@ public class TrollService {
 
     @Inject
     private BonusMalusRepository bonusMalusRepository;
+
+    @Inject
+    private BonusMalusTypeRepository bonusMalusTypeRepository;
 
     public Troll createUpdateTroll(Troll troll) throws IOException, MountyHubException, MountyHallScriptException {
         // Check if the troll isn't already linked to a user for a troll creation
@@ -167,11 +171,19 @@ public class TrollService {
             BonusMalus bonusMalus = new BonusMalus();
             MountyHallScriptUtil.parseBonusMalus(bonusMalus, values);
             bonusMalus.setTroll(troll);
+            Optional<BonusMalusType> bonusMalusTypeResult = bonusMalusTypeRepository.findByName(values[1]);
+            BonusMalusType bonusMalusType = bonusMalusTypeResult.isPresent() ? bonusMalusTypeResult.get() : new BonusMalusType();
+            if (!bonusMalusTypeResult.isPresent()) {
+                bonusMalusType.setName(values[1]);
+                bonusMalusType.setType(EffectType.INCONNU);
+                bonusMalusTypeRepository.save(bonusMalusType);
+            }
+            bonusMalus.setType(bonusMalusType);
             bonusMaluses.add(bonusMalus);
         }
 
         // Set real effect by applying decumul on multiple bonus malus type
-        Map<String, Integer> bonusMalusCountType = new HashMap<>();
+        Map<BonusMalusType, Integer> bonusMalusCountType = new HashMap<>();
         bonusMaluses.stream()
             .sorted((bm1, bm2) -> bm1.getDuration().compareTo(bm2.getDuration()))
             .forEach(bonusMalus -> {

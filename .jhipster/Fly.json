@@ -37,7 +37,7 @@
             "fieldId": 4,
             "fieldName": "type",
             "fieldType": "FlyType",
-            "fieldValues": "CARNATION,POGEE,HEROS,RIVATANT,XIDANT,CROBATE,NABOLISANT,MIEL,LUNETTES,VERTIE,TELAITE",
+            "fieldValues": "CARNATION,POGEE,HEROS,RIVATANT,XIDANT,CROBATE,NABOLISANTS,MIEL,LUNETTES,VERTIE,TELAITE",
             "fieldValidateRules": [
                 "required"
             ]

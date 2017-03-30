@@ -131,7 +131,7 @@ public final class MountyHallUtil {
                 return "Vue : +1";
             case MIEL:
                 return "REG : +1";
-            case NABOLISANT:
+            case NABOLISANTS:
                 return "DEG : +1";
             case RIVATANT:
                 return "TOUR : -20 min";

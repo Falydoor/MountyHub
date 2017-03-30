@@ -45,7 +45,7 @@ public class GlobalEffectDTO {
         this.attackM = 0L;
         this.dodge = fliesByType.getOrDefault(FlyType.VERTIE, 0L);
         this.dodgeM = 0L;
-        this.damage = fliesByType.getOrDefault(FlyType.NABOLISANT, 0L);
+        this.damage = fliesByType.getOrDefault(FlyType.NABOLISANTS, 0L);
         this.damageM = 0L;
         this.regeneration = fliesByType.getOrDefault(FlyType.MIEL, 0L);
         this.hitPoint = fliesByType.getOrDefault(FlyType.TELAITE, 0L) * 5;
